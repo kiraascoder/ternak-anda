@@ -17,10 +17,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    protected $table = 'users';
+
+    protected $primaryKey = 'idUser';
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -44,5 +50,40 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function ternak()
+    {
+        return $this->hasMany(Ternak::class, 'idPemilik');
+    }
+
+    public function konsultasi()
+    {
+        return $this->hasMany(Konsultasi::class);
+    }
+
+    public function perawatan()
+    {
+        return $this->hasMany(Perawatan::class);
+    }
+
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class);
+    }
+
+    public function pakan()
+    {
+        return $this->hasMany(Pakan::class);
+    }
+
+    public function konsultasiSebagaiPeternak()
+    {
+        return $this->hasMany(Konsultasi::class, 'idPeternak');
+    }
+
+    public function konsultasiSebagaiPenyuluh()
+    {
+        return $this->hasMany(Konsultasi::class, 'idPenyuluh');
     }
 }
