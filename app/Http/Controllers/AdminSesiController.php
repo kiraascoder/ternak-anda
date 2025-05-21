@@ -14,7 +14,6 @@ class AdminSesiController extends Controller
         return view('auth.login');
     }
 
-
     public function registerView()
     {
         return view('auth.register');
@@ -53,12 +52,13 @@ class AdminSesiController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|numeric',
+            'role' => 'required|string|in:Peternak,Penyuluh',
         ], [
-            'name.required' => 'Nama UKM Wajib Diisi',
+            'nama.required' => 'Nama Wajib Diisi',
             'email.required' => 'Silahkan Masukkan Email Anda',
             'email.email' => 'Format email yang Anda masukkan tidak valid',
             'email.unique' => 'Email sudah terdaftar',
@@ -66,21 +66,24 @@ class AdminSesiController extends Controller
             'password.min' => 'Password minimal terdiri dari 6 karakter',
             'password.confirmed' => 'Konfirmasi password tidak sesuai',
             'phone.required' => 'Nomor telepon wajib diisi',
+            'role.required' => 'Silahkan Pilih Role Anda',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
+            'role' => $request->role
         ]);
 
         return redirect('/admin/login')->with('success', 'Registrasi berhasil! Silahkan Login Ke Akun Anda.');
     }
-
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/admin/login')->with('success', 'Logout berhasil!');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/admin/login');
     }
 }
