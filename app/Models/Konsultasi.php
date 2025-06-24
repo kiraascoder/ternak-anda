@@ -18,4 +18,17 @@ class Konsultasi extends Model
         'keluhan',
         'respon',
     ];
+    public function penyuluh()
+    {
+        return $this->belongsTo(User::class, 'idPenyuluh', 'idUser');
+    }
+
+    public function ternak()
+    {
+        return $this->belongsTo(Ternak::class, 'idTernak', 'idTernak');
+    }
+    public function peternak()
+    {
+        return $this->belongsTo(User::class, 'idPeternak', 'idUser');
+    }
 }

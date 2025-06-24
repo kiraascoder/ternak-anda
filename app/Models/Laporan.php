@@ -31,7 +31,6 @@ class Laporan extends Model
         return $this->belongsTo(User::class, 'idPeternak');
     }
 
-
     public function penyuluh()
     {
         return $this->belongsTo(User::class, 'idPenyuluh');

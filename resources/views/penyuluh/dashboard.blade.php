@@ -14,6 +14,13 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+
+
+    <a href="{{ route('penyuluh.laporan') }}">Laporan</a>
+    <a href="{{ route('penyuluh.pakan') }}">Pakan</a>
+    <a href="{{ route('penyuluh.perawatan') }}">Perawatan</a>
+    <a href="{{ route('penyuluh.konsultasi') }}">Konsultasi</a>
+
 </body>
 
 </html>

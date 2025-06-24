@@ -13,7 +13,7 @@ class Pakan extends Model
     protected $fillable = [
         'idTernak',
         'idPenyuluh',
-        'tanggalPakan',
+        'tanggalRekomendasi',
         'jenisPakan',
         'jumlah',
         'saran',

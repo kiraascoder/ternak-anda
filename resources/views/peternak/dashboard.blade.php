@@ -14,6 +14,12 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+    <nav>
+        <ul>
+            <li><a href="{{ route('ternak.index') }}">Ternak</a></li>
+            <li><a href="{{ route('konsultasi.index') }}">Konsultasi</a></li>
+        </ul>
+    </nav>
 </body>
 
 </html>

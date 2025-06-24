@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Laporan;
 use Illuminate\Http\Request;
 
 class PenyuluhController extends Controller
@@ -10,4 +11,5 @@ class PenyuluhController extends Controller
     {
         return view('penyuluh.dashboard');
     }
+    
 }
