@@ -10,8 +10,8 @@ class TernakController extends Controller
 {
     public function index()
     {
-        $ternakSaya = Ternak::where('idPemilik', Auth::user()->idUser)->get();
-        return view('peternak.ternak.index', compact('ternakSaya'));
+        $ternakList = Ternak::where('idPemilik', Auth::user()->idUser)->get();
+        return view('peternak.ternak.index', compact('ternakList'));
     }
     public function ternakView()
     {

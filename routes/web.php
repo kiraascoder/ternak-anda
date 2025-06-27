@@ -38,7 +38,7 @@ Route::prefix('peternak')->middleware('admin:Peternak')->group(function () {
 
     // Ternak Route
     Route::get('/dashboard', [PeternakController::class, 'index'])
-        ->name('peternak.dashboard');
+        ->name('dashboard');
     Route::get('/ternak', [TernakController::class, 'index'])
         ->name('ternak.index');
     Route::get('/ternak/tambah', [TernakController::class, 'ternakStoreView'])
@@ -57,6 +57,11 @@ Route::prefix('peternak')->middleware('admin:Peternak')->group(function () {
     Route::post('/konsultasi/tambah-konsultasi', [KonsultasiController::class, 'store'])
         ->name('konsultasi.store');
     Route::delete('/konsultasi/{id}/hapus', [KonsultasiController::class, 'destroy'])->name('konsultasi.destroy');
+
+
+    // Kesehatan Route
+    Route::get('/kesehatan', [PeternakController::class, 'kesehatan'])
+        ->name('peternak.kesehatan');
 });
 
 

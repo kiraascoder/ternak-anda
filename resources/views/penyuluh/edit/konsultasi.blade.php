@@ -1,6 +1,6 @@
 <p>Tambah Respon Konsultasi</p>
 
-<a href="{{ route('konsultasi.index') }}">Kembali</a>
+<a href="">Kembali</a>
 
 <div class="container">
     <h2>Isi Respon Konsultasi</h2>

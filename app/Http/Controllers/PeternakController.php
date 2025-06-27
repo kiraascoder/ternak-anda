@@ -10,4 +10,9 @@ class PeternakController extends Controller
     {
         return view('peternak.dashboard');
     }
+
+    public function kesehatan()
+    {
+        return view('peternak.kesehatan');
+    }
 }
