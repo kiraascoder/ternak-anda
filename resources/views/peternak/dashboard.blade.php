@@ -1,4 +1,3 @@
-{{-- resources/views/peternak/dashboard.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Dashboard Peternak')
@@ -145,7 +144,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Konsultasi Aktif</p>
-                        <p class="text-3xl font-bold text-gray-900">{{ $konsultasiAktif ?? 3 }}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $konsultasiSaya ?? 3 }}</p>
                         <p class="text-blue-600 text-sm mt-1">1 menunggu respon</p>
                     </div>
                     <div class="bg-purple-100 p-3 rounded-full">
@@ -160,30 +159,9 @@
         </div>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Left Column - Charts & Analytics -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Health Trend Chart -->
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900">Tren Kesehatan Ternak (7 Hari Terakhir)</h3>
-                        <div class="flex space-x-2">
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Sehat
-                            </span>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                Sakit
-                            </span>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="healthChart"></canvas>
-                    </div>
-                </div>
+        <div class="grid lg:grid-cols-3 gap-6">
 
-                <!-- Recent Activities -->
+            <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Aktivitas Terbaru</h3>
                     <div class="space-y-4">
@@ -200,6 +178,20 @@
                                 <p class="text-xs text-gray-500">2 jam yang lalu</p>
                             </div>
                         </div>
+                        <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                            <div class="bg-green-100 p-2 rounded-full">
+                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">Vaksinasi sapi #007 berhasil</p>
+                                <p class="text-xs text-gray-500">2 jam yang lalu</p>
+                            </div>
+                        </div>
+                        
 
                         <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
                             <div class="bg-blue-100 p-2 rounded-full">
@@ -238,9 +230,8 @@
                 </div>
             </div>
 
-            <!-- Right Column - Quick Actions & Info -->
-            <div class="space-y-6">
-                <!-- Weather Card -->
+            
+            <div class="space-y-6">                
                 <div class="weather-gradient rounded-xl p-6 text-white">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold">Cuaca Hari Ini</h3>
@@ -255,101 +246,7 @@
                             <span>Angin: 12 km/h</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
-                    <div class="space-y-3">
-                        <a href="{{ route('ternak.store') }}"
-                            class="w-full bg-primary text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-secondary transition-colors flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            Tambah Ternak Baru
-                        </a>
-
-                        <a href="{{ route('konsultasi.store') }}"
-                            class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                </path>
-                            </svg>
-                            Konsultasi Dokter
-                        </a>
-
-                        <a href=""
-                            class="w-full bg-green-600 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                                </path>
-                            </svg>
-                            Cek Kesehatan
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Upcoming Tasks -->
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Tugas Mendatang</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                            <div class="bg-yellow-500 w-3 h-3 rounded-full"></div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Vaksinasi sapi #010</p>
-                                <p class="text-xs text-gray-500">Besok, 10:00 WIB</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center space-x-3 p-3 bg-red-50 rounded-lg border border-red-200">
-                            <div class="bg-red-500 w-3 h-3 rounded-full"></div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Pemeriksaan kesehatan rutin</p>
-                                <p class="text-xs text-gray-500">3 hari lagi</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                            <div class="bg-blue-500 w-3 h-3 rounded-full"></div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Pemberian pakan khusus</p>
-                                <p class="text-xs text-gray-500">1 minggu lagi</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-center">
-                        <a href="#" class="text-sm text-primary hover:text-secondary font-medium">Lihat jadwal
-                            lengkap</a>
-                    </div>
-                </div>
-
-                <!-- Health Alert -->
-                @if (($ternakSakit ?? 2) > 0)
-                    <div class="alert-gradient rounded-xl p-6 text-white">
-                        <div class="flex items-center mb-3">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z">
-                                </path>
-                            </svg>
-                            <h3 class="font-semibold">Peringatan Kesehatan</h3>
-                        </div>
-                        <p class="text-pink-100 text-sm mb-4">
-                            {{ $ternakSakit ?? 2 }} ekor ternak memerlukan perhatian medis segera.
-                        </p>
-                        <a href=""
-                            class="inline-flex items-center text-sm font-medium text-white bg-white/20 px-4 py-2 rounded-lg hover:bg-white/30 transition-colors">
-                            Lihat Detail
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                @endif
+                </div>                            
             </div>
         </div>
 
@@ -357,25 +254,28 @@
         <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-lg font-semibold text-gray-900">Ternak Terbaru</h3>
-                <a href="{{ route('ternak.index') }}" class="text-sm text-primary hover:text-secondary font-medium">Lihat
+                <a href="{{ route('peternak.ternak') }}" class="text-sm text-primary hover:text-secondary font-medium">Lihat
                     Semua</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                @forelse($ternakTerbaru ?? [] as $ternak)
+                @forelse($recentTernakList ?? [] as $ternak)
                     <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between mb-3">
                             <span class="text-lg">🐄</span>
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                        {{ $ternak->status === 'sehat' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ ucfirst($ternak->status ?? 'sehat') }}
+                    {{ $ternak->status === 'sehat' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                {{ ucfirst($ternak->status ?? 'Sehat') }}
                             </span>
                         </div>
                         <h4 class="font-semibold text-gray-900">
-                            {{ $ternak->nama ?? 'Sapi #' . sprintf('%03d', rand(1, 999)) }}</h4>
-                        <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Sapi Limosin' }}</p>
-                        <p class="text-xs text-gray-500 mt-2">Umur: {{ $ternak->umur ?? rand(1, 5) }} tahun</p>
+                            {{ $ternak->namaTernak ?? 'Sapi #' . sprintf('%03d', rand(1, 999)) }}
+                        </h4>
+                        <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Tidak diketahui' }}</p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Umur: {{ $ternak->umur ? $ternak->umur . ' tahun' : 'Belum diketahui' }}
+                        </p>
                     </div>
                 @empty
                     <!-- Sample data jika tidak ada data -->
@@ -437,7 +337,6 @@
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script>
-        // Health Trend Chart
         const ctx = document.getElementById('healthChart').getContext('2d');
         const healthChart = new Chart(ctx, {
             type: 'line',

@@ -11,5 +11,13 @@ class PenyuluhController extends Controller
     {
         return view('penyuluh.dashboard');
     }
-    
+
+    public function profile()
+    {
+        return view('penyuluh.profile');
+    }
+    public function ternak()
+    {
+        return view('penyuluh.ternak');
+    }
 }

@@ -12,49 +12,72 @@ class KonsultasiController extends Controller
 {
     public function index()
     {
-        $konsultasis = Konsultasi::where('idPeternak', Auth::id())
-            ->with(['penyuluh', 'ternak', 'peternak'])
-            ->orderBy('tanggalKonsultasi', 'desc')
-            ->get();
-        return view('peternak.konsultasi.index', compact('konsultasis'));
+        $user = Auth::user();
+        $konsultasis = Konsultasi::with(['penyuluh', 'ternak', 'peternak'])
+            ->where('idPeternak', $user->idUser)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $totalKonsultasi = Konsultasi::where('idPeternak', Auth::id())->count();
+        $konsultasiBerlangsung = Konsultasi::where('idPeternak', Auth::id())->where('status', 'berlangsung')->count();
+        $konsultasiSelesai = Konsultasi::where('idPeternak', Auth::id())->where('status', 'selesai')->count();
+        $konsultasiPending = Konsultasi::where('idPeternak', Auth::id())->where('status', 'pending')->count();
+        $penyuluhList = User::where('role', 'Penyuluh')->get();
+        $ternakList = Ternak::where('idPemilik', Auth::id())->get();
+        return view('peternak.konsultasi', compact('konsultasis', 'totalKonsultasi', 'konsultasiBerlangsung', 'konsultasiSelesai', 'konsultasiPending', 'penyuluhList', 'ternakList'));
     }
-
-
-    public function penyuluhView()
-    {
-        $konsultasis = Konsultasi::with(['penyuluh', 'ternak', 'peternak'])->get();
-        return view('penyuluh.konsultasi', compact('konsultasis'));
-    }
-
-
-
-    public function KonsultasiStoreView()
-    {
-        $peternak = Auth::user();
-        $penyuluhs = User::where('role', 'Penyuluh')->get();
-        $ternaks = Ternak::where('idPemilik', Auth::id())->get();
-        return view('peternak.konsultasi.tambah', compact('peternak', 'penyuluhs', 'ternaks'));
-    }
-
     public function store(Request $request)
     {
-        $request->validate([
-            'idPenyuluh' => 'required|exists:users,idUser',
-            'idTernak' => 'required|exists:ternak,idTernak',
-            'tanggalKonsultasi' => 'required|date',
-            'keluhan' => 'required|string',
+        $user = Auth::user();
+
+        if ($user->role !== 'Peternak') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        $validated = $request->validate([
+            'idPeternak'     => 'required|exists:users,idUser',
+            'idPenyuluh'     => 'required|exists:users,idUser',
+            'idTernak'       => 'required|exists:ternak,idTernak',
+            'judul_konsultasi' => 'required|string|max:255',
+            'kategori'       => 'required|in:kesehatan,nutrisi,breeding,perawatan,umum',
+            'status'         => 'required|in:pending,berlangsung,selesai,dibatalkan',
+            'deskripsi'      => 'required|string',
+            'foto_ternak'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        \App\Models\Konsultasi::create([
-            'idPeternak' => Auth::id(),
-            'idPenyuluh' => $request->idPenyuluh,
-            'idTernak' => $request->idTernak,
-            'tanggalKonsultasi' => $request->tanggalKonsultasi,
-            'keluhan' => $request->keluhan,
+        $fotoPath = null;
+        if ($request->hasFile('foto_ternak')) {
+            $file = $request->file('foto_ternak');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('foto_ternak', $filename, 'public');
+            $fotoPath = $filename;
+        }
+
+        $konsultasi = Konsultasi::create([
+            'idPeternak' => $validated['idPeternak'],
+            'idPenyuluh' => $validated['idPenyuluh'],
+            'idTernak' => $validated['idTernak'],
+            'judul_konsultasi' => $validated['judul_konsultasi'],
+            'kategori' => $validated['kategori'],
+            'status' => $validated['status'],
+            'deskripsi' => $validated['deskripsi'],
+            'foto_ternak' => $fotoPath,
         ]);
 
-        return redirect()->route('konsultasi.index')->with('success', 'Konsultasi berhasil disimpan.');
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Konsultasi berhasil disimpan.',
+                'data' => $konsultasi
+            ]);
+        }
+
+        return redirect()->route('peternak.konsultasi')->with('success', 'Data konsultasi berhasil disimpan.');
     }
+
     public function destroy($id)
     {
         $konsultasi = Konsultasi::findOrFail($id);

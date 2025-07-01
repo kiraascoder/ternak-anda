@@ -33,35 +33,113 @@ Route::prefix('admin')->middleware('admin:Admin')->group(function () {
         ->name('admin.dashboard');
 });
 
-// Peternak Route
+
+
+// Perbaikan Routes untuk Peternak
 Route::prefix('peternak')->middleware('admin:Peternak')->group(function () {
 
-    // Ternak Route
+    // Dashboard Route
     Route::get('/dashboard', [PeternakController::class, 'index'])
-        ->name('dashboard');
+        ->name('peternak.dashboard');
+
+    // Ternak Routes - RESTful Resource Routes
     Route::get('/ternak', [TernakController::class, 'index'])
-        ->name('ternak.index');
-    Route::get('/ternak/tambah', [TernakController::class, 'ternakStoreView'])
-        ->name('ternak.addView');
-    Route::get('/ternak/{id}/detail', [TernakController::class, 'ternakDetail'])
-        ->name('ternak.detailView');
-    Route::delete('/ternak/{id}/delete', [TernakController::class, 'deleteTernak'])
-        ->name('ternak.delete');
-    Route::post('/ternak/add-ternak', [TernakController::class, 'store'])->name('ternak.store');
+        ->name('peternak.ternak');
 
-    // Konsultasi Ternak Route
+    Route::get('/ternak/create', [TernakController::class, 'create'])
+        ->name('ternak.create');
+
+    Route::post('/ternak', [TernakController::class, 'store'])
+        ->name('ternak.store');
+
+    Route::get('/ternak/{id}', [TernakController::class, 'show'])
+        ->name('ternak.show');
+
+    Route::get('/ternak/{id}/edit', [TernakController::class, 'edit'])
+        ->name('ternak.edit');
+
+    Route::put('/ternak/{id}', [TernakController::class, 'update'])
+        ->name('ternak.update');
+
+    Route::delete('/ternak/{id}', [TernakController::class, 'destroy'])
+        ->name('ternak.destroy');
+
+    // Additional Ternak Routes
+    Route::get('/ternak/{id}/data', [TernakController::class, 'getTernakData'])
+        ->name('ternak.getData');
+
+    Route::get('/ternak/export', [TernakController::class, 'export'])
+        ->name('ternak.export');
+
+    // Konsultasi Routes - RESTful Resource Routes
     Route::get('/konsultasi', [KonsultasiController::class, 'index'])
-        ->name('konsultasi.index');
-    Route::get('/konsultasi/tambah', [KonsultasiController::class, 'konsultasiStoreView'])
-        ->name('konsultasi.addView');
-    Route::post('/konsultasi/tambah-konsultasi', [KonsultasiController::class, 'store'])
-        ->name('konsultasi.store');
-    Route::delete('/konsultasi/{id}/hapus', [KonsultasiController::class, 'destroy'])->name('konsultasi.destroy');
+        ->name('peternak.konsultasi');;
 
+    Route::post('/konsultasi', [KonsultasiController::class, 'store'])
+        ->name('konsultasi.store');
+
+    Route::get('/konsultasi/{id}', [KonsultasiController::class, 'show'])
+        ->name('konsultasi.show');
+
+    Route::delete('/konsultasi/{id}', [KonsultasiController::class, 'destroy'])
+        ->name('konsultasi.destroy');
 
     // Kesehatan Route
     Route::get('/kesehatan', [PeternakController::class, 'kesehatan'])
         ->name('peternak.kesehatan');
+
+    // Laporan Route
+    Route::get('/laporan', [PeternakController::class, 'laporan'])
+        ->name('peternak.laporan');
+
+    // Profile Route
+    Route::get('/profile', [PeternakController::class, 'profile'])
+        ->name('peternak.profile');
+
+    Route::put('/profile', [PeternakController::class, 'updateProfile'])
+        ->name('peternak.profile.update');
+});
+
+// Alternative: Menggunakan Resource Route (lebih clean)
+Route::prefix('peternak')->middleware('admin:Peternak')->group(function () {
+
+    // Dashboard Route
+    Route::get('/dashboard', [PeternakController::class, 'index'])
+        ->name('peternak.dashboard');
+
+    // Ternak Resource Routes
+    Route::resource('ternak', TernakController::class)->except(['create', 'edit']);
+
+    // Override route names untuk konsistensi dengan blade template
+    Route::get('/ternak', [TernakController::class, 'index'])
+        ->name('peternak.ternak');
+
+    // Additional Ternak Routes
+    Route::get('/ternak/{id}/data', [TernakController::class, 'getTernakData'])
+        ->name('ternak.getData');
+
+    Route::post('/ternak/export', [TernakController::class, 'export'])
+        ->name('ternak.export');
+
+    // Konsultasi Resource Routes
+    Route::resource('konsultasi', KonsultasiController::class)->only(['index', 'store', 'show', 'destroy']);
+
+    // Override route names untuk konsistensi
+    Route::get('/konsultasi', [KonsultasiController::class, 'index'])
+        ->name('peternak.konsultasi');
+
+    // Other Routes
+    Route::get('/kesehatan', [PeternakController::class, 'kesehatan'])
+        ->name('peternak.kesehatan');
+
+    Route::get('/laporan', [PeternakController::class, 'laporan'])
+        ->name('peternak.laporan');
+
+    Route::get('/profile', [PeternakController::class, 'profile'])
+        ->name('peternak.profile');
+
+    Route::put('/profile', [PeternakController::class, 'updateProfile'])
+        ->name('peternak.profile.update');
 });
 
 
@@ -69,6 +147,16 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     // Dashboard Penyuluh
     Route::get('/dashboard', [PenyuluhController::class, 'index'])
         ->name('penyuluh.dashboard');
+
+    // Profil Route
+    Route::get('/profile', [PenyuluhController::class, 'profile'])
+        ->name('penyuluh.profile');
+
+    // Ternak Route
+    Route::get('/ternak', [PenyuluhController::class, 'ternak'])
+        ->name('penyuluh.ternak');
+
+
 
     // Laporan Kesehatan Penyuluh
     Route::get('/laporan', [LaporanController::class, 'index'])

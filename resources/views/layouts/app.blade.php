@@ -1,4 +1,3 @@
-{{-- resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -8,11 +7,11 @@
 
     <title>{{ config('app.name', 'Pakeng-Ternak') }} - @yield('title', 'Dashboard')</title>
 
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -27,8 +26,6 @@
             }
         }
     </script>
-
-    <!-- Additional Styles -->
     <style>
         .sidebar-transition {
             transition: all 0.3s ease-in-out;
@@ -56,7 +53,7 @@
         .hover-scale:hover {
             transform: scale(1.05);
         }
-        /* Ensure Tailwind colors work */
+        
         .bg-primary { background-color: #16a34a !important; }
         .bg-secondary { background-color: #065f46 !important; }
         .text-primary { color: #16a34a !important; }
@@ -73,27 +70,27 @@
 </head>
 <body class="font-sans antialiased bg-gray-50">
     <div class="min-h-screen">
-        <!-- Sidebar -->
+        
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl sidebar-transition transform -translate-x-full lg:translate-x-0">
             @include('layouts.partials.sidebar')
         </aside>
 
-        <!-- Mobile sidebar overlay -->
+        
         <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden hidden" onclick="toggleSidebar()"></div>
 
-        <!-- Main Content -->
+        
         <div class="lg:ml-64 content-transition">
-            <!-- Top Navigation -->
+        
             <nav class="bg-white shadow-sm border-b border-gray-200 px-4 py-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between">
-                    <!-- Mobile menu button -->
+        
                     <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
 
-                    <!-- Page Title -->
+        
                     <div class="flex-1 min-w-0 ml-4 lg:ml-0">
                         <h1 class="text-2xl font-bold text-gray-900 truncate">
                             @yield('page-title', 'Dashboard')
@@ -103,19 +100,19 @@
                         </p>
                     </div>
 
-                    <!-- Top Navigation Actions -->
+        
                     <div class="flex items-center space-x-4">
-                        <!-- Notifications -->
+        
                         <div class="relative">
                             <button id="notifications-button" class="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-primary relative">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM12 18.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z M3 19v-8.93a6.08 6.08 0 011.5-4.26A6 6 0 0112 2a6 6 0 017.5 3.81 6.08 6.08 0 011.5 4.26V19" />
                                 </svg>
-                                <!-- Notification dot -->
+        
                                 <span class="absolute top-1 right-1 h-3 w-3 bg-red-500 rounded-full notification-dot"></span>
                             </button>
 
-                            <!-- Notifications dropdown -->
+        
                             <div id="notifications-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                 <div class="p-4">
                                     <h3 class="text-lg font-semibold text-gray-900 mb-3">Notifikasi</h3>
@@ -159,11 +156,11 @@
                             <button id="user-menu-button" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
                                 <div class="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
                                     <span class="text-sm font-medium text-white">
-                                        {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
+                                        {{ substr(Auth::user()->nama ?? 'U', 0, 1) }}
                                     </span>
                                 </div>
                                 <div class="hidden sm:block text-left">
-                                    <p class="text-sm font-medium text-gray-900">{{ Auth::user()->name ?? 'User' }}</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ Auth::user()->nama ?? 'User' }}</p>
                                     <p class="text-xs text-gray-500">{{ Auth::user()->role ?? 'Peternak' }}</p>
                                 </div>
                                 <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,22 +172,15 @@
                             <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                 <div class="py-1">
                                     <div class="px-4 py-3 border-b">
-                                        <p class="text-sm font-medium text-gray-900">{{ Auth::user()->name ?? 'User' }}</p>
+                                        <p class="text-sm font-medium text-gray-900">{{ Auth::user()->nama ?? 'User' }}</p>
                                         <p class="text-xs text-gray-500">{{ Auth::user()->email ?? 'user@example.com' }}</p>
                                     </div>
-                                    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <a href="" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         <svg class="h-4 w-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
                                         Profil Saya
-                                    </a>
-                                    <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <svg class="h-4 w-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Pengaturan
-                                    </a>
+                                    </a>                              
                                     <div class="border-t">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
@@ -268,9 +258,7 @@
 
                 @yield('content')
             </main>
-
-            <!-- Footer -->
-            @include('layouts.partials.footer')
+                        
         </div>
     </div>
 

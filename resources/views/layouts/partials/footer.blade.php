@@ -53,7 +53,7 @@
 
                         @if ($userRole === 'Peternak' || $userRole === 'Personal')
                             <li>
-                                <a href="{{ route('ternak.index') }}"
+                                <a href="{{ route('peternak.ternak') }}"
                                     class="text-sm text-gray-600 hover:text-primary transition-colors">
                                     Data Ternak
                                 </a>

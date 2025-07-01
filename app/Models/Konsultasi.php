@@ -14,9 +14,11 @@ class Konsultasi extends Model
         'idPeternak',
         'idPenyuluh',
         'idTernak',
-        'tanggalKonsultasi',
-        'keluhan',
-        'respon',
+        'judul_konsultasi',
+        'kategori',
+        'deskripsi',
+        'status',
+        'foto_ternak',
     ];
     public function penyuluh()
     {
