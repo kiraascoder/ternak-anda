@@ -316,11 +316,11 @@
                 </div>
 
                 <div class="flex-1 text-center md:text-left">
-                    <h1 class="text-2xl font-bold">{{ auth()->user()->name ?? 'John Doe' }}</h1>
-                    <p class="text-blue-100 mb-2">{{ auth()->user()->email ?? 'john.doe@example.com' }}</p>
+                    <h1 class="text-2xl font-bold">{{ $userInfo->nama }}</h1>
+                    <p class="text-blue-100 mb-2">{{ $userInfo->email }}</p>
                     <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
                         <span class="farm-badge">
-                            🐄 Peternak
+                            🐄 Penyuluh
                         </span>
                         <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">
                             Bergabung {{ auth()->user()->created_at ?? now()->subYears(2)->format('M Y') }}
@@ -329,26 +329,11 @@
                             ● Online
                         </span>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                        <div class="text-2xl font-bold">25</div>
-                        <div class="text-sm text-blue-100">Ternak</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold">18</div>
-                        <div class="text-sm text-blue-100">Laporan</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold">5</div>
-                        <div class="text-sm text-blue-100">Konsultasi</div>
-                    </div>
-                </div>
+                </div>                
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="">
             <div class="lg:col-span-3">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100">
                     <div class="border-b border-gray-200 p-6">
@@ -359,34 +344,6 @@
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                                 Informasi Pribadi
-                            </button>
-                            <button onclick="showTab('farm')" id="tab-farm" class="tab-button">
-                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                                    </path>
-                                </svg>
-                                Info Peternakan
-                            </button>
-                            <button onclick="showTab('security')" id="tab-security" class="tab-button">
-                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                                    </path>
-                                </svg>
-                                Keamanan
-                            </button>
-                            <button onclick="showTab('notifications')" id="tab-notifications" class="tab-button">
-                                <div class="relative">
-                                    <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 17h5l-5 5v-5zM5 17h5l-5 5v-5zM9 7h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2z">
-                                        </path>
-                                    </svg>
-                                    <span class="notification-badge">3</span>
-                                </div>
-                                Notifikasi
                             </button>
                         </div>
                     </div>
@@ -405,19 +362,9 @@
                                             Nama Depan <span class="text-red-500">*</span>
                                         </label>
                                         <input type="text" id="firstName" name="first_name" required
-                                            value="{{ explode(' ', auth()->user()->name ?? 'John Doe')[0] }}"
+                                            value="{{ explode(' ', auth()->user()->nama ?? 'John Doe')[0] }}"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                                     </div>
-
-                                    <div>
-                                        <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Nama Belakang <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" id="lastName" name="last_name" required
-                                            value="{{ implode(' ', array_slice(explode(' ', auth()->user()->name ?? 'John Doe'), 1)) }}"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    </div>
-
                                     <div>
                                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                                             Email <span class="text-red-500">*</span>
@@ -436,16 +383,6 @@
                                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                             placeholder="+62 812-3456-7890">
                                     </div>
-
-                                    <div>
-                                        <label for="birthDate" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Tanggal Lahir
-                                        </label>
-                                        <input type="date" id="birthDate" name="birth_date"
-                                            value="{{ auth()->user()->birth_date ?? '1985-05-15' }}"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    </div>
-
                                     <div>
                                         <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">
                                             Jenis Kelamin
@@ -454,67 +391,16 @@
                                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                                             <option value="">Pilih Jenis Kelamin</option>
                                             <option value="male"
-                                                {{ (auth()->user()->gender ?? 'male') === 'male' ? 'selected' : '' }}>
+                                                {{ (auth()->user()->jenis_kelamin ?? 'male') === 'male' ? 'selected' : '' }}>
                                                 Laki-laki</option>
                                             <option value="female"
-                                                {{ (auth()->user()->gender ?? '') === 'female' ? 'selected' : '' }}>
+                                                {{ (auth()->user()->jenis_kelamin ?? '') === 'female' ? 'selected' : '' }}>
                                                 Perempuan</option>
                                         </select>
-                                    </div>
-
-                                    <div class="md:col-span-2">
-                                        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Alamat Lengkap
-                                        </label>
-                                        <textarea id="address" name="address" rows="3"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                                            placeholder="Jl. Contoh No. 123, Kelurahan, Kecamatan, Kota">{{ auth()->user()->address ?? 'Jl. Merdeka No. 123, Kelurahan Sejahtera, Kecamatan Makmur, Kota Sukses, Jawa Barat 12345' }}</textarea>
-                                    </div>
-
-                                    <div>
-                                        <label for="province" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Provinsi
-                                        </label>
-                                        <select id="province" name="province"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="">Pilih Provinsi</option>
-                                            <option value="jawa-barat" selected>Jawa Barat</option>
-                                            <option value="jawa-tengah">Jawa Tengah</option>
-                                            <option value="jawa-timur">Jawa Timur</option>
-                                            <option value="dki-jakarta">DKI Jakarta</option>
-                                            <option value="banten">Banten</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Kota/Kabupaten
-                                        </label>
-                                        <select id="city" name="city"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="">Pilih Kota/Kabupaten</option>
-                                            <option value="bandung" selected>Bandung</option>
-                                            <option value="bogor">Bogor</option>
-                                            <option value="depok">Depok</option>
-                                            <option value="bekasi">Bekasi</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="md:col-span-2">
-                                        <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Bio/Deskripsi
-                                        </label>
-                                        <textarea id="bio" name="bio" rows="4"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                                            placeholder="Ceritakan sedikit tentang Anda dan pengalaman beternak...">{{ auth()->user()->bio ?? 'Peternak berpengalaman dengan fokus pada peternakan sapi dan kambing modern. Telah berkecimpung di dunia peternakan selama lebih dari 10 tahun.' }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="flex items-center justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
-                                    <button type="button" onclick="resetPersonalForm()"
-                                        class="px-4 py-2 bg-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-400 transition-colors">
-                                        Reset
-                                    </button>
                                     <button type="submit" id="personalSubmitBtn"
                                         class="px-6 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-colors">
                                         <span id="personalSubmitText">Simpan Perubahan</span>
@@ -532,545 +418,10 @@
                             </form>
                         </div>
 
-                        <div id="content-farm" class="tab-content">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Informasi Peternakan</h3>
-
-                            <form id="farmForm" action="" method="POST">
-                                @csrf
-                                @method('PUT')
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="md:col-span-2">
-                                        <label for="farmName" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Nama Peternakan <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" id="farmName" name="farm_name" required
-                                            value="Peternakan Makmur Sejahtera"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="Contoh: Peternakan Makmur Sejahtera">
-                                    </div>
-
-                                    <div>
-                                        <label for="farmType" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Jenis Peternakan <span class="text-red-500">*</span>
-                                        </label>
-                                        <select id="farmType" name="farm_type" required
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="">Pilih Jenis Peternakan</option>
-                                            <option value="sapi" selected>Peternakan Sapi</option>
-                                            <option value="kambing">Peternakan Kambing</option>
-                                            <option value="domba">Peternakan Domba</option>
-                                            <option value="campuran">Peternakan Campuran</option>
-                                            <option value="ayam">Peternakan Ayam</option>
-                                            <option value="bebek">Peternakan Bebek</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="farmScale" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Skala Peternakan
-                                        </label>
-                                        <select id="farmScale" name="farm_scale"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="">Pilih Skala</option>
-                                            <option value="kecil">Kecil (1-10 ekor)</option>
-                                            <option value="menengah" selected>Menengah (11-50 ekor)</option>
-                                            <option value="besar">Besar (51-200 ekor)</option>
-                                            <option value="komersial">Komersial (200+ ekor)</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="establishedYear" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Tahun Berdiri
-                                        </label>
-                                        <input type="number" id="establishedYear" name="established_year"
-                                            min="1900" max="{{ date('Y') }}" value="2015"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="{{ date('Y') }}">
-                                    </div>
-
-                                    <div>
-                                        <label for="totalAnimals" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Total Ternak Saat Ini
-                                        </label>
-                                        <input type="number" id="totalAnimals" name="total_animals" min="0"
-                                            value="25"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="25">
-                                    </div>
-
-                                    <div class="md:col-span-2">
-                                        <label for="farmAddress" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Alamat Peternakan
-                                        </label>
-                                        <textarea id="farmAddress" name="farm_address" rows="3"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                                            placeholder="Alamat lengkap lokasi peternakan...">Jl. Raya Peternakan No. 45, Desa Makmur, Kecamatan Sejahtera, Kabupaten Subang, Jawa Barat 41200</textarea>
-                                    </div>
-
-                                    <div>
-                                        <label for="landArea" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Luas Lahan (m²)
-                                        </label>
-                                        <input type="number" id="landArea" name="land_area" min="0"
-                                            value="5000"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="5000">
-                                    </div>
-
-                                    <div>
-                                        <label for="certification" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Sertifikasi
-                                        </label>
-                                        <select id="certification" name="certification"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="">Pilih Sertifikasi</option>
-                                            <option value="halal" selected>Halal</option>
-                                            <option value="organic">Organik</option>
-                                            <option value="iso">ISO 22000</option>
-                                            <option value="haccp">HACCP</option>
-                                            <option value="none">Belum Ada</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="md:col-span-2">
-                                        <label for="farmDescription" class="block text-sm font-medium text-gray-700 mb-2">
-                                            Deskripsi Peternakan
-                                        </label>
-                                        <textarea id="farmDescription" name="farm_description" rows="4"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                                            placeholder="Deskripsikan peternakan Anda, fasilitas, dan keunggulan...">Peternakan modern dengan sistem kandang semi-intensif. Dilengkapi dengan fasilitas pakan otomatis, sistem ventilasi yang baik, dan area quarantine. Fokus pada produksi susu sapi berkualitas tinggi dengan standar kebersihan yang ketat.</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
-                                    <button type="button" onclick="resetFarmForm()"
-                                        class="px-4 py-2 bg-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-400 transition-colors">
-                                        Reset
-                                    </button>
-                                    <button type="submit" id="farmSubmitBtn"
-                                        class="px-6 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-colors">
-                                        <span id="farmSubmitText">Simpan Perubahan</span>
-                                        <svg id="farmSubmitLoading"
-                                            class="hidden animate-spin -mr-1 ml-3 h-4 w-4 text-white inline"
-                                            fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor"
-                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                            </path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div id="content-security" class="tab-content">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Pengaturan Keamanan</h3>
-
-                            <div class="space-y-8">
-                                <div class="bg-gray-50 rounded-lg p-6">
-                                    <h4 class="text-md font-semibold text-gray-900 mb-4">Ubah Password</h4>
-                                    <form id="passwordForm" action="" method="POST">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label for="currentPassword"
-                                                    class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Password Saat Ini <span class="text-red-500">*</span>
-                                                </label>
-                                                <input type="password" id="currentPassword" name="current_password"
-                                                    required
-                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            </div>
-
-                                            <div>
-                                                <label for="newPassword"
-                                                    class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Password Baru <span class="text-red-500">*</span>
-                                                </label>
-                                                <input type="password" id="newPassword" name="new_password" required
-                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                                    onkeyup="checkPasswordStrength(this.value)">
-                                                <div id="passwordStrength" class="password-strength mt-2"></div>
-                                                <p id="passwordStrengthText" class="text-xs text-gray-500 mt-1">Password
-                                                    harus minimal 8 karakter</p>
-                                            </div>
-
-                                            <div>
-                                                <label for="confirmPassword"
-                                                    class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Konfirmasi Password Baru <span class="text-red-500">*</span>
-                                                </label>
-                                                <input type="password" id="confirmPassword" name="password_confirmation"
-                                                    required
-                                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            </div>
-
-                                            <button type="submit" id="passwordSubmitBtn"
-                                                class="w-full px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-colors">
-                                                <span id="passwordSubmitText">Ubah Password</span>
-                                                <svg id="passwordSubmitLoading"
-                                                    class="hidden animate-spin -mr-1 ml-3 h-4 w-4 text-white inline"
-                                                    fill="none" viewBox="0 0 24 24">
-                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                        stroke="currentColor" stroke-width="4"></circle>
-                                                    <path class="opacity-75" fill="currentColor"
-                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="bg-gray-50 rounded-lg p-6">
-                                    <h4 class="text-md font-semibold text-gray-900 mb-4">Two-Factor Authentication (2FA)
-                                    </h4>
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div>
-                                            <p class="text-sm text-gray-700">Tambahkan lapisan keamanan ekstra ke akun Anda
-                                            </p>
-                                            <p class="text-xs text-gray-500">Status: <span
-                                                    class="text-red-600 font-medium">Tidak Aktif</span></p>
-                                        </div>
-                                        <label class="toggle-switch">
-                                            <input type="checkbox" id="enable2FA" onchange="toggle2FA()">
-                                            <span class="toggle-slider"></span>
-                                        </label>
-                                    </div>
-                                    <button onclick="setup2FA()" id="setup2FABtn"
-                                        class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
-                                        disabled>
-                                        Setup 2FA
-                                    </button>
-                                </div>
-
-                                <div class="bg-gray-50 rounded-lg p-6">
-                                    <h4 class="text-md font-semibold text-gray-900 mb-4">Sesi Login Aktif</h4>
-                                    <div class="space-y-3">
-                                        <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
-                                            <div class="flex items-center space-x-3">
-                                                <div class="p-2 bg-green-100 rounded-full">
-                                                    <svg class="w-4 h-4 text-green-600" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <p class="font-medium text-gray-900">Chrome - Windows</p>
-                                                    <p class="text-sm text-gray-600">IP: 192.168.1.100 • Jakarta, Indonesia
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">Sesi saat ini • Login: 2 jam yang lalu
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span
-                                                class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Aktif</span>
-                                        </div>
-
-                                        <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
-                                            <div class="flex items-center space-x-3">
-                                                <div class="p-2 bg-blue-100 rounded-full">
-                                                    <svg class="w-4 h-4 text-blue-600" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <p class="font-medium text-gray-900">Safari - iPhone</p>
-                                                    <p class="text-sm text-gray-600">IP: 192.168.1.101 • Jakarta, Indonesia
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">Login: 1 hari yang lalu</p>
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="text-red-600 hover:text-red-800 text-sm font-medium">Logout</button>
-                                        </div>
-                                    </div>
-
-                                    <button onclick="logoutAllSessions()"
-                                        class="mt-4 w-full px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
-                                        Logout Semua Sesi
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="content-notifications" class="tab-content">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Pengaturan Notifikasi</h3>
-
-                            <div class="space-y-6">
-                                <div class="bg-gray-50 rounded-lg p-6">
-                                    <h4 class="text-md font-semibold text-gray-900 mb-4">Notifikasi Email</h4>
-                                    <div class="space-y-4">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Laporan Kesehatan</p>
-                                                <p class="text-sm text-gray-600">Terima notifikasi untuk laporan kesehatan
-                                                    baru</p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Konsultasi</p>
-                                                <p class="text-sm text-gray-600">Notifikasi pesan baru dari dokter hewan
-                                                </p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Reminder Follow-up</p>
-                                                <p class="text-sm text-gray-600">Pengingat jadwal pemeriksaan ternak</p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Newsletter</p>
-                                                <p class="text-sm text-gray-600">Tips dan artikel terbaru tentang
-                                                    peternakan</p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox">
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-gray-50 rounded-lg p-6">
-                                    <h4 class="text-md font-semibold text-gray-900 mb-4">Notifikasi Push</h4>
-                                    <div class="space-y-4">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Alert Kesehatan</p>
-                                                <p class="text-sm text-gray-600">Notifikasi darurat untuk masalah kesehatan
-                                                    ternak</p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Pesan Konsultasi</p>
-                                                <p class="text-sm text-gray-600">Notifikasi real-time untuk chat konsultasi
-                                                </p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <p class="font-medium text-gray-900">Update System</p>
-                                                <p class="text-sm text-gray-600">Informasi pembaruan fitur dan sistem</p>
-                                            </div>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox">
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-gray-50 rounded-lg p-6">
-                                    <h4 class="text-md font-semibold text-gray-900 mb-4">Jadwal Notifikasi</h4>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Mulai</label>
-                                            <input type="time" value="07:00"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Berakhir</label>
-                                            <input type="time" value="21:00"
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                        </div>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-2">Notifikasi akan dikirim hanya dalam rentang waktu
-                                        ini</p>
-                                </div>
-
-                                <div class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
-                                    <button type="button"
-                                        class="px-4 py-2 bg-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-400 transition-colors">
-                                        Reset Default
-                                    </button>
-                                    <button type="submit"
-                                        class="px-6 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-colors">
-                                        Simpan Pengaturan
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Statistik Aktivitas</h3>
-                    <div class="space-y-4">
-                        <div class="stats-card rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-sm font-medium text-gray-700">Profile Completion</span>
-                                <span class="text-sm font-bold text-gray-900">85%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 85%"></div>
-                            </div>
-                        </div>
-
-                        <div class="stats-card rounded-lg p-4">
-                            <h4 class="font-medium text-gray-900 mb-3">Aktivitas Bulanan</h4>
-                            <div class="space-y-2">
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Laporan Kesehatan</span>
-                                    <span class="font-medium">8</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Konsultasi</span>
-                                    <span class="font-medium">3</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Data Ternak Baru</span>
-                                    <span class="font-medium">2</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Aktivitas Terbaru</h3>
-                    <div class="space-y-4">
-                        <div class="activity-item">
-                            <div class="activity-dot success"></div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-900">Laporan kesehatan ditambahkan</p>
-                                <p class="text-xs text-gray-500">Sapi Limosin #001 - 2 jam yang lalu</p>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-dot info"></div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-900">Konsultasi dimulai</p>
-                                <p class="text-xs text-gray-500">Dr. Budi Santoso - 5 jam yang lalu</p>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-dot warning"></div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-900">Reminder follow-up</p>
-                                <p class="text-xs text-gray-500">Kambing Boer #003 - 1 hari yang lalu</p>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-dot success"></div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-900">Profile diperbarui</p>
-                                <p class="text-xs text-gray-500">Informasi peternakan - 2 hari yang lalu</p>
-                            </div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-dot info"></div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-900">Data ternak baru</p>
-                                <p class="text-xs text-gray-500">Domba Garut #004 - 3 hari yang lalu</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="w-full mt-4 px-4 py-2 text-sm text-primary hover:text-secondary font-medium">
-                        Lihat Semua Aktivitas
-                    </button>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                    <div class="space-y-3">
-                        <button onclick="openLaporanModal()"
-                            class="w-full flex items-center p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
-                            <div class="p-2 bg-green-100 rounded-full mr-3">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-900">Tambah Laporan</p>
-                                <p class="text-xs text-gray-500">Buat laporan kesehatan baru</p>
-                            </div>
-                        </button>
-
-                        <button onclick="openKonsultasiModal()"
-                            class="w-full flex items-center p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
-                            <div class="p-2 bg-blue-100 rounded-full mr-3">
-                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-900">Konsultasi Baru</p>
-                                <p class="text-xs text-gray-500">Chat dengan dokter hewan</p>
-                            </div>
-                        </button>
-
-                        <button onclick="openTernakModal()"
-                            class="w-full flex items-center p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
-                            <div class="p-2 bg-purple-100 rounded-full mr-3">
-                                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-900">Tambah Ternak</p>
-                                <p class="text-xs text-gray-500">Daftarkan ternak baru</p>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

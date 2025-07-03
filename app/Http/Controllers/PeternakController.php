@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konsultasi;
+use App\Models\Pakan;
 use App\Models\Ternak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,5 +41,30 @@ class PeternakController extends Controller
         $ternakSaya = Ternak::where('idPemilik', Auth::user()->idUser)->count();
         $konsultasiSaya = Konsultasi::where('idPeternak', Auth::user()->idUser)->count();
         return view('peternak.profile', compact('userInfo', 'ternakSaya', 'konsultasiSaya'));
+    }
+
+    public function pakan(Request $request)
+    {
+        $query = Pakan::with(['ternak', 'penyuluh']);
+
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('jenisPakan', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%')
+                    ->orWhereHas('ternak', function ($query) use ($search) {
+                        $query->where('nama_ternak', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $pakans = $query->orderBy('tanggalRekomendasi', 'desc')->paginate(12);
+        return view('peternak.pakan', compact('pakans'));
     }
 }

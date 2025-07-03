@@ -52,17 +52,43 @@
     <!-- Navigation Menu -->
     <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
         @php
-            $userRole = Auth::user()->role ?? 'Peternak';
+            $user = Auth::user();
+            $userRole = $user->role ?? 'Peternak';
+
+            // Debug: untuk memastikan role yang benar
+            // dd('User Role: ' . $userRole); // Uncomment untuk debug
+
+            // Perbaikan: hapus strtolower dan gunakan exact match
+            $dashboardRoute = match ($userRole) {
+                'Penyuluh' => 'penyuluh.dashboard',
+                'Admin' => 'admin.dashboard',
+                'Peternak' => 'peternak.dashboard',
+                default => 'peternak.dashboard',
+            };
+
+            // Check apakah route ada
+            try {
+                $dashboardUrl = route($dashboardRoute);
+            } catch (\Illuminate\Routing\Exceptions\RouteNotFoundException $e) {
+                // Fallback jika route tidak ada
+                $dashboardRoute = 'peternak.dashboard';
+                $dashboardUrl = route($dashboardRoute);
+            }
+
+            // Perbaikan: check semua kemungkinan dashboard active
+            $isDashboardActive = request()->routeIs(['peternak.dashboard', 'penyuluh.dashboard', 'admin.dashboard']);
         @endphp
 
-        <!-- Dashboard - Common for all roles -->
-        <a href="{{ route('peternak.dashboard') }}"
-            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+        <!-- Dashboard Link dengan URL yang benar -->
+        <a href="{{ $dashboardUrl }}"
+            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ $isDashboardActive ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
             <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7z M3 7l9 6 9-6" />
             </svg>
-            <span>Dashboard</span>
+            <span>Dashboard {{ ucfirst($userRole) }}</span>
+            {{-- Debug info - hapus setelah testing --}}
+            {{-- <small class="ml-2 text-xs opacity-50">({{ $dashboardRoute }})</small> --}}
         </a>
 
         @if ($userRole === 'Peternak' || $userRole === 'Personal')
@@ -71,25 +97,34 @@
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Manajemen Ternak</p>
 
                 <a href="{{ route('peternak.ternak') }}"
-                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('ternak.*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('peternak.ternak*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                     <span>Data Ternak</span>
                 </a>
-        
+
                 <a href="{{ route('peternak.konsultasi') }}"
-                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('peternak.konsultasi') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('peternak.konsultasi*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                     <span>Konsultasi</span>
-                    <span
-                        class="ml-auto bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                 </a>
-            </div>            
+            </div>
+            <div class="space-y-1 pt-4">
+                <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Rekomendasi Pakan</p>
+                <a href="{{ route('peternak.pakan') }}"
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('peternak.pakan*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                    <span>Rekomendasi Pakan</span>
+                </a>
+            </div>
         @elseif($userRole === 'Admin')
             <!-- Admin Menu -->
             <div class="space-y-1">
@@ -128,8 +163,7 @@
 
                 <a href="{{ route('admin.analytics') }}"
                     class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.analytics') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
-                    <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
+                    <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -155,26 +189,33 @@
         @elseif($userRole === 'Penyuluh')
             <!-- Penyuluh Menu -->
             <div class="space-y-1">
-                <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Konsultasi</p>
+                <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Konsultasi dan Ternak</p>
 
                 <a href="{{ route('penyuluh.konsultasi') }}"
-                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.konsultasi.*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.konsultasi*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                     <span>Konsultasi Kesehatan</span>
-                    <span
-                        class="ml-auto bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
-                </a>            
+                </a>
+                <a href="{{ route('penyuluh.ternak') }}"
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.ternak') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span>Data Ternak</span>
+                </a>
             </div>
 
             <div class="space-y-1 pt-4">
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Laporan & Rekomendasi</p>
 
                 <a href="{{ route('penyuluh.laporan') }}"
-                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.laporan') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.laporan*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -184,38 +225,34 @@
                 </a>
 
                 <a href="{{ route('penyuluh.pakan') }}"
-                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.pakan') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('penyuluh.pakan*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                     </svg>
                     <span>Rekomendasi Pakan</span>
-                </a>           
+                </a>
             </div>
         @endif
-        @if (in_array(Auth::user()->role, ['Peternak', 'Penyuluh']))
+
+        @if (in_array($userRole, ['Peternak', 'Penyuluh']))
             @php
-                $user = Auth::user();
+                // Perbaikan: simplify profile route logic
+                $profileRoute = match ($userRole) {
+                    'Penyuluh' => 'penyuluh.profile',
+                    'Peternak' => 'peternak.profile',
+                    default => 'peternak.profile',
+                };
 
-                $roles = is_array($user->role) ? $user->role : explode(',', $user->role);
-
-                $profileRoute = 'peternak.profile';
-
-                if (in_array('Penyuluh', $roles)) {
-                    $profileRoute = 'penyuluh.profile';
-                } elseif (in_array('Peternak', $roles)) {
-                    $profileRoute = 'peternak.profile';
-                }
-
-                $isActive = request()->routeIs($profileRoute);
+                $isProfileActive = request()->routeIs(['penyuluh.profile', 'peternak.profile']);
             @endphp
 
             <div class="space-y-1 pt-4 border-t border-gray-200">
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Lainnya</p>
 
                 <a href="{{ route($profileRoute) }}"
-                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ $isActive ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
+                    class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ $isProfileActive ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -223,6 +260,20 @@
                     </svg>
                     <span>Profil</span>
                 </a>
+
+                <!-- Logout Button -->
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit"
+                        class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors text-red-600 hover:bg-red-50 hover:text-red-700">
+                        <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Keluar</span>
+                    </button>
+                </form>
             </div>
         @endif
     </nav>

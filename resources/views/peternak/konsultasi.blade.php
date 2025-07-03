@@ -286,9 +286,10 @@
                 @forelse ($konsultasis ?? [] as $item)
                     <div class="p-6 hover:bg-gray-50 transition-colors konsultasi-item"
                         data-judul="{{ $item->judul_konsultasi }}" data-kategori="{{ $item->kategori }}"
+                        data-jenis="{{ $item->ternak->jenis }}" data-status="{{ $item->ternak->status }}"
                         data-status="{{ $item->status }}" data-id="{{ $item->idKonsultasi }}"
-                        data-penyuluh="{{ $item->penyuluh ? $item->penyuluh->name : 'Belum ditentukan' }}"
-                        data-ternak="{{ $item->ternak ? $item->ternak->nama_ternak : 'Ternak tidak ditemukan' }}"
+                        data-penyuluh="{{ $item->penyuluh ? $item->penyuluh->nama : 'Belum ditentukan' }}"
+                        data-ternak="{{ $item->ternak ? $item->ternak->namaTernak : 'Ternak tidak ditemukan' }}"
                         data-ternak-id="{{ $item->ternak ? $item->ternak->idTernak : 'N/A' }}"
                         data-deskripsi="{{ $item->deskripsi }}" data-foto="{{ $item->foto_ternak }}"
                         data-created="{{ $item->created_at->format('d M Y H:i') }}">
@@ -321,8 +322,6 @@
                                 <div class="flex items-center space-x-6 text-sm text-gray-600 mb-3">
                                     <div class="flex items-center space-x-2">
                                         @if ($item->penyuluh)
-                                            <img src="https://ui-avatars.io/api/?name={{ urlencode($item->penyuluh->name) }}&background=667eea&color=ffffff"
-                                                alt="{{ $item->penyuluh->name }}" class="expert-avatar">
                                         @else
                                             <div class="flex items-center space-x-2">
                                                 <div
@@ -638,110 +637,6 @@
             </div>
         </div>
 
-        <!-- Modal Chat -->
-        <div id="chatModal"
-            class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
-            <div class="relative top-5 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-lg bg-white modal-content">
-                <div class="flex items-center justify-between mb-6 border-b border-gray-200 pb-4">
-                    <div class="flex items-center space-x-3">
-                        <img id="chatExpertAvatar" src="" alt="" class="w-10 h-10 rounded-full">
-                        <div>
-                            <h3 id="chatExpertName" class="text-lg font-semibold text-gray-900"></h3>
-                            <p id="chatKonsultasiJudul" class="text-sm text-gray-600"></p>
-                        </div>
-                    </div>
-                    <button onclick="closeChatModal()" class="text-gray-400 hover:text-gray-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="chat-container bg-gray-50 rounded-lg p-4 mb-4" id="chatContainer">
-                    <div class="space-y-4" id="chatMessages">
-                        <!-- Messages will be loaded here -->
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-3">
-                    <div class="flex-1 relative">
-                        <input type="text" id="chatInput" placeholder="Ketik pesan Anda..."
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-20">
-                        <label for="chatAttachment"
-                            class="absolute right-12 top-2 text-gray-400 hover:text-gray-600 cursor-pointer">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
-                                </path>
-                            </svg>
-                        </label>
-                        <input type="file" id="chatAttachment" class="hidden" accept="image/*"
-                            onchange="handleChatAttachment(this)">
-                    </div>
-                    <button onclick="sendMessage()" id="sendBtn"
-                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-                    <div class="text-sm text-gray-500">
-                        Status: <span class="font-medium">Berlangsung</span>
-                    </div>
-                    <button onclick="endConsultation()"
-                        class="px-4 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-medium hover:bg-red-200 transition-colors">
-                        Akhiri Konsultasi
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Rating -->
-        <div id="ratingModal"
-            class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white modal-content">
-                <div class="text-center">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Berikan Rating</h3>
-
-                    <div class="mb-6">
-                        <img id="ratingExpertAvatar" src="" alt=""
-                            class="w-16 h-16 rounded-full mx-auto mb-3">
-                        <p id="ratingExpertName" class="font-medium text-gray-900"></p>
-                        <p class="text-sm text-gray-600">Bagaimana pengalaman konsultasi Anda?</p>
-                    </div>
-
-                    <div class="flex justify-center space-x-2 mb-6">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <svg class="w-8 h-8 text-gray-300 rating-star cursor-pointer" fill="currentColor"
-                                viewBox="0 0 20 20" onclick="setRating({{ $i }})">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                        @endfor
-                    </div>
-
-                    <textarea id="reviewText" placeholder="Tulis ulasan Anda (opsional)..."
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none mb-6"
-                        rows="3"></textarea>
-
-                    <div class="flex space-x-3">
-                        <button onclick="closeRatingModal()"
-                            class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
-                            Lewati
-                        </button>
-                        <button onclick="submitRating()" id="ratingSubmitBtn"
-                            class="flex-1 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-colors">
-                            Kirim Rating
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Modal Detail Konsultasi -->
         <div id="detailModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
@@ -838,7 +733,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     @endsection
 
@@ -963,10 +857,11 @@
 
                 // Extract data from the item
                 const judul = konsultasiItem.getAttribute('data-judul');
-                const kategori = konsultasiItem.getAttribute('data-kategori');
-                const status = konsultasiItem.getAttribute('data-status');
+                const kategori = konsultasiItem.getAttribute('data-kategori');                
                 const penyuluh = konsultasiItem.getAttribute('data-penyuluh');
                 const ternak = konsultasiItem.getAttribute('data-ternak');
+                const jenis = konsultasiItem.getAttribute('data-jenis');
+                const status = konsultasiItem.getAttribute('data-status');
                 const ternakId = konsultasiItem.getAttribute('data-ternak-id');
                 const deskripsi = konsultasiItem.getAttribute('data-deskripsi');
                 const foto = konsultasiItem.getAttribute('data-foto');
@@ -1003,9 +898,7 @@
 
                 // Populate penyuluh info
                 const penyuluhContainer = document.getElementById('detailPenyuluh');
-                penyuluhContainer.innerHTML = `
-                <img src="https://ui-avatars.io/api/?name=${encodeURIComponent(penyuluh)}&background=667eea&color=ffffff" 
-                     alt="${penyuluh}" class="w-12 h-12 rounded-full">
+                penyuluhContainer.innerHTML = `                
                 <div>
                     <h6 class="font-semibold text-gray-900">${penyuluh}</h6>
                     <p class="text-sm text-gray-600">Penyuluh</p>
@@ -1032,11 +925,11 @@
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Jenis:</span>
-                        <span class="font-medium">Sapi</span>
+                        <span class="font-medium">${jenis}</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Status:</span>
-                        <span class="text-green-600 font-medium">Sehat</span>
+                        <span class="text-green-600 font-medium capitalize">${status}</span>
                     </div>
                 </div>
             `;

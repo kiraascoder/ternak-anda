@@ -278,7 +278,8 @@
                     data-tanggal-lahir="{{ $ternak->tanggalLahir ?? date('Y-m-d', strtotime('-' . rand(1, 5) . ' years')) }}"
                     data-kelamin="{{ $ternak->jenis_kelamin ?? ['Jantan', 'Betina'][rand(0, 1)] }}"
                     data-asal="{{ $ternak->asal ?? 'Pembelian' }}"
-                    data-keterangan="{{ $ternak->keterangan ?? 'Tidak ada keterangan khusus' }}">
+                    data-keterangan="{{ $ternak->keterangan ?? 'Tidak ada keterangan khusus' }}"
+                    data-foto="{{ $ternak->fotoTernak }}">
 
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
@@ -774,8 +775,8 @@
                     <div>
                         <div class="detail-label">Foto Ternak</div>
                         <div class="detail-value">
-                            <img id="detailFoto" src="{{ asset('images/default-cattle.png') }}" alt="Foto Ternak"
-                                class="w-full h-48 object-cover rounded-lg" />
+                            <img id="detailFoto" src="{{ asset('storage/foto_ternak/' . $ternak->fotoTernak) }}"
+                                alt="Foto Ternak" class="w-full h-48 object-cover rounded-lg" />
                         </div>
                     </div>
 
@@ -1193,6 +1194,7 @@
                 asal: parent.getAttribute("data-asal"),
                 status: parent.getAttribute("data-status"),
                 keterangan: parent.getAttribute("data-keterangan")
+                // foto: parent.getAttribute("data-foto")
             };
         }
 
@@ -1211,7 +1213,7 @@
             document.getElementById("detailKelamin").textContent = data.kelamin || '-';
             document.getElementById("detailUmur").textContent = (data.umur || '-') + " tahun";
             document.getElementById("detailBerat").textContent = (data.berat || '-') + " kg";
-
+            // document.getElementById("detailFoto").textContent = data.foto || '-';
             // Format tanggal lahir
             if (data.tanggalLahir && data.tanggalLahir !== '-') {
                 try {

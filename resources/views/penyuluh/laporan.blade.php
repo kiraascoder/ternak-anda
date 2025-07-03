@@ -6,6 +6,244 @@
 
 @push('styles')
     <style>
+        .tab-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .tab-nav {
+            display: flex;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #059669;
+            border-bottom: 3px solid #059669;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .kategori-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+
+        .kategori-hijauan {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .kategori-konsentrat {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .kategori-suplemen {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .kategori-vitamin {
+            background-color: #fce7f3;
+            color: #be185d;
+        }
+
+        .kategori-limbah {
+            background-color: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        .kategori-mineral {
+            background-color: #ecfdf5;
+            color: #047857;
+        }
+
+        .kategori-additive {
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+
+        .kategori-complete {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .pakan-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .pakan-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 25px -5px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .pakan-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+        }
+
+        .quantity-display {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            border: 2px dashed #d1d5db;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .search-input {
+            padding-left: 2.5rem;
+        }
+
+        .modal-backdrop {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #86efac;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .recommendation-card::before {
+            content: '🎯';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #10b981;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            border: 1px solid #86efac;
+            color: #065f46;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .form-section {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
         .form-section {
             background: white;
             border-radius: 12px;
@@ -423,696 +661,344 @@
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold mb-2">Laporan Kesehatan Ternak</h1>
-                    <p class="text-blue-100">Dokumentasi pemeriksaan medis professional</p>
-                </div>
-                <div class="flex items-center space-x-4 mt-4 md:mt-0">
-                    <button onclick="openTemplateModal()"
-                        class="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all">
-                        📋 Template
-                    </button>
-                    <button onclick="openKnowledgeBase()"
-                        class="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all">
-                        📚 Knowledge Base
-                    </button>
-                    <button onclick="togglePreview()"
-                        class="px-4 py-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all">
-                        👁️ Preview
-                    </button>
+                    <p class="text-blue-100">Buat Laporan Kesehatan Ternak</p>
                 </div>
             </div>
         </div>
 
-        <div class="step-indicator">
-            <div class="step active" id="step-1">
-                <div class="step-number">1</div>
-                <span class="ml-2 font-medium">Info Dasar</span>
-            </div>
-            <div class="step-line"></div>
-            <div class="step inactive" id="step-2">
-                <div class="step-number">2</div>
-                <span class="ml-2 font-medium">Pemeriksaan</span>
-            </div>
-            <div class="step-line"></div>
-            <div class="step inactive" id="step-3">
-                <div class="step-number">3</div>
-                <span class="ml-2 font-medium">Diagnosis</span>
-            </div>
-            <div class="step-line"></div>
-            <div class="step inactive" id="step-4">
-                <div class="step-number">4</div>
-                <span class="ml-2 font-medium">Treatment</span>
-            </div>
-            <div class="step-line"></div>
-            <div class="step inactive" id="step-5">
-                <div class="step-number">5</div>
-                <span class="ml-2 font-medium">Finalisasi</span>
-            </div>
-        </div>
-
-        <form id="healthReportForm" action="" method="POST"
-            enctype="multipart/form-data">
-            @csrf
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Step 1: Informasi Dasar -->
-                    <div class="form-section" id="section-1">
-                        <div class="section-header">
-                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                                <span class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-blue-600 text-sm font-bold">1</span>
-                                </span>
-                                Informasi Dasar Pemeriksaan
-                            </h3>
-                        </div>
-
-                        <div class="p-6 space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="farmer_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Nama Peternak <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" id="farmer_name" name="farmer_name" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        placeholder="Nama lengkap peternak">
-                                </div>
-
-                                <div>
-                                    <label for="farm_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Nama Peternakan
-                                    </label>
-                                    <input type="text" id="farm_name" name="farm_name"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        placeholder="Nama peternakan">
-                                </div>
-
-                                <div>
-                                    <label for="animal_type" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Jenis Ternak <span class="text-red-500">*</span>
-                                    </label>
-                                    <select id="animal_type" name="animal_type" required onchange="updateAnimalInfo()"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                        <option value="">Pilih Jenis Ternak</option>
-                                        <option value="sapi">Sapi</option>
-                                        <option value="kambing">Kambing</option>
-                                        <option value="domba">Domba</option>
-                                        <option value="kerbau">Kerbau</option>
-                                        <option value="ayam">Ayam</option>
-                                        <option value="bebek">Bebek</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="animal_id" class="block text-sm font-medium text-gray-700 mb-2">
-                                        ID/Nama Ternak <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" id="animal_id" name="animal_id" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        placeholder="Contoh: Sapi #001 atau Moli">
-                                </div>
-
-                                <div>
-                                    <label for="examination_date" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Tanggal Pemeriksaan <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="datetime-local" id="examination_date" name="examination_date" required
-                                        value="{{ date('Y-m-d\TH:i') }}"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                </div>
-
-                                <div>
-                                    <label for="examiner_name" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Nama Pemeriksa <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" id="examiner_name" name="examiner_name" required
-                                        value="Dr. {{ auth()->user()->name ?? 'Budi Santoso' }}"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label for="animal_age" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Umur Ternak
-                                    </label>
-                                    <div class="flex space-x-2">
-                                        <input type="number" id="animal_age" name="animal_age" min="0"
-                                            max="20"
-                                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="2">
-                                        <select name="age_unit"
-                                            class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="tahun">Tahun</option>
-                                            <option value="bulan">Bulan</option>
-                                            <option value="hari">Hari</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label for="animal_weight" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Berat Ternak (kg)
-                                    </label>
-                                    <input type="number" id="animal_weight" name="animal_weight" min="0"
-                                        step="0.1"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        placeholder="450">
-                                </div>
-
-                                <div>
-                                    <label for="animal_gender" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Jenis Kelamin
-                                    </label>
-                                    <select id="animal_gender" name="animal_gender"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                        <option value="">Pilih</option>
-                                        <option value="jantan">Jantan</option>
-                                        <option value="betina">Betina</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="chief_complaint" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Keluhan Utama <span class="text-red-500">*</span>
-                                </label>
-                                <textarea id="chief_complaint" name="chief_complaint" rows="3" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                                    placeholder="Jelaskan keluhan utama yang dialami ternak..."></textarea>
-                            </div>
-                        </div>
+        <div class="tab-container">
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-button active" onclick="switchTab('form')" id="tab-form">
+                    <div class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Buat Laporan
                     </div>
+                </button>
+                <button class="tab-button" onclick="switchTab('list')" id="tab-list">
+                    <div class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                        </svg>
+                        Daftar Laporan
+                    </div>
+                </button>
+            </div>
 
-                    <!-- Step 2: Pemeriksaan Fisik & Vital Signs -->
-                    <div class="form-section hidden" id="section-2">
-                        <div class="section-header">
-                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                                <span class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-green-600 text-sm font-bold">2</span>
-                                </span>
-                                Pemeriksaan Fisik & Vital Signs
-                            </h3>
-                        </div>
-
-                        <div class="p-6 space-y-6">
-                            <div class="vital-signs-grid">
-                                <div class="vital-sign-card">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Suhu Tubuh (°C) <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="number" id="temperature" name="temperature" step="0.1"
-                                        min="35" max="45" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                        placeholder="38.5" onchange="checkVitalSigns()">
-                                    <div class="mt-2">
-                                        <span class="severity-indicator" id="temp-indicator">Normal</span>
-                                    </div>
+            <!-- Tab Content: Form Rekomendasi -->
+            <div id="content-form" class="tab-content active">
+                <form id="healthReportForm" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="">
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="form-section" id="section-1">
+                                <div class="section-header">
+                                    <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                        <span
+                                            class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-blue-600 text-sm font-bold">1</span>
+                                        </span>
+                                        Informasi Dasar Pemeriksaan
+                                    </h3>
                                 </div>
 
-                                <div class="vital-sign-card">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Detak Jantung (bpm)
-                                    </label>
-                                    <input type="number" id="heart_rate" name="heart_rate" min="30"
-                                        max="200"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                        placeholder="72" onchange="checkVitalSigns()">
-                                    <div class="mt-2">
-                                        <span class="severity-indicator" id="hr-indicator">Normal</span>
-                                    </div>
-                                </div>
-
-                                <div class="vital-sign-card">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Frekuensi Napas (/menit)
-                                    </label>
-                                    <input type="number" id="respiratory_rate" name="respiratory_rate" min="5"
-                                        max="60"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                        placeholder="16" onchange="checkVitalSigns()">
-                                    <div class="mt-2">
-                                        <span class="severity-indicator" id="rr-indicator">Normal</span>
-                                    </div>
-                                </div>
-
-                                <div class="vital-sign-card">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Capillary Refill Time (detik)
-                                    </label>
-                                    <input type="number" id="crt" name="crt" min="0" max="10"
-                                        step="0.1"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                        placeholder="2.0" onchange="checkVitalSigns()">
-                                    <div class="mt-2">
-                                        <span class="severity-indicator" id="crt-indicator">Normal</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="text-md font-semibold text-gray-900 mb-4">Gejala yang Diamati</h4>
-                                <div class="symptom-selector" id="symptom-selector">
-                                    <!-- Symptoms will be populated by JavaScript -->
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="physical_examination" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Hasil Pemeriksaan Fisik Detail
-                                </label>
-                                <textarea id="physical_examination" name="physical_examination" rows="4"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                                    placeholder="Deskripsi detail hasil pemeriksaan fisik dari kepala hingga ekor..."></textarea>
-                            </div>
-
-                            <div>
-                                <label for="examination_photos" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Foto Pemeriksaan
-                                </label>
-                                <div
-                                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
-                                    <input type="file" id="examination_photos" name="examination_photos[]" multiple
-                                        accept="image/*" class="hidden" onchange="previewPhotos(this)">
-                                    <label for="examination_photos" class="cursor-pointer">
-                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
-                                            viewBox="0 0 48 48">
-                                            <path
-                                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <div class="mt-2">
-                                            <span class="text-sm font-medium text-primary">Upload foto</span>
-                                            <span class="text-sm text-gray-500">atau drag & drop</span>
+                                <div class="p-6 space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label for="animal_id" class="block text-sm font-medium text-gray-700 mb-2">
+                                                ID/Nama Ternak <span class="text-red-500">*</span>
+                                            </label>
+                                            <input type="text" id="animal_id" name="animal_id" required
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                placeholder="Contoh: Sapi #001 atau Moli">
                                         </div>
-                                        <p class="text-xs text-gray-500 mt-1">PNG, JPG hingga 5MB (maksimal 5 foto)</p>
-                                    </label>
-                                </div>
-                                <div id="photo-preview" class="mt-4"></div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Step 3: Diagnosis -->
-                    <div class="form-section hidden" id="section-3">
-                        <div class="section-header">
-                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                                <span class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-purple-600 text-sm font-bold">3</span>
-                                </span>
-                                Diagnosis & Assessment
-                            </h3>
-                        </div>
+                                        <div>
+                                            <label for="animal_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Jenis Ternak <span class="text-red-500">*</span>
+                                            </label>
+                                            <select id="animal_type" name="animal_type" required
+                                                onchange="updateAnimalInfo()"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                                <option value="">Pilih Jenis Ternak</option>
+                                                <option value="sapi">Sapi</option>
+                                                <option value="kambing">Kambing</option>
+                                                <option value="domba">Domba</option>
+                                                <option value="kerbau">Kerbau</option>
+                                                <option value="ayam">Ayam</option>
+                                                <option value="bebek">Bebek</option>
+                                            </select>
+                                        </div>
 
-                        <div class="p-6 space-y-6">
-                            <div class="ai-suggestion">
-                                <div class="flex items-center mb-3">
-                                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
-                                            </path>
-                                        </svg>
+
+                                        <div>
+                                            <label for="examination_date"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Tanggal Pemeriksaan <span class="text-red-500">*</span>
+                                            </label>
+                                            <input type="datetime-local" id="examination_date" name="examination_date"
+                                                required value="{{ date('Y-m-d\TH:i') }}"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        </div>
+
+                                        <div>
+                                            <label for="examiner_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Nama Pemeriksa <span class="text-red-500">*</span>
+                                            </label>
+                                            <input type="text" id="examiner_name" name="examiner_name" required
+                                                value="Dr. {{ auth()->user()->name ?? 'Budi Santoso' }}"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        </div>
                                     </div>
-                                    <h4 class="font-semibold text-blue-900">AI Diagnosis Suggestions</h4>
-                                    <button type="button" onclick="runAIDiagnosis()"
-                                        class="ml-auto px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
-                                        🤖 Analisis
-                                    </button>
-                                </div>
-                                <div id="ai-suggestions" class="diagnosis-suggestions">
-                                    <p class="text-sm text-gray-600">Masukkan gejala dan vital signs untuk mendapatkan
-                                        saran diagnosis dari AI</p>
-                                </div>
-                            </div>
 
-                            <div>
-                                <label for="primary_diagnosis" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Diagnosis Utama <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" id="primary_diagnosis" name="primary_diagnosis" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                    placeholder="Contoh: Mastitis akut">
-                                <div class="mt-2">
-                                    <button type="button" onclick="openDiagnosisLibrary()" class="quick-fill-btn">
-                                        📚 Pilih dari Library
-                                    </button>
-                                </div>
-                            </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div>
+                                            <label for="animal_age" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Umur Ternak
+                                            </label>
+                                            <div class="flex space-x-2">
+                                                <input type="number" id="animal_age" name="animal_age" min="0"
+                                                    max="20"
+                                                    class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                    placeholder="2">
+                                                <select name="age_unit"
+                                                    class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                                    <option value="tahun">Tahun</option>
+                                                    <option value="bulan">Bulan</option>
+                                                    <option value="hari">Hari</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                            <div>
-                                <label for="secondary_diagnosis" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Diagnosis Sekunder/Diferensial
-                                </label>
-                                <textarea id="secondary_diagnosis" name="secondary_diagnosis" rows="2"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                                    placeholder="Diagnosis alternatif yang perlu dipertimbangkan..."></textarea>
-                            </div>
+                                        <div>
+                                            <label for="animal_weight"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Berat Ternak (kg)
+                                            </label>
+                                            <input type="number" id="animal_weight" name="animal_weight" min="0"
+                                                step="0.1"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                placeholder="450">
+                                        </div>
 
-                            <div>
-                                <label for="prognosis" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Prognosis <span class="text-red-500">*</span>
-                                </label>
-                                <select id="prognosis" name="prognosis" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                    <option value="">Pilih Prognosis</option>
-                                    <option value="excellent">Excellent - Sembuh sempurna</option>
-                                    <option value="good">Good - Sembuh dengan minimal komplikasi</option>
-                                    <option value="fair">Fair - Sembuh dengan beberapa komplikasi</option>
-                                    <option value="guarded">Guarded - Prognosis hati-hati</option>
-                                    <option value="poor">Poor - Prognosis buruk</option>
-                                    <option value="grave">Grave - Prognosis sangat buruk</option>
-                                </select>
-                            </div>
+                                        <div>
+                                            <label for="animal_gender"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Jenis Kelamin
+                                            </label>
+                                            <select id="animal_gender" name="animal_gender"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                                <option value="">Pilih</option>
+                                                <option value="jantan">Jantan</option>
+                                                <option value="betina">Betina</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div>
-                                <label for="severity" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Tingkat Keparahan
-                                </label>
-                                <div class="grid grid-cols-4 gap-2">
-                                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                        <input type="radio" name="severity" value="mild" class="mr-2">
-                                        <span class="text-sm">Ringan</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                        <input type="radio" name="severity" value="moderate" class="mr-2">
-                                        <span class="text-sm">Sedang</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                        <input type="radio" name="severity" value="severe" class="mr-2">
-                                        <span class="text-sm">Berat</span>
-                                    </label>
-                                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                                        <input type="radio" name="severity" value="critical" class="mr-2">
-                                        <span class="text-sm">Kritis</span>
-                                    </label>
+                                    <div>
+                                        <label for="chief_complaint" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Keluhan Utama <span class="text-red-500">*</span>
+                                        </label>
+                                        <textarea id="chief_complaint" name="chief_complaint" rows="3" required
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                                            placeholder="Jelaskan keluhan utama yang dialami ternak..."></textarea>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div>
-                                <label for="diagnosis_notes" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Catatan Diagnosis
-                                </label>
-                                <textarea id="diagnosis_notes" name="diagnosis_notes" rows="3"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                                    placeholder="Catatan tambahan mengenai diagnosis, pemeriksaan penunjang yang diperlukan, dll..."></textarea>
+                            <div class="flex justify-between items-center pt-6 border-t border-gray-200 no-print">
+                                <button type="submit" id="submitBtn"
+                                    class="flex  px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                    ✅ Simpan Laporan
+                                </button>
                             </div>
                         </div>
                     </div>
+                </form>
+            </div>
 
-                    <!-- Step 4: Treatment Plan -->
-                    <div class="form-section hidden" id="section-4">
-                        <div class="section-header">
-                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                                <span class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-green-600 text-sm font-bold">4</span>
-                                </span>
-                                Treatment Plan & Prescription
-                            </h3>
+
+
+            <!-- Tab Content: Daftar Rekomendasi -->
+            <div id="content-list" class="tab-content">
+                <!-- Filter dan Search Bar -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                        <!-- Search Bar -->
+                        <div class="search-container flex-1 lg:max-w-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" id="searchInput"
+                                class="search-input w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Cari jenis pakan atau deskripsi..." onkeyup="searchPakan()">
                         </div>
 
-                        <div class="p-6 space-y-6">
-                            <div class="treatment-plan">
-                                <h4 class="font-semibold text-green-800 mb-3">Rencana Pengobatan</h4>
-                                <textarea id="treatment_plan" name="treatment_plan" rows="3" required
-                                    class="w-full px-3 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
-                                    placeholder="Outline rencana pengobatan secara keseluruhan..."></textarea>
-                            </div>
-
-                            <div>
-                                <div class="flex items-center justify-between mb-4">
-                                    <h4 class="text-md font-semibold text-gray-900">Resep Obat</h4>
-                                    <button type="button" onclick="addPrescription()"
-                                        class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors">
-                                        + Tambah Obat
-                                    </button>
-                                </div>
-                                <div id="prescription-list">
-                                    <!-- Prescription items will be added here -->
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="follow_up_date" class="block text-sm font-medium text-gray-700 mb-2">
-                                        Tanggal Follow-up
-                                    </label>
-                                    <input type="date" id="follow_up_date" name="follow_up_date"
-                                        min="{{ date('Y-m-d', strtotime('+1 day')) }}"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                </div>
-
-                                <div>
-                                    <label for="follow_up_instructions"
-                                        class="block text-sm font-medium text-gray-700 mb-2">
-                                        Instruksi Follow-up
-                                    </label>
-                                    <select id="follow_up_instructions" name="follow_up_instructions"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                        <option value="">Pilih instruksi</option>
-                                        <option value="phone">Telepon/SMS</option>
-                                        <option value="visit">Kunjungan ke lokasi</option>
-                                        <option value="clinic">Datang ke klinik</option>
-                                        <option value="emergency">Segera jika memburuk</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="care_instructions" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Instruksi Perawatan untuk Peternak <span class="text-red-500">*</span>
-                                </label>
-                                <textarea id="care_instructions" name="care_instructions" rows="4" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                                    placeholder="Instruksi detail untuk peternak dalam merawat ternak..."></textarea>
-                            </div>
-
-                            <div>
-                                <label for="additional_notes" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Catatan Tambahan
-                                </label>
-                                <textarea id="additional_notes" name="additional_notes" rows="3"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                                    placeholder="Catatan penting lainnya..."></textarea>
-                            </div>
+                        <!-- Filter Chips -->
+                        <div class="flex flex-wrap gap-2">
+                            <button class="filter-chip active" onclick="filterByKategori('')">Semua</button>
+                            <button class="filter-chip" onclick="filterByKategori('hijauan')">Hijauan</button>
+                            <button class="filter-chip" onclick="filterByKategori('konsentrat')">Konsentrat</button>
+                            <button class="filter-chip" onclick="filterByKategori('suplemen')">Suplemen</button>
+                            <button class="filter-chip" onclick="filterByKategori('vitamin')">Vitamin</button>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Step 5: Finalisasi -->
-                    <div class="form-section hidden" id="section-5">
-                        <div class="section-header">
-                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                                <span class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
-                                    <span class="text-indigo-600 text-sm font-bold">5</span>
-                                </span>
-                                Finalisasi & Tanda Tangan
-                            </h3>
-                        </div>
+                <!-- Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pakanGrid">
+                    @forelse ($laporans ?? [] as $pakan)
+                        <div class="pakan-card card-hover pakan-item" data-jenis="{{ strtolower($pakan->jenis) }}"
+                            data-kategori="{{ strtolower($pakan->kategori) }}" data-id="{{ $pakan->idRekomendasi }}"
+                            data-ternak="{{ $pakan->ternak ? $pakan->ternak->namaTernak : 'Ternak tidak ditemukan' }}"
+                            data-penyuluh="{{ $pakan->penyuluh ? $pakan->penyuluh->nama : 'Penyuluh tidak ditemukan' }}"
+                            data-tanggal="{{ $pakan->tanggalRekomendasi }}" data-jumlah="{{ $pakan->jumlah }}"
+                            data-jenisTernak="{{ $pakan->ternak->jenis }}" data-satuan="{{ $pakan->satuan }}"
+                            data-deskripsi="{{ $pakan->deskripsi }}">
 
-                        <div class="p-6 space-y-6">
-                            <div>
-                                <label for="examination_fee" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Biaya Pemeriksaan (Rp)
-                                </label>
-                                <input type="number" id="examination_fee" name="examination_fee" min="0"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                    placeholder="150000">
-                            </div>
-
-                            <div>
-                                <label for="treatment_cost" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Biaya Pengobatan (Rp)
-                                </label>
-                                <input type="number" id="treatment_cost" name="treatment_cost" min="0"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                    placeholder="300000">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Tanda Tangan Digital
-                                </label>
-                                <canvas id="signature-pad"
-                                    class="signature-pad border-2 border-dashed border-gray-300 rounded-lg w-full h-32"></canvas>
-                                <div class="mt-2 flex space-x-2">
-                                    <button type="button" onclick="clearSignature()"
-                                        class="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600">
-                                        Clear
-                                    </button>
-                                    <button type="button" onclick="saveSignature()"
-                                        class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
-                                        Simpan Tanda Tangan
-                                    </button>
+                            <!-- Card Header -->
+                            <div class="pakan-header">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-lg font-bold truncate">{{ $pakan->jenisPakan }}</h3>
+                                    <span class="kategori-badge kategori-{{ strtolower($pakan->kategori) }}">
+                                        {{ ucfirst($pakan->kategori) }}
+                                    </span>
                                 </div>
-                            </div>
-
-                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                                <div class="flex items-start">
-                                    <svg class="w-5 h-5 text-yellow-600 mr-2 mt-0.5" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                <div class="flex items-center text-sm opacity-90">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                         </path>
                                     </svg>
-                                    <div>
-                                        <h5 class="font-medium text-yellow-800">Periksa Kembali Data</h5>
-                                        <p class="text-sm text-yellow-700 mt-1">Pastikan semua informasi sudah benar
-                                            sebelum menyimpan laporan. Laporan yang sudah disimpan akan dikirim ke peternak.
-                                        </p>
-                                    </div>
+                                    {{ \Carbon\Carbon::parse($pakan->tanggalRekomendasi)->format('d M Y') }}
+                                </div>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="p-4 space-y-4">
+                                <!-- Informasi Ternak -->
+                                <div class="flex items-center space-x-3">
+                                    @if ($pakan->ternak)
+                                        @php
+                                            $animalEmoji = match ($pakan->ternak->jenis ?? 'sapi') {
+                                                'sapi' => '🐄',
+                                                'kambing' => '🐐',
+                                                'domba' => '🐑',
+                                                'kerbau' => '🐃',
+                                                default => '🐄',
+                                            };
+                                        @endphp
+                                        <span class="text-2xl">{{ $animalEmoji }}</span>
+                                        <div>
+                                            <p class="font-medium text-gray-900">{{ $pakan->ternak->namaTernak }}</p>
+                                            <p class="text-sm text-gray-500">
+                                                {{ ucfirst($pakan->ternak->jenis ?? 'Sapi') }}</p>
+                                        </div>
+                                    @else
+                                        <span class="text-2xl">🐄</span>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Ternak tidak ditemukan</p>
+                                            <p class="text-sm text-gray-500">-</p>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Jumlah Pakan -->
+                                <div class="quantity-display">
+                                    <div class="text-2xl font-bold text-gray-900">{{ $pakan->jumlah }}</div>
+                                    <div class="text-sm font-medium text-gray-600">{{ $pakan->satuan }}</div>
+                                </div>
+
+                                <!-- Deskripsi -->
+                                <div>
+                                    <p class="text-sm text-gray-600 line-clamp-3">
+                                        {{ Str::limit($pakan->deskripsi, 100) }}
+                                    </p>
+                                </div>
+
+                                <!-- Penyuluh Info -->
+                                <div class="flex items-center space-x-2 text-sm text-gray-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    <span>{{ $pakan->penyuluh ? $pakan->penyuluh->nama : 'Penyuluh tidak ditemukan' }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Card Footer -->
+                            <div class="px-4 pb-4">
+                                <div class="flex space-x-2">
+                                    <button onclick="openDetailModal({{ $pakan->idRekomendasi }})"
+                                        class="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center justify-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+                                        </svg>
+                                        Detail
+                                    </button>
+
+                                    @auth
+                                        @if (Auth::id() === $pakan->idPenyuluh)
+                                            <a href="{{ route('pakan.edit', $pakan) }}"
+                                                class="px-3 py-2 bg-yellow-500 text-white rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors flex items-center justify-center">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                    </path>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    @endauth
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="flex justify-between items-center pt-6 border-t border-gray-200 no-print">
-                        <button type="button" id="prevBtn" onclick="previousStep()"
-                            class="hidden px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
-                            ← Sebelumnya
-                        </button>
-                        <div class="flex space-x-3 ml-auto">
-                            <button type="button" onclick="saveDraft()"
-                                class="px-6 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-                                💾 Simpan Draft
-                            </button>
-                            <button type="button" id="nextBtn" onclick="nextStep()"
-                                class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors">
-                                Selanjutnya →
-                            </button>
-                            <button type="submit" id="submitBtn"
-                                class="hidden px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                ✅ Simpan Laporan
-                            </button>
+                    @empty
+                        <div class="col-span-full">
+                            <div class="text-center py-12">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                    </path>
+                                </svg>
+                                <h3 class="mt-2 text-lg font-medium text-gray-900">Belum Ada Rekomendasi Pakan</h3>
+                                <p class="mt-1 text-gray-500">Belum ada rekomendasi pakan yang tersedia untuk ternak Anda.
+                                </p>
+                                <button onclick="switchTab('form')"
+                                    class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                    Buat Rekomendasi Pertama
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endforelse
                 </div>
 
-                <div class="lg:col-span-1">
-                    <div class="preview-panel" id="preview-panel">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Live Preview</h3>
-                        <div class="print-preview" id="print-preview">
-                            <div class="text-center mb-6">
-                                <h2 class="text-xl font-bold text-gray-900">LAPORAN KESEHATAN TERNAK</h2>
-                                <p class="text-sm text-gray-600 mt-1">Klinik Hewan Digital</p>
-                            </div>
-
-                            <div class="space-y-4 text-sm">
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <span class="font-medium">Peternak:</span>
-                                        <span id="preview-farmer">-</span>
-                                    </div>
-                                    <div>
-                                        <span class="font-medium">Tanggal:</span>
-                                        <span id="preview-date">-</span>
-                                    </div>
-                                    <div>
-                                        <span class="font-medium">Ternak:</span>
-                                        <span id="preview-animal">-</span>
-                                    </div>
-                                    <div>
-                                        <span class="font-medium">Pemeriksa:</span>
-                                        <span id="preview-examiner">-</span>
-                                    </div>
-                                </div>
-
-                                <div class="border-t pt-3">
-                                    <h4 class="font-medium mb-2">Keluhan Utama:</h4>
-                                    <p id="preview-complaint" class="text-gray-700">-</p>
-                                </div>
-
-                                <div class="border-t pt-3">
-                                    <h4 class="font-medium mb-2">Vital Signs:</h4>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <div>Suhu: <span id="preview-temp">-</span>°C</div>
-                                        <div>Nadi: <span id="preview-hr">-</span> bpm</div>
-                                        <div>Napas: <span id="preview-rr">-</span>/min</div>
-                                        <div>CRT: <span id="preview-crt">-</span> detik</div>
-                                    </div>
-                                </div>
-
-                                <div class="border-t pt-3">
-                                    <h4 class="font-medium mb-2">Diagnosis:</h4>
-                                    <p id="preview-diagnosis" class="text-gray-700">-</p>
-                                </div>
-
-                                <div class="border-t pt-3">
-                                    <h4 class="font-medium mb-2">Treatment:</h4>
-                                    <p id="preview-treatment" class="text-gray-700">-</p>
-                                </div>
-
-                                <div class="border-t pt-3">
-                                    <h4 class="font-medium mb-2">Instruksi:</h4>
-                                    <p id="preview-instructions" class="text-gray-700">-</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 space-y-2 no-print">
-                            <button onclick="printReport()"
-                                class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                🖨️ Print
-                            </button>
-                            <button onclick="exportPDF()"
-                                class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                                📄 Export PDF
-                            </button>
-                            <button onclick="shareReport()"
-                                class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                📤 Share
-                            </button>
+                <!-- Pagination -->
+                @if (!empty($pakans) && count($pakans) > 0)
+                    <div class="mt-6 bg-gray-50 rounded-lg px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-600">
+                                Menampilkan {{ $pakans->firstItem() ?? 1 }}-{{ $pakans->lastItem() ?? count($pakans) }}
+                                dari {{ $pakans->total() ?? count($pakans) }} rekomendasi
+                            </p>
+                            @if (method_exists($pakans, 'links'))
+                                {{ $pakans->links() }}
+                            @endif
                         </div>
                     </div>
-
-                    <div class="mt-6 bg-white rounded-lg border p-4">
-                        <h4 class="font-semibold text-gray-900 mb-3">Progress Timeline</h4>
-                        <div class="space-y-3">
-                            <div class="timeline-item">
-                                <div class="timeline-dot completed"></div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium">Informasi Dasar</p>
-                                    <p class="text-xs text-gray-500">Lengkap</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot current"></div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium">Pemeriksaan Fisik</p>
-                                    <p class="text-xs text-gray-500">Sedang berlangsung</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium">Diagnosis</p>
-                                    <p class="text-xs text-gray-500">Belum dimulai</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium">Treatment</p>
-                                    <p class="text-xs text-gray-500">Belum dimulai</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium">Finalisasi</p>
-                                    <p class="text-xs text-gray-500">Belum dimulai</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
-        </form>
-
-        <div class="floating-save no-print">
-            <button onclick="autoSave()"
-                class="w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-secondary transition-all transform hover:scale-110">
-                💾
-            </button>
         </div>
     </div>
 
@@ -1206,6 +1092,22 @@
         let totalSteps = 5;
         let prescriptionCount = 0;
         let attachments = [];
+
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(`content-${tabName}`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
 
         const symptoms = {
             sapi: ['Demam', 'Nafsu makan menurun', 'Pembengkakan ambing', 'Diare', 'Batuk', 'Kesulitan bernapas',
@@ -1334,7 +1236,7 @@
         function validateCurrentStep() {
             const requiredFields = document.querySelectorAll(
                 `#section-${currentStep} input[required], #section-${currentStep} textarea[required], #section-${currentStep} select[required]`
-                );
+            );
             let valid = true;
 
             requiredFields.forEach(field => {
@@ -1665,7 +1567,7 @@
                         if (e.target === modal) {
                             const closeFunction = window[
                                 `close${modalId.replace('Modal', '').charAt(0).toUpperCase() + modalId.replace('Modal', '').slice(1)}Modal`
-                                ];
+                            ];
                             if (closeFunction) closeFunction();
                         }
                     });
@@ -1680,7 +1582,7 @@
                     if (modal && !modal.classList.contains('hidden')) {
                         const closeFunction = window[
                             `close${modalId.replace('Modal', '').charAt(0).toUpperCase() + modalId.replace('Modal', '').slice(1)}Modal`
-                            ];
+                        ];
                         if (closeFunction) closeFunction();
                     }
                 });

@@ -107,6 +107,11 @@ Route::prefix('peternak')->middleware('admin:Peternak')->group(function () {
     Route::get('/dashboard', [PeternakController::class, 'index'])
         ->name('peternak.dashboard');
 
+    // Pakan Route
+    Route::get('/pakan', [PeternakController::class, 'pakan'])
+        ->name('peternak.pakan');
+
+
     // Ternak Resource Routes
     Route::resource('ternak', TernakController::class)->except(['create', 'edit']);
 
@@ -123,7 +128,6 @@ Route::prefix('peternak')->middleware('admin:Peternak')->group(function () {
 
     // Konsultasi Resource Routes
     Route::resource('konsultasi', KonsultasiController::class)->only(['index', 'store', 'show', 'destroy']);
-
     // Override route names untuk konsistensi
     Route::get('/konsultasi', [KonsultasiController::class, 'index'])
         ->name('peternak.konsultasi');
@@ -148,6 +152,11 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     Route::get('/dashboard', [PenyuluhController::class, 'index'])
         ->name('penyuluh.dashboard');
 
+    // Daftar ternak route
+    Route::get('/ternak', [PenyuluhController::class, 'ternak'])
+        ->name('penyuluh.ternak');
+
+
     // Profil Route
     Route::get('/profile', [PenyuluhController::class, 'profile'])
         ->name('penyuluh.profile');
@@ -155,8 +164,6 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     // Ternak Route
     Route::get('/ternak', [PenyuluhController::class, 'ternak'])
         ->name('penyuluh.ternak');
-
-
 
     // Laporan Kesehatan Penyuluh
     Route::get('/laporan', [LaporanController::class, 'index'])
@@ -182,8 +189,6 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     // Rekomendasi Pakan Penyuluh
     Route::get('/pakan', [PakanController::class, 'index'])
         ->name('penyuluh.pakan');
-    Route::get('/pakan/tambah', [PakanController::class, 'pakanStoreView'])
-        ->name('pakan.addView');
     Route::post('/pakan/add-pakan', [PakanController::class, 'store'])->name('pakan.store');
 
     Route::get('/pakan/detail/{id}', [PakanController::class, 'pakanDetailView'])
@@ -221,8 +226,12 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
         ->name('penyuluh.konsultasi');
     Route::get('/konsultasi/update/{id}', [KonsultasiController::class, 'konsultasiEditView'])
         ->name('konsultasi.editView');
+    Route::get('/konsultasi/{id}/detail', [KonsultasiController::class, 'getDetail'])
+        ->name('penyuluh.ambilDetail');
     Route::put('/konsultasi/update-respon/{id}', [KonsultasiController::class, 'storeResponPenyuluh'])
         ->name('konsultasi.updateRespon');
+    Route::put('penyuluh/konsultasi/update-status/{id}', [KonsultasiController::class, 'updateStatus'])
+        ->name('konsultasi.updateStatus');
 });
 
 

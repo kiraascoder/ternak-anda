@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pakeng-Ternak - Sistem Manajemen Peternakan Modern</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
     <script>
         tailwind.config = {
             theme: {

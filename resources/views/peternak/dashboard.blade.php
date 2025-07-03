@@ -51,6 +51,22 @@
                     opacity: 0.7;
                 }
             }
+
+            .ternak-card {
+                transition: all 0.3s ease;
+                border: 2px solid transparent;
+            }
+
+            .ternak-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                border-color: #16a34a;
+            }
+
+            .weather-info {
+                backdrop-filter: blur(10px);
+                background: rgba(255, 255, 255, 0.1);
+            }
         </style>
     @endpush
 
@@ -78,19 +94,12 @@
         <!-- Quick Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Total Ternak -->
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div class="stats-card bg-white rounded-xl p-8 shadow-sm border border-gray-100">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Total Ternak</p>
                         <p class="text-3xl font-bold text-gray-900">{{ $totalTernak ?? 25 }}</p>
                         <p class="text-green-600 text-sm mt-1">
-                            <span class="inline-flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                                </svg>
-                                +2 minggu ini
-                            </span>
                         </p>
                     </div>
                     <div class="bg-blue-100 p-3 rounded-full">
@@ -104,12 +113,11 @@
             </div>
 
             <!-- Ternak Sehat -->
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div class="stats-card bg-white rounded-xl p-8 shadow-sm border border-gray-100">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Ternak Sehat</p>
                         <p class="text-3xl font-bold text-gray-900">{{ $ternakSehat ?? 23 }}</p>
-                        <p class="text-green-600 text-sm mt-1">92% kondisi baik</p>
                     </div>
                     <div class="bg-green-100 p-3 rounded-full">
                         <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,12 +130,11 @@
             </div>
 
             <!-- Perlu Perhatian -->
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div class="stats-card bg-white rounded-xl p-8 shadow-sm border border-gray-100">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Perlu Perhatian</p>
                         <p class="text-3xl font-bold text-gray-900">{{ $ternakSakit ?? 2 }}</p>
-                        <p class="text-red-600 text-sm mt-1">Butuh pemeriksaan</p>
                     </div>
                     <div class="bg-red-100 p-3 rounded-full pulse-animation">
                         <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,12 +147,11 @@
             </div>
 
             <!-- Konsultasi Aktif -->
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div class="stats-card bg-white rounded-xl p-8 shadow-sm border border-gray-100">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Konsultasi Aktif</p>
-                        <p class="text-3xl font-bold text-gray-900">{{ $konsultasiSaya ?? 3 }}</p>
-                        <p class="text-blue-600 text-sm mt-1">1 menunggu respon</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $konsultasiSaya ?? 3 }}</p>                        
                     </div>
                     <div class="bg-purple-100 p-3 rounded-full">
                         <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,176 +164,256 @@
             </div>
         </div>
 
-        <!-- Main Content Grid -->
+        <!-- Main Content Grid: Ternak Terbaru (Kiri) dan Cuaca (Kanan) -->
         <div class="grid lg:grid-cols-3 gap-6">
-
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Aktivitas Terbaru</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                            <div class="bg-green-100 p-2 rounded-full">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Vaksinasi sapi #007 berhasil</p>
-                                <p class="text-xs text-gray-500">2 jam yang lalu</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                            <div class="bg-green-100 p-2 rounded-full">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Vaksinasi sapi #007 berhasil</p>
-                                <p class="text-xs text-gray-500">2 jam yang lalu</p>
-                            </div>
-                        </div>
-                        
-
-                        <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                            <div class="bg-blue-100 p-2 rounded-full">
-                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Konsultasi dengan Dr. Budi dijawab</p>
-                                <p class="text-xs text-gray-500">5 jam yang lalu</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                            <div class="bg-yellow-100 p-2 rounded-full">
-                                <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-900">Sapi #003 memerlukan pemeriksaan</p>
-                                <p class="text-xs text-gray-500">1 hari yang lalu</p>
-                            </div>
-                        </div>
+            <!-- Ternak Terbaru - Kiri (2 kolom) -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 h-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <span class="mr-2">🐄</span>
+                            Ternak Terbaru
+                        </h3>
+                        <a href="{{ route('peternak.ternak') }}"
+                            class="text-sm text-primary hover:text-secondary font-medium transition-colors">
+                            Lihat Semua →
+                        </a>
                     </div>
-                    <div class="mt-4 text-center">
-                        <a href="#" class="text-sm text-primary hover:text-secondary font-medium">Lihat semua
-                            aktivitas</a>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @forelse($recentTernakList ?? [] as $ternak)
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                        {{ $ternak->status === 'sehat' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ ucfirst($ternak->status ?? 'Sehat') }}
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 truncate">
+                                    {{ $ternak->namaTernak ?? 'Sapi #' . sprintf('%03d', rand(1, 999)) }}
+                                </h4>
+                                <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Tidak diketahui' }}</p>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    Umur: {{ $ternak->umur ? $ternak->umur . ' tahun' : 'Belum diketahui' }}
+                                </p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">
+                                        ID: {{ $ternak->idTernak ?? 'TRN-' . sprintf('%03d', rand(1, 999)) }}
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <!-- Sample data jika tidak ada data -->
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Sehat
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">Sapi #001</h4>
+                                <p class="text-sm text-gray-600">Sapi Limosin</p>
+                                <p class="text-xs text-gray-500 mt-2">Umur: 3 tahun</p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">ID: TRN-001</div>
+                                </div>
+                            </div>
+
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Sehat
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">Sapi #002</h4>
+                                <p class="text-sm text-gray-600">Sapi Brahman</p>
+                                <p class="text-xs text-gray-500 mt-2">Umur: 2 tahun</p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">ID: TRN-002</div>
+                                </div>
+                            </div>
+
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        Sakit
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">Sapi #003</h4>
+                                <p class="text-sm text-gray-600">Sapi Angus</p>
+                                <p class="text-xs text-gray-500 mt-2">Umur: 4 tahun</p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">ID: TRN-003</div>
+                                </div>
+                            </div>
+
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Sehat
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">Sapi #004</h4>
+                                <p class="text-sm text-gray-600">Sapi Simental</p>
+                                <p class="text-xs text-gray-500 mt-2">Umur: 1 tahun</p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">ID: TRN-004</div>
+                                </div>
+                            </div>
+
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Sehat
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">Sapi #005</h4>
+                                <p class="text-sm text-gray-600">Sapi Bali</p>
+                                <p class="text-xs text-gray-500 mt-2">Umur: 2 tahun</p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">ID: TRN-005</div>
+                                </div>
+                            </div>
+
+                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xl">🐄</span>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Sehat
+                                    </span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">Sapi #006</h4>
+                                <p class="text-sm text-gray-600">Sapi Ongole</p>
+                                <p class="text-xs text-gray-500 mt-2">Umur: 5 tahun</p>
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="text-xs text-gray-400">ID: TRN-006</div>
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
+
+                    @if (count($recentTernakList ?? []) == 0)
+                        <div class="mt-4 text-center py-4">
+                            <p class="text-sm text-gray-500">
+                                Belum ada data ternak.
+                                <a href="{{ route('peternak.ternak') }}"
+                                    class="text-primary hover:text-secondary font-medium">
+                                    Tambah ternak pertama Anda →
+                                </a>
+                            </p>
+                        </div>
+                    @endif
                 </div>
             </div>
 
-            
-            <div class="space-y-6">                
-                <div class="weather-gradient rounded-xl p-6 text-white">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold">Cuaca Hari Ini</h3>
-                        <div class="text-3xl">☀️</div>
-                    </div>
-                    <div class="text-3xl font-bold mb-2">28°C</div>
-                    <p class="text-blue-100 text-sm">Cerah berawan</p>
-                    <p class="text-blue-200 text-xs mt-1">Makassar, Sulawesi Selatan</p>
-                    <div class="mt-4 pt-4 border-t border-blue-300/30">
-                        <div class="flex justify-between text-sm">
-                            <span>Kelembaban: 65%</span>
-                            <span>Angin: 12 km/h</span>
+            <!-- Cuaca - Kanan (1 kolom) -->
+            <div class="lg:col-span-1">
+                <div class="space-y-6">
+                    <!-- Widget Cuaca -->
+                    <div class="weather-gradient rounded-xl p-6 text-white">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Cuaca Hari Ini</h3>
+                            <div class="text-3xl">☀️</div>
                         </div>
-                    </div>
-                </div>                            
-            </div>
-        </div>
+                        <div class="text-3xl font-bold mb-2">28°C</div>
+                        <p class="text-blue-100 text-sm">Cerah berawan</p>
+                        <p class="text-blue-200 text-xs mt-1">Makassar, Sulawesi Selatan</p>
 
-        <!-- Bottom Section - Ternak Overview -->
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-lg font-semibold text-gray-900">Ternak Terbaru</h3>
-                <a href="{{ route('peternak.ternak') }}" class="text-sm text-primary hover:text-secondary font-medium">Lihat
-                    Semua</a>
-            </div>
+                        <div class="mt-4 pt-4 border-t border-blue-300/30">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="weather-info rounded-lg p-3">
+                                    <div class="flex items-center mb-1">
+                                        <span class="mr-2">💧</span>
+                                        <span class="text-xs">Kelembaban</span>
+                                    </div>
+                                    <div class="font-semibold">65%</div>
+                                </div>
+                                <div class="weather-info rounded-lg p-3">
+                                    <div class="flex items-center mb-1">
+                                        <span class="mr-2">💨</span>
+                                        <span class="text-xs">Angin</span>
+                                    </div>
+                                    <div class="font-semibold">12 km/h</div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                @forelse($recentTernakList ?? [] as $ternak)
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-lg">🐄</span>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                    {{ $ternak->status === 'sehat' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ ucfirst($ternak->status ?? 'Sehat') }}
-                            </span>
+                        <div class="mt-4 pt-4 border-t border-blue-300/30">
+                            <h4 class="text-sm font-medium mb-2">Prakiraan 3 Hari</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span>Besok</span>
+                                    <div class="flex items-center">
+                                        <span class="mr-2">🌤️</span>
+                                        <span>26° - 30°</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span>Lusa</span>
+                                    <div class="flex items-center">
+                                        <span class="mr-2">🌧️</span>
+                                        <span>24° - 28°</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span>3 Hari</span>
+                                    <div class="flex items-center">
+                                        <span class="mr-2">☀️</span>
+                                        <span>27° - 31°</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="font-semibold text-gray-900">
-                            {{ $ternak->namaTernak ?? 'Sapi #' . sprintf('%03d', rand(1, 999)) }}
-                        </h4>
-                        <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Tidak diketahui' }}</p>
-                        <p class="text-xs text-gray-500 mt-2">
-                            Umur: {{ $ternak->umur ? $ternak->umur . ' tahun' : 'Belum diketahui' }}
-                        </p>
                     </div>
-                @empty
-                    <!-- Sample data jika tidak ada data -->
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-lg">🐄</span>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Sehat
-                            </span>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
+                        <div class="space-y-3">
+                            <a href="{{ route('peternak.ternak') }}"
+                                class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                                <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">Tambah Ternak</p>
+                                    <p class="text-xs text-gray-500">Daftarkan ternak baru</p>
+                                </div>
+                            </a>
+
+                            <a href="{{ route('peternak.konsultasi') }}"
+                                class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                                <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-900">Konsultasi</p>
+                                    <p class="text-xs text-gray-500">Tanya ahli peternakan</p>
+                                </div>
+                            </a>
                         </div>
-                        <h4 class="font-semibold text-gray-900">Sapi #001</h4>
-                        <p class="text-sm text-gray-600">Sapi Limosin</p>
-                        <p class="text-xs text-gray-500 mt-2">Umur: 3 tahun</p>
                     </div>
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-lg">🐄</span>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Sehat
-                            </span>
-                        </div>
-                        <h4 class="font-semibold text-gray-900">Sapi #002</h4>
-                        <p class="text-sm text-gray-600">Sapi Brahman</p>
-                        <p class="text-xs text-gray-500 mt-2">Umur: 2 tahun</p>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-lg">🐄</span>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                Sakit
-                            </span>
-                        </div>
-                        <h4 class="font-semibold text-gray-900">Sapi #003</h4>
-                        <p class="text-sm text-gray-600">Sapi Angus</p>
-                        <p class="text-xs text-gray-500 mt-2">Umur: 4 tahun</p>
-                    </div>
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-lg">🐄</span>
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Sehat
-                            </span>
-                        </div>
-                        <h4 class="font-semibold text-gray-900">Sapi #004</h4>
-                        <p class="text-sm text-gray-600">Sapi Simental</p>
-                        <p class="text-xs text-gray-500 mt-2">Umur: 1 tahun</p>
-                    </div>
-                @endforelse
+                </div>
             </div>
         </div>
     </div>
@@ -337,61 +423,6 @@
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script>
-        const ctx = document.getElementById('healthChart').getContext('2d');
-        const healthChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
-                datasets: [{
-                    label: 'Ternak Sehat',
-                    data: [20, 22, 23, 21, 24, 23, 23],
-                    borderColor: '#16a34a',
-                    backgroundColor: 'rgba(22, 163, 74, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Ternak Sakit',
-                    data: [5, 3, 2, 4, 1, 2, 2],
-                    borderColor: '#dc2626',
-                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            borderDash: [5, 5]
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                },
-                elements: {
-                    point: {
-                        radius: 4,
-                        hoverRadius: 6
-                    }
-                }
-            }
-        });
-
         // Auto refresh data every 5 minutes
         setInterval(function() {
             // Simulate data refresh
@@ -413,6 +444,28 @@
                     }, 100);
                 }, index * 100);
             });
+
+            // Animate ternak cards
+            const ternakCards = document.querySelectorAll('.ternak-card');
+            ternakCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    card.style.transition = 'all 0.4s ease';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 50);
+                }, (index * 50) + 500);
+            });
         });
+
+        // Real-time clock update
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID');
+            console.log('Current time:', timeString);
+        }
+        setInterval(updateTime, 1000);
     </script>
 @endpush

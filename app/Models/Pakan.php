@@ -15,8 +15,10 @@ class Pakan extends Model
         'idPenyuluh',
         'tanggalRekomendasi',
         'jenisPakan',
+        'kategori',
         'jumlah',
-        'saran',
+        'satuan',
+        'deskripsi',
     ];
 
 
