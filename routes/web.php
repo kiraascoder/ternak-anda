@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->middleware('admin:Admin')->group(function () {
-    Route::get('/dashboard', [AdminSesiController::class, 'adminLoginView'])
+    Route::get('/dashboard', [AdminController::class, 'index'])
         ->name('admin.dashboard');
 });
 
@@ -27,12 +27,6 @@ Route::prefix('admin')->middleware('authenticated')->group(function () {
     Route::get('register', [AdminSesiController::class, 'registerView'])->name('admin.register');
     Route::post('register', [AdminSesiController::class, 'register'])->name('admin.register.submit');
 });
-
-Route::prefix('admin')->middleware('admin:Admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])
-        ->name('admin.dashboard');
-});
-
 
 
 // Perbaikan Routes untuk Peternak
@@ -168,22 +162,10 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     // Laporan Kesehatan Penyuluh
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->name('penyuluh.laporan');
-    Route::get('/laporan/tambah', [LaporanController::class, 'laporanStoreView'])
-        ->name('laporan.addView');
-
-    Route::get('/laporan/detail/{id}', [LaporanController::class, 'laporanDetailView'])
-        ->name('laporan.detailView');
-
-    Route::get('/laporan/update/{id}', [LaporanController::class, 'laporanEditView'])
-        ->name('laporan.editView');
-
-    Route::put('/laporan/edit{id}', [LaporanController::class, 'edit'])
-        ->name('laporan.edit');
-
-    Route::delete('/laporan/delete/{id}', [LaporanController::class, 'destroy'])
-        ->name('laporan.destroy');
-
-    Route::post('/laporan/add-laporan', [LaporanController::class, 'store'])->name('laporan.store');
+    Route::post('/laporan/store', [LaporanController::class, 'store'])
+        ->name('penyuluh.laporan.store');
+    Route::get('/laporan/{id}', [LaporanController::class, 'show'])
+        ->name('show.laporan');
 
 
     // Rekomendasi Pakan Penyuluh
