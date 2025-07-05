@@ -174,7 +174,7 @@
                             <span class="mr-2">🐄</span>
                             Ternak Terbaru
                         </h3>
-                        <a href="{{ route('peternak.ternak') }}"
+                        <a href="{{ route('penyuluh.ternak') }}"
                             class="text-sm text-primary hover:text-secondary font-medium transition-colors">
                             Lihat Semua →
                         </a>
@@ -210,9 +210,9 @@
                         <div class="mt-4 text-center py-4">
                             <p class="text-sm text-gray-500">
                                 Belum ada data ternak.
-                                <a href="{{ route('peternak.ternak') }}"
+                                <a href="{{ route('penyuluh.ternak') }}"
                                     class="text-primary hover:text-secondary font-medium">
-                                    Tambah ternak pertama Anda →
+                                    Lihat Ternak
                                 </a>
                             </p>
                         </div>
@@ -284,7 +284,7 @@
                     <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
                         <div class="space-y-3">
-                            <a href="{{ route('peternak.ternak') }}"
+                            <a href="{{ route('penyuluh.ternak') }}"
                                 class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
                                 <div class="bg-blue-100 p-2 rounded-lg mr-3">
                                     <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
@@ -299,7 +299,7 @@
                                 </div>
                             </a>
 
-                            <a href="{{ route('peternak.konsultasi') }}"
+                            <a href="{{ route('penyuluh.konsultasi') }}"
                                 class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
                                 <div class="bg-green-100 p-2 rounded-lg mr-3">
                                     <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
@@ -309,8 +309,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-medium text-gray-900">Konsultasi</p>
-                                    <p class="text-xs text-gray-500">Tanya ahli peternakan</p>
+                                    <p class="font-medium text-gray-900">Lihat Daftar Konsultasi</p>
+                                    <p class="text-xs text-gray-500">Konsultasi Anda</p>
                                 </div>
                             </a>
                         </div>

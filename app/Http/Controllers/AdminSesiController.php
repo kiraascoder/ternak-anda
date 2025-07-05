@@ -43,7 +43,7 @@ class AdminSesiController extends Controller
                 return redirect('/peternak/dashboard');
             } elseif ($user->role == "Penyuluh") {
                 return redirect('/penyuluh/dashboard');
-            } elseif ($user->role == 'admin') {
+            } elseif ($user->role == 'Admin') {
                 return redirect('/admin/dashboard');
             }
         }

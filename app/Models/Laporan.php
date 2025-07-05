@@ -38,22 +38,25 @@ class Laporan extends Model
 
     /**
      * Relationship dengan User (Penyuluh)
+     * Foreign key: idPenyuluh -> references: idUser on users table
      */
     public function penyuluh()
     {
-        return $this->belongsTo(User::class, 'idPenyuluh');
+        return $this->belongsTo(User::class, 'idPenyuluh', 'idUser');
     }
 
     /**
      * Relationship dengan User (Peternak)
+     * Foreign key: idPeternak -> references: idUser on users table
      */
     public function peternak()
     {
-        return $this->belongsTo(User::class, 'idPeternak');
+        return $this->belongsTo(User::class, 'idPeternak', 'idUser');
     }
 
     /**
      * Relationship dengan Ternak
+     * Foreign key: idTernak -> references: idTernak on ternaks table
      */
     public function ternak()
     {
@@ -327,7 +330,7 @@ class Laporan extends Model
         return [
             'ID' => $this->id,
             'Tanggal Pemeriksaan' => $this->formatted_tanggal_pemeriksaan,
-            'Nama Peternak' => $this->peternak->name ?? '-',
+            'Nama Peternak' => $this->peternak->nama ?? '-',
             'Nama Ternak' => $this->ternak->namaTernak ?? '-',
             'Jenis Ternak' => $this->ternak->jenis ?? '-',
             'Berat Badan (kg)' => $this->berat_badan ?? '-',
@@ -341,7 +344,7 @@ class Laporan extends Model
             'Tindakan' => $this->tindakan,
             'Rekomendasi' => $this->rekomendasi,
             'Status Kesehatan' => $this->status_kesehatan_text,
-            'Penyuluh' => $this->penyuluh->name ?? '-'
+            'Penyuluh' => $this->penyuluh->nama ?? '-'
         ];
     }
 }

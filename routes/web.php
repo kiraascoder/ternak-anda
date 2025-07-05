@@ -159,13 +159,20 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     Route::get('/ternak', [PenyuluhController::class, 'ternak'])
         ->name('penyuluh.ternak');
 
-    // Laporan Kesehatan Penyuluh
+
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->name('penyuluh.laporan');
     Route::post('/laporan/store', [LaporanController::class, 'store'])
         ->name('penyuluh.laporan.store');
-    Route::get('/laporan/{id}', [LaporanController::class, 'show'])
+    Route::get('/laporan/{id}/detail', [LaporanController::class, 'getDetail'])
         ->name('show.laporan');
+    Route::get('laporan/{id}/edit', [LaporanController::class, 'edit'])->name('edit');
+    Route::get('laporan/{id}/print', [LaporanController::class, 'printReport'])->name('print');
+    Route::get('laporan/{id}/pdf', [LaporanController::class, 'exportPdf'])->name('pdf');
+
+    Route::delete('laporan/{id}', [LaporanController::class, 'destroy'])->name('destroy');
+    Route::post('laporan/bulk-delete', [LaporanController::class, 'bulkDestroy'])->name('bulk-destroy');
+
 
 
     // Rekomendasi Pakan Penyuluh

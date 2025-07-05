@@ -130,7 +130,7 @@
             <div class="space-y-1">
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Manajemen User</p>
 
-                <a href="{{ route('admin.users.index') }}"
+                <a href=""
                     class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.users.*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -139,7 +139,7 @@
                     <span>Kelola User</span>
                 </a>
 
-                <a href="{{ route('admin.ternak.index') }}"
+                <a href=""
                     class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.ternak.*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -152,7 +152,7 @@
             <div class="space-y-1 pt-4">
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Laporan & Analytics</p>
 
-                <a href="{{ route('admin.reports.index') }}"
+                <a href=""
                     class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.reports.*') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -161,7 +161,7 @@
                     <span>Generate Reports</span>
                 </a>
 
-                <a href="{{ route('admin.analytics') }}"
+                <a href=""
                     class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.analytics') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -174,7 +174,7 @@
             <div class="space-y-1 pt-4">
                 <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Sistem</p>
 
-                <a href="{{ route('admin.settings') }}"
+                <a href=""
                     class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.settings') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                     <svg class="flex-shrink-0 h-5 w-5 mr-3" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">

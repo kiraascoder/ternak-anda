@@ -72,7 +72,7 @@
                             </li>
                         @elseif($userRole === 'Admin')
                             <li>
-                                <a href="{{ route('admin.users.index') }}"
+                                <a href=""
                                     class="text-sm text-gray-600 hover:text-primary transition-colors">
                                     Kelola User
                                 </a>

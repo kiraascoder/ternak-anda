@@ -293,28 +293,6 @@
     <div class="space-y-6">
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white">
             <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
-                <div class="avatar-upload">
-                    <img src="{{ auth()->user()->avatar ?? 'https://ui-avatars.io/api/?name=' . urlencode(auth()->user()->name ?? 'User') . '&background=667eea&color=ffffff&size=120' }}"
-                        alt="Profile Avatar" class="profile-avatar" id="profileAvatar">
-                    <div class="avatar-upload-overlay">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
-                            </path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                    </div>
-                    <input type="file" id="avatarUpload" class="hidden" accept="image/*" onchange="previewAvatar(this)">
-                    <div class="verification-badge">
-                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </div>
-
                 <div class="flex-1 text-center md:text-left">
                     <h1 class="text-2xl font-bold">{{ $userInfo->nama }}</h1>
                     <p class="text-blue-100 mb-2">{{ $userInfo->email }}</p>
@@ -329,7 +307,7 @@
                             ● Online
                         </span>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
 
@@ -405,8 +383,8 @@
                                         class="px-6 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-colors">
                                         <span id="personalSubmitText">Simpan Perubahan</span>
                                         <svg id="personalSubmitLoading"
-                                            class="hidden animate-spin -mr-1 ml-3 h-4 w-4 text-white inline"
-                                            fill="none" viewBox="0 0 24 24">
+                                            class="hidden animate-spin -mr-1 ml-3 h-4 w-4 text-white inline" fill="none"
+                                            viewBox="0 0 24 24">
                                             <circle class="opacity-25" cx="12" cy="12" r="10"
                                                 stroke="currentColor" stroke-width="4"></circle>
                                             <path class="opacity-75" fill="currentColor"
