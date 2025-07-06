@@ -235,6 +235,41 @@
             text-align: center;
         }
 
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
         @media (max-width: 768px) {
             .notification-toast {
                 left: 1rem;
@@ -245,6 +280,12 @@
             .status-dropdown {
                 font-size: 0.8rem;
                 padding: 0.4rem 2rem 0.4rem 0.75rem;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
             }
         }
     </style>
@@ -560,116 +601,150 @@
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {{-- Left Column - Info Konsultasi --}}
-                        <div class="space-y-4">
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <span class="w-2 h-4 bg-blue-500 rounded mr-2"></span>
-                                    Informasi Konsultasi
-                                </h4>
-                                <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">ID:</span>
-                                        <span id="modalKonsultasiId" class="font-medium"></span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Judul:</span>
-                                        <span id="modalJudul" class="font-medium text-right ml-4"></span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Kategori:</span>
-                                        <span id=""
-                                            class="font-medium capitalize">{{ $detailKonsultasi->kategori }}</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Status:</span>
-                                        <span id="modalStatus" class="font-medium"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <span class="w-2 h-4 bg-green-500 rounded mr-2"></span>
-                                    Informasi Peternak
-                                </h4>
-                                <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Nama:</span>
-                                        <span id="modalPeternak" class="font-medium"></span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Email:</span>
-                                        <span id=""
-                                            class="font-medium">{{ $detailKonsultasi->peternak->email }}</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">No. Wa:</span>
-                                        <span id=""
-                                            class="font-medium">{{ $detailKonsultasi->peternak->phone }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <span class="w-2 h-4 bg-purple-500 rounded mr-2"></span>
-                                    Aksi Cepat
-                                </h4>
-                                <div id="detailActions" class="space-y-2"></div>
-                            </div>
+                    <!-- Loading State -->
+                    <div id="modalLoading" class="flex items-center justify-center py-12 hidden">
+                        <div class="text-center">
+                            <div class="loading-spinner mx-auto mb-4"></div>
+                            <p class="text-gray-600">Memuat detail konsultasi...</p>
                         </div>
+                    </div>
 
-                        {{-- Middle Column - Info Ternak --}}
-                        <div class="space-y-4">
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <span class="w-2 h-4 bg-orange-500 rounded mr-2"></span>
-                                    Informasi Ternak
-                                </h4>
-                                <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Nama:</span>
-                                        <span id=""
-                                            class="font-medium">{{ $detailKonsultasi->ternak->namaTernak }}</span>
+                    <!-- Content -->
+                    <div id="modalContent" class="hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            {{-- Left Column - Info Konsultasi --}}
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <span class="w-2 h-4 bg-blue-500 rounded mr-2"></span>
+                                        Informasi Konsultasi
+                                    </h4>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">ID:</span>
+                                            <span id="modalKonsultasiId" class="font-medium"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Judul:</span>
+                                            <span id="modalJudul" class="font-medium text-right ml-4"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Kategori:</span>
+                                            <span id="modalKategori" class="font-medium capitalize"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Status:</span>
+                                            <span id="modalStatus" class="font-medium"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Tanggal:</span>
+                                            <span id="modalTanggal" class="font-medium"></span>
+                                        </div>
                                     </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Jenis:</span>
-                                        <span id="modalJenisTernak" class="font-medium"></span>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <span class="w-2 h-4 bg-green-500 rounded mr-2"></span>
+                                        Informasi Peternak
+                                    </h4>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Nama:</span>
+                                            <span id="modalPeternak" class="font-medium"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Email:</span>
+                                            <span id="modalPeternakEmail" class="font-medium"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">No. HP:</span>
+                                            <span id="modalPeternakPhone" class="font-medium"></span>
+                                        </div>
                                     </div>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <span class="w-2 h-4 bg-purple-500 rounded mr-2"></span>
+                                        Aksi Cepat
+                                    </h4>
+                                    <div id="detailActions" class="space-y-2"></div>
                                 </div>
                             </div>
 
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <span class="w-2 h-4 bg-red-500 rounded mr-2"></span>
-                                    Deskripsi Masalah
-                                </h4>
-                                <div id="detailDeskripsi"
-                                    class="text-gray-700 text-sm leading-relaxed bg-white p-3 rounded border"></div>
-                            </div>
-                        </div>
+                            {{-- Middle Column - Info Ternak --}}
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <span class="w-2 h-4 bg-orange-500 rounded mr-2"></span>
+                                        Informasi Ternak
+                                    </h4>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Nama:</span>
+                                            <span id="modalNamaTernak" class="font-medium"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Jenis:</span>
+                                            <span id="modalJenisTernak" class="font-medium"></span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Umur:</span>
+                                            <span id="modalUmurTernak" class="font-medium"></span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        {{-- Right Column - Foto Ternak --}}
-                        <div class="space-y-4">
-                            <div class="bg-gray-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <span class="w-2 h-4 bg-yellow-500 rounded mr-2"></span>
-                                    Foto Ternak
-                                </h4>
-                                <div id="fotoTernakContainer" class="photo-container">
-                                    <div class="text-center text-gray-500">
-                                        <img src="{{ $detailKonsultasi->foto_ternak ? asset('public/storage/foto_ternak/' . $detailKonsultasi->foto_ternak) : asset('public/storage/foto_ternak/no_image.jpg') }}"
-                                            alt="Foto Ternak" class="w-32 h-32 object-cover rounded" />
-                                        <p class="text-sm">Tidak ada foto</p>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <span class="w-2 h-4 bg-red-500 rounded mr-2"></span>
+                                        Deskripsi Masalah
+                                    </h4>
+                                    <div id="modalDeskripsi"
+                                        class="text-gray-700 text-sm leading-relaxed bg-white p-3 rounded border"></div>
+                                </div>
+                            </div>
+
+                            {{-- Right Column - Foto Ternak --}}
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <span class="w-2 h-4 bg-yellow-500 rounded mr-2"></span>
+                                        Foto Ternak
+                                    </h4>
+                                    <div id="modalFotoContainer" class="photo-container">
+                                        <div class="text-center text-gray-500">
+                                            <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                                </path>
+                                            </svg>
+                                            <p class="text-sm">Memuat foto...</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-6 flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <!-- Error State -->
+                    <div id="modalError" class="text-center py-12 hidden">
+                        <svg class="w-16 h-16 mx-auto text-red-400 mb-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Gagal Memuat Data</h3>
+                        <p id="modalErrorMessage" class="text-gray-500 mb-4"></p>
+                        <button onclick="closeDetailModal()"
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                            Tutup
+                        </button>
+                    </div>
+
+                    <div id="modalFooter" class="mt-6 flex justify-end space-x-3 pt-4 border-t border-gray-200 hidden">
                         <button onclick="closeDetailModal()"
                             class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
                             Tutup
@@ -679,153 +754,240 @@
             </div>
         </div>
     @endsection
+
     @push('scripts')
         <script>
             let currentDetailId = null;
 
+            /**
+             * Tampilkan detail konsultasi menggunakan AJAX
+             */
             function viewConsultationDetail(id) {
                 currentDetailId = id;
-                const consultationElement = document.querySelector(`[data-id="${id}"]`);
 
-                if (!consultationElement) {
-                    alert('Konsultasi tidak ditemukan');
-                    return;
-                }
+                // Tampilkan modal dan loading state
+                showModal();
+                showLoadingState();
 
-                try {
-                    // Ambil data dari DOM
-                    const peternak = consultationElement.querySelector('h4.font-semibold').textContent.trim();
-                    const description = consultationElement.querySelector('p.text-gray-700').textContent.trim();
-                    const judul = consultationElement.querySelector('h5.text-gray-900').textContent.trim();
-                    const statusBadge = consultationElement.querySelector('.status-badge');
-                    const status = statusBadge ? statusBadge.textContent.trim().toLowerCase() : 'pending';
-
-                    const infoText = consultationElement.querySelector('.text-gray-600').textContent;
-
-                    const ternakInfo = consultationElement.querySelector('span.font-medium');
-                    const namaTernak = ternakInfo ? ternakInfo.textContent.trim() : '';
-
-                    // Isi data ke modal
-                    document.getElementById('detailConsultationId').textContent = `ID: ${id}`;
-                    document.getElementById('modalKonsultasiId').textContent = id;
-                    document.getElementById('modalJudul').textContent = judul;
-                    document.getElementById('modalStatus').textContent = capitalizeFirst(status);
-                    document.getElementById('modalPeternak').textContent = peternak;
-                    document.getElementById('modalJenisTernak').textContent = extractJenisTernak(namaTernak, infoText);
-                    document.getElementById('detailDeskripsi').textContent = description;
-
-                    // Load foto ternak via AJAX untuk mendapatkan data lengkap
-                    loadFotoTernak(id);
-
-                    populateDetailActions(status, id);
-
-                    // Tampilkan modal
-                    document.getElementById('detailModal').classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-
-                } catch (error) {
-                    console.error('Error saat mengambil data konsultasi:', error);
-                    alert('Terjadi kesalahan saat menampilkan detail konsultasi');
-                }
-            }
-
-            function extractJenisTernak(namaTernak, infoText) {
-                // Coba ekstrak jenis dari info text
-                if (infoText.includes('🐄')) return 'Sapi';
-                if (infoText.includes('🐐')) return 'Kambing';
-                if (infoText.includes('🐑')) return 'Domba';
-
-                // Fallback ke nama ternak jika ada
-                return namaTernak || 'Tidak diketahui';
-            }
-
-            function loadFotoTernak(konsultasiId) {
-                const fotoContainer = document.getElementById('fotoTernakContainer');
-
-                // Show loading state
-                fotoContainer.innerHTML = `
-        <div class="text-center text-gray-500">
-            <svg class="w-8 h-8 mx-auto mb-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            <p class="text-sm">Memuat foto...</p>
-        </div>
-    `;
-
-                // Fetch detail konsultasi untuk mendapatkan foto
-                fetch(`/penyuluh/konsultasi/${konsultasiId}/detail`, {
+                // Kirim request AJAX
+                fetch(`/penyuluh/konsultasi/${id}/detail`, {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         }
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        if (data.success && data.data.ternak && data.data.ternak.fotoTernak) {
-                            displayFotoTernak(data.data.ternak.fotoTernak);
+                        if (data.success) {
+                            populateModalWithData(data.data);
+                            showContentState();
                         } else {
-                            displayNoFoto();
+                            throw new Error(data.message || 'Failed to load consultation data');
                         }
                     })
                     .catch(error => {
-                        console.error('Error loading foto ternak:', error);
-                        displayNoFoto();
+                        console.error('Error loading consultation detail:', error);
+                        showErrorState(error.message);
                     });
             }
 
-            function displayFotoTernak(fotoPath) {
-                const fotoContainer = document.getElementById('fotoTernakContainer');
-
-                // Pastikan path foto benar (sesuaikan dengan struktur folder Anda)
-                const fullPath = fotoPath.startsWith('/') ? fotoPath : `/storage/ternak/${fotoPath}`;
-
-                fotoContainer.innerHTML = `
-        <img src="${fullPath}" 
-             alt="Foto Ternak" 
-             class="ternak-photo"
-             onerror="this.onerror=null; this.parentNode.innerHTML=getNoFotoHTML();"
-             onclick="openImageModal('${fullPath}')">
-    `;
+            /**
+             * Tampilkan modal
+             */
+            function showModal() {
+                const modal = document.getElementById('detailModal');
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
             }
 
-            function displayNoFoto() {
-                const fotoContainer = document.getElementById('fotoTernakContainer');
-                fotoContainer.innerHTML = getNoFotoHTML();
+            /**
+             * Tampilkan loading state
+             */
+            function showLoadingState() {
+                document.getElementById('modalLoading').classList.remove('hidden');
+                document.getElementById('modalContent').classList.add('hidden');
+                document.getElementById('modalError').classList.add('hidden');
+                document.getElementById('modalFooter').classList.add('hidden');
             }
 
+            /**
+             * Tampilkan content state
+             */
+            function showContentState() {
+                document.getElementById('modalLoading').classList.add('hidden');
+                document.getElementById('modalContent').classList.remove('hidden');
+                document.getElementById('modalError').classList.add('hidden');
+                document.getElementById('modalFooter').classList.remove('hidden');
+            }
+
+            /**
+             * Tampilkan error state
+             */
+            function showErrorState(message) {
+                document.getElementById('modalLoading').classList.add('hidden');
+                document.getElementById('modalContent').classList.add('hidden');
+                document.getElementById('modalError').classList.remove('hidden');
+                document.getElementById('modalFooter').classList.add('hidden');
+                document.getElementById('modalErrorMessage').textContent = message;
+            }
+
+            /**
+             * Populate modal dengan data dari AJAX
+             */
+            function populateModalWithData(data) {
+                // Info Konsultasi
+                document.getElementById('detailConsultationId').textContent = `ID: ${data.idKonsultasi}`;
+                document.getElementById('modalKonsultasiId').textContent = data.idKonsultasi;
+                document.getElementById('modalJudul').textContent = data.judul_konsultasi || '-';
+                document.getElementById('modalKategori').textContent = data.kategori || '-';
+                document.getElementById('modalStatus').textContent = capitalizeFirst(data.status || '-');
+                document.getElementById('modalTanggal').textContent = data.created_at || '-';
+                document.getElementById('modalDeskripsi').textContent = data.deskripsi || '-';
+
+                // Info Peternak
+                document.getElementById('modalPeternak').textContent = data.peternak?.nama || '-';
+                document.getElementById('modalPeternakEmail').textContent = data.peternak?.email || '-';
+                document.getElementById('modalPeternakPhone').textContent = data.peternak?.phone || '-';
+
+                // Info Ternak
+                document.getElementById('modalNamaTernak').textContent = data.ternak?.nama_ternak || '-';
+                document.getElementById('modalJenisTernak').textContent = data.ternak?.jenis || '-';
+                document.getElementById('modalUmurTernak').textContent = data.ternak?.umur || '-';
+
+                // Foto Ternak
+                displayFotoTernak(data.ternak?.fotoTernak, data.foto_ternak);
+
+                // Actions
+                populateDetailActions(data.status, data.idKonsultasi);
+            }
+
+            /**
+             * Tampilkan foto ternak
+             */
+            function displayFotoTernak(ternakFoto, konsultasiFoto) {
+                const container = document.getElementById('modalFotoContainer');
+
+                // Prioritas: foto dari konsultasi, lalu foto ternak
+                let fotoPath = konsultasiFoto || ternakFoto;
+
+                if (fotoPath) {
+                    // Pastikan path benar
+                    if (!fotoPath.startsWith('/') && !fotoPath.startsWith('http')) {
+                        fotoPath = `/storage/foto_ternak/${fotoPath}`;
+                    }
+
+                    container.innerHTML = `
+                        <img src="${fotoPath}" 
+                             alt="Foto Ternak" 
+                             class="ternak-photo cursor-pointer"
+                             onerror="this.onerror=null; this.parentNode.innerHTML=getNoFotoHTML();"
+                             onclick="openImageModal('${fotoPath}')">
+                    `;
+                } else {
+                    container.innerHTML = getNoFotoHTML();
+                }
+            }
+
+            /**
+             * HTML untuk tidak ada foto
+             */
             function getNoFotoHTML() {
                 return `
-        <div class="text-center text-gray-500">
-            <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-            <p class="text-sm">Tidak ada foto</p>
-        </div>
-    `;
+                    <div class="text-center text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z"></path>
+                        </svg>
+                        <p class="text-sm">Tidak ada foto</p>
+                    </div>
+                `;
             }
 
+            /**
+             * Buka modal gambar full screen
+             */
             function openImageModal(imagePath) {
-                // Create modal untuk view full image
                 const modal = document.createElement('div');
                 modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
-                modal.onclick = () => modal.remove();
+                modal.onclick = (e) => {
+                    if (e.target === modal) modal.remove();
+                };
 
                 modal.innerHTML = `
-        <div class="max-w-4xl max-h-screen p-4">
-            <img src="${imagePath}" alt="Foto Ternak" class="max-w-full max-h-full object-contain rounded-lg">
-            <button onclick="this.parentElement.parentElement.remove()" 
-                class="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-    `;
+                    <div class="max-w-4xl max-h-screen p-4 relative">
+                        <img src="${imagePath}" alt="Foto Ternak" class="max-w-full max-h-full object-contain rounded-lg">
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                            class="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `;
 
                 document.body.appendChild(modal);
             }
 
+            /**
+             * Populate action buttons
+             */
+            function populateDetailActions(status, id) {
+                const actionsContainer = document.getElementById('detailActions');
+
+                let actions = `
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-700">Ubah Status:</label>
+                        <select onchange="updateKonsultasiStatus(${id}, this.value)" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Pilih Status</option>
+                            <option value="pending" ${status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+                            <option value="berlangsung" ${status === 'berlangsung' ? 'selected' : ''}>▶️ Berlangsung</option>
+                            <option value="selesai" ${status === 'selesai' ? 'selected' : ''}>✅ Selesai</option>
+                            <option value="dibatalkan" ${status === 'dibatalkan' ? 'selected' : ''}>❌ Dibatalkan</option>
+                        </select>
+                    </div>
+                `;
+
+                // Info khusus untuk status berlangsung
+                if (status === 'berlangsung') {
+                    actions += `
+                        <div class="berlangsung-info mt-3">
+                            <div class="flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-green-800">
+                                    Konsultasi Berlangsung
+                                </span>
+                            </div>
+                            <p class="text-xs text-green-700 mt-1 text-center">
+                                Penyuluh sedang berada di lokasi ternak
+                            </p>
+                        </div>
+                    `;
+                }
+
+                actionsContainer.innerHTML = actions;
+            }
+
+            /**
+             * Tutup modal detail
+             */
+            function closeDetailModal() {
+                document.getElementById('detailModal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+                currentDetailId = null;
+            }
+
+            /**
+             * Update status konsultasi
+             */
             function updateKonsultasiStatus(konsultasiId, newStatus) {
                 if (!newStatus) return;
 
@@ -836,7 +998,6 @@
                     'dibatalkan': 'Dibatalkan'
                 };
 
-                // Special message untuk status berlangsung
                 let confirmMessage = `Apakah Anda yakin ingin mengubah status konsultasi menjadi "${statusLabels[newStatus]}"?`;
 
                 if (newStatus === 'berlangsung') {
@@ -845,22 +1006,27 @@
                 }
 
                 if (!confirm(confirmMessage)) {
-                    // Reset dropdown
+                    // Reset dropdown jika ada
                     const dropdown = event.target;
-                    const currentBadge = dropdown.closest('.queue-item, .consultation-item').querySelector('.status-badge');
-                    const currentStatus = currentBadge ? currentBadge.textContent.toLowerCase().trim() : '';
-                    dropdown.value = currentStatus;
+                    if (dropdown) {
+                        const currentBadge = dropdown.closest('.queue-item, .consultation-item')?.querySelector(
+                        '.status-badge');
+                        const currentStatus = currentBadge ? currentBadge.textContent.toLowerCase().trim() : '';
+                        dropdown.value = currentStatus;
+                    }
                     return;
                 }
 
-                // Show loading state
+                // Show loading
                 const dropdown = event.target;
-                const originalHTML = dropdown.innerHTML;
-                dropdown.disabled = true;
-                dropdown.innerHTML = '<option>Loading...</option>';
+                if (dropdown) {
+                    const originalHTML = dropdown.innerHTML;
+                    dropdown.disabled = true;
+                    dropdown.innerHTML = '<option>Loading...</option>';
+                }
 
-                // Kirim request ke server
-                fetch(`penyuluh/konsultasi/update-status/${konsultasiId}`, {
+                // Kirim request
+                fetch(`/penyuluh/konsultasi/update-status/${konsultasiId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -877,6 +1043,12 @@
                             updateKonsultasiUI(konsultasiId, newStatus);
                             showNotification('success', data.message);
 
+                            // Update modal jika masih terbuka
+                            if (currentDetailId === konsultasiId) {
+                                document.getElementById('modalStatus').textContent = capitalizeFirst(newStatus);
+                                populateDetailActions(newStatus, konsultasiId);
+                            }
+
                             setTimeout(() => {
                                 window.location.reload();
                             }, 1500);
@@ -888,18 +1060,23 @@
                         console.error('Error updating status:', error);
 
                         // Reset dropdown
-                        dropdown.innerHTML = originalHTML;
-                        dropdown.disabled = false;
+                        if (dropdown) {
+                            dropdown.innerHTML = originalHTML;
+                            dropdown.disabled = false;
 
-                        const currentBadge = dropdown.closest('.queue-item, .consultation-item').querySelector(
-                            '.status-badge');
-                        const currentStatus = currentBadge ? currentBadge.textContent.toLowerCase().trim() : '';
-                        dropdown.value = currentStatus;
+                            const currentBadge = dropdown.closest('.queue-item, .consultation-item')?.querySelector(
+                                '.status-badge');
+                            const currentStatus = currentBadge ? currentBadge.textContent.toLowerCase().trim() : '';
+                            dropdown.value = currentStatus;
+                        }
 
                         showNotification('error', error.message || 'Terjadi kesalahan saat mengupdate status');
                     });
             }
 
+            /**
+             * Update UI konsultasi
+             */
             function updateKonsultasiUI(konsultasiId, newStatus) {
                 const consultationElement = document.querySelector(`[data-id="${konsultasiId}"]`);
                 if (!consultationElement) return;
@@ -914,41 +1091,45 @@
                 // Update data-status attribute
                 consultationElement.setAttribute('data-status', newStatus);
 
-                // Add or remove berlangsung info
+                // Update berlangsung info
                 updateBerlangsungInfo(consultationElement, newStatus);
             }
 
+            /**
+             * Update info berlangsung
+             */
             function updateBerlangsungInfo(element, status) {
                 const existingInfo = element.querySelector('.berlangsung-info');
 
-                // Remove existing info
                 if (existingInfo) {
                     existingInfo.remove();
                 }
 
-                // Add info jika status berlangsung
                 if (status === 'berlangsung') {
                     const infoContainer = element.querySelector('.mb-3');
                     const infoHTML = `
-            <div class="berlangsung-info mt-3">
-                <div class="flex items-center justify-center space-x-2">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <span class="text-sm font-medium text-green-800">
-                        🩺 Penyuluh sedang berada di lokasi ternak
-                    </span>
-                </div>
-                <p class="text-xs text-green-700 mt-1">
-                    Konsultasi sedang berlangsung secara langsung
-                </p>
-            </div>
-        `;
+                        <div class="berlangsung-info mt-3">
+                            <div class="flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-green-800">
+                                    🩺 Penyuluh sedang berada di lokasi ternak
+                                </span>
+                            </div>
+                            <p class="text-xs text-green-700 mt-1">
+                                Konsultasi sedang berlangsung secara langsung
+                            </p>
+                        </div>
+                    `;
                     infoContainer.insertAdjacentHTML('beforeend', infoHTML);
                 }
             }
 
+            /**
+             * Tampilkan notifikasi
+             */
             function showNotification(type, message) {
                 const existingNotification = document.querySelector('.notification-toast');
                 if (existingNotification) {
@@ -959,11 +1140,11 @@
                 notification.className =
                     `notification-toast fixed top-4 right-4 z-50 p-4 rounded-lg text-white font-medium transition-all duration-300 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
                 notification.innerHTML = `
-        <div class="flex items-center space-x-2">
-            <span>${type === 'success' ? '✅' : '❌'}</span>
-            <span>${message}</span>
-        </div>
-    `;
+                    <div class="flex items-center space-x-2">
+                        <span>${type === 'success' ? '✅' : '❌'}</span>
+                        <span>${message}</span>
+                    </div>
+                `;
 
                 document.body.appendChild(notification);
 
@@ -979,54 +1160,29 @@
                 }, 3000);
             }
 
+            /**
+             * Utility functions
+             */
             function capitalizeFirst(str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
             }
 
-            function populateDetailActions(status, id) {
-                const actionsContainer = document.getElementById('detailActions');
+            function filterByStatus() {
+                const filter = document.getElementById('statusFilter').value;
+                const items = document.querySelectorAll('.consultation-item');
 
-                let actions = `
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">Ubah Status:</label>
-            <select onchange="updateKonsultasiStatus(${id}, this.value)" 
-                class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Pilih Status</option>
-                <option value="pending" ${status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
-                <option value="berlangsung" ${status === 'berlangsung' ? 'selected' : ''}>▶️ Berlangsung</option>
-                <option value="selesai" ${status === 'selesai' ? 'selected' : ''}>✅ Selesai</option>
-                <option value="dibatalkan" ${status === 'dibatalkan' ? 'selected' : ''}>❌ Dibatalkan</option>
-            </select>
-        </div>
-    `;
-
-                // Tambahkan informasi khusus untuk status berlangsung
-                if (status === 'berlangsung') {
-                    actions += `
-            <div class="berlangsung-info mt-3">
-                <div class="flex items-center justify-center space-x-2">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <span class="text-sm font-medium text-green-800">
-                        Konsultasi Berlangsung
-                    </span>
-                </div>
-                <p class="text-xs text-green-700 mt-1 text-center">
-                    Penyuluh sedang berada di lokasi ternak
-                </p>
-            </div>
-        `;
-                }
-
-                actionsContainer.innerHTML = actions;
+                items.forEach(item => {
+                    const status = item.getAttribute('data-status');
+                    if (!filter || status === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             }
 
-            function closeDetailModal() {
-                document.getElementById('detailModal').classList.add('hidden');
-                document.body.style.overflow = 'auto';
-                currentDetailId = null;
+            function refreshQueue() {
+                window.location.reload();
             }
 
             // Event listeners
@@ -1049,25 +1205,5 @@
                     }
                 }
             });
-
-            // Utility functions
-            function filterByStatus() {
-                const filter = document.getElementById('statusFilter').value;
-                const items = document.querySelectorAll('.consultation-item');
-
-                items.forEach(item => {
-                    const status = item.getAttribute('data-status');
-                    if (!filter || status === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
-
-            function refreshQueue() {
-                window.location.reload();
-            }
         </script>
     @endpush
-    `

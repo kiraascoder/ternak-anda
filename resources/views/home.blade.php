@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pakeng-Ternak - Sistem Manajemen Peternakan Modern</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    @vite('resources/css/app.css')
     <script>
         tailwind.config = {
             theme: {
@@ -48,6 +47,46 @@
                 transform: translateY(-20px);
             }
         }
+
+        /* Hamburger menu animations */
+        .hamburger-line {
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger-active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile menu animations */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Backdrop overlay */
+        .menu-backdrop {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -68,28 +107,96 @@
                         <span class="ml-3 text-xl font-bold text-gray-900">Pakeng-Ternak</span>
                     </div>
                 </div>
+
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#home" class="text-gray-700 hover:text-primary transition-colors">Beranda</a>
-
                     <a href="#about" class="text-gray-700 hover:text-primary transition-colors">Tentang</a>
                     <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Kontak</a>
                     <div class="flex space-x-4">
                         <button
                             class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
-                            <a href="{{ route('admin.login') }}">
-                                Masuk
-                            </a>
+                            Masuk
                         </button>
                         <button
                             class="border border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors">
-                            <a href="{{ route('admin.register') }}">
-                                Daftar
-                            </a>
+                            Daftar
                         </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="hamburger-btn" class="hamburger-btn p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-center space-y-1">
+                            <div class="hamburger-line w-6 h-0.5 bg-gray-600"></div>
+                            <div class="hamburger-line w-6 h-0.5 bg-gray-600"></div>
+                            <div class="hamburger-line w-6 h-0.5 bg-gray-600"></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden fixed top-16 left-0 w-full h-full bg-white z-40 shadow-lg">
+            <div class="px-4 py-6 space-y-6">
+                <!-- Navigation Links -->
+                <div class="space-y-4">
+                    <a href="#home"
+                        class="block text-lg text-gray-700 hover:text-primary transition-colors py-2 border-b border-gray-100">
+                        Beranda
+                    </a>
+                    <a href="#about"
+                        class="block text-lg text-gray-700 hover:text-primary transition-colors py-2 border-b border-gray-100">
+                        Tentang
+                    </a>
+                    <a href="#contact"
+                        class="block text-lg text-gray-700 hover:text-primary transition-colors py-2 border-b border-gray-100">
+                        Kontak
+                    </a>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-4 pt-6">
+                    <button
+                        class="w-full bg-primary text-white px-4 py-3 rounded-lg hover:bg-primary/90 transition-colors font-semibold">
+                        Masuk
+                    </button>
+                    <button
+                        class="w-full border border-primary text-primary px-4 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors font-semibold">
+                        Daftar
+                    </button>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="pt-8 border-t border-gray-100">
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-3 text-primary" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            support@pakeng-ternak.com
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-3 text-primary" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                </path>
+                            </svg>
+                            +62 812-3456-7890
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Backdrop Overlay -->
+        <div id="menu-backdrop" class="menu-backdrop fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"></div>
     </nav>
 
     <!-- Hero Section -->
@@ -97,21 +204,21 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="text-white">
-                    <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                         Sistem Manajemen <span class="text-yellow-300">Peternakan</span> Modern
                     </h1>
-                    <p class="text-xl mb-8 text-green-100">
+                    <p class="text-lg sm:text-xl mb-8 text-green-100">
                         Kelola ternak Anda dengan mudah, pantau kesehatan, dapatkan konsultasi ahli, dan tingkatkan
                         produktivitas peternakan dengan teknologi terdepan.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button
-                            class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-yellow-300 transition-colors">
+                            class="bg-yellow-400 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-yellow-300 transition-colors">
                             Mulai Sekarang
                         </button>
                         <button
-                            class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors">
-                            Pelajari Lebih Lanjut
+                            class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors">
+                            Kelola Ternak Anda
                         </button>
                     </div>
                 </div>
@@ -132,15 +239,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Mengapa Memilih Pakeng-Ternak?</h2>
-                    <p class="text-lg text-gray-600 mb-8">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Mengapa Memilih Pakeng-Ternak?</h2>
+                    <p class="text-base sm:text-lg text-gray-600 mb-8">
                         Kami memahami tantangan yang dihadapi peternak modern. Pakeng-Ternak hadir sebagai solusi
                         teknologi yang mengintegrasikan semua aspek manajemen peternakan dalam satu platform yang mudah
                         digunakan.
                     </p>
                     <div class="space-y-4">
                         <div class="flex items-start">
-                            <div class="bg-primary w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1">
+                            <div
+                                class="bg-primary w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
                                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -154,7 +262,8 @@
                             </div>
                         </div>
                         <div class="flex items-start">
-                            <div class="bg-primary w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1">
+                            <div
+                                class="bg-primary w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
                                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -168,7 +277,8 @@
                             </div>
                         </div>
                         <div class="flex items-start">
-                            <div class="bg-primary w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1">
+                            <div
+                                class="bg-primary w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
                                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -183,9 +293,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl p-8 shadow-xl">
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xl">
                     <div class="text-center">
-                        <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <div
+                            class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                             <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -209,8 +320,8 @@
     <section id="contact" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Hubungi Kami</h2>
-                <p class="text-xl text-gray-600">Tim support kami siap membantu Anda 24/7</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Hubungi Kami</h2>
+                <p class="text-lg sm:text-xl text-gray-600">Tim support kami siap membantu Anda 24/7</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center">
@@ -319,6 +430,59 @@
     </footer>
 
     <script>
+        // Mobile menu functionality
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        let isMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+
+            // Toggle hamburger animation
+            hamburgerBtn.classList.toggle('hamburger-active', isMenuOpen);
+
+            // Toggle mobile menu
+            mobileMenu.classList.toggle('active', isMenuOpen);
+
+            // Toggle backdrop
+            menuBackdrop.classList.toggle('active', isMenuOpen);
+
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            isMenuOpen = false;
+            hamburgerBtn.classList.remove('hamburger-active');
+            mobileMenu.classList.remove('active');
+            menuBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners
+        hamburgerBtn.addEventListener('click', toggleMobileMenu);
+        menuBackdrop.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on navigation links
+        document.querySelectorAll('#mobile-menu a[href^="#"]').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isMenuOpen) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu when window is resized to desktop size
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768 && isMenuOpen) {
+                closeMobileMenu();
+            }
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -332,12 +496,6 @@
                 }
             });
         });
-
-        // Mobile menu toggle (placeholder for future implementation)
-        function toggleMobileMenu() {
-            // Implementation for mobile menu
-            console.log('Mobile menu toggled');
-        }
 
         // Animation on scroll (simple implementation)
         function animateOnScroll() {

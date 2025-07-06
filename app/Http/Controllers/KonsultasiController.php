@@ -150,7 +150,7 @@ class KonsultasiController extends Controller
                         'phone' => $konsultasi->peternak->phone ?? ''
                     ],
                     'ternak' => [
-                        'nama_ternak' => $konsultasi->ternak->nama_ternak ?? '',
+                        'nama_ternak' => $konsultasi->ternak->namaTernak ?? '',
                         'jenis' => $konsultasi->ternak->jenis ?? '',
                         'umur' => $konsultasi->ternak->umur ?? null,
                         'fotoTernak' => $fotoTernak // Path foto yang sudah diproses

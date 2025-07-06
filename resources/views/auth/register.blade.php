@@ -192,7 +192,7 @@
                     </p>
                 </div>
 
-            
+
                 <!-- Error Messages -->
                 <div id="error-messages"
                     class="hidden mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
@@ -743,15 +743,7 @@
                 registerText.textContent = "Mendaftar...";
                 loadingSpinner.classList.remove("hidden");
                 submitBtn.disabled = true;
-
-                // Submit form (uncomment for actual submission)
-                // this.submit();
-
-                // Simulate success (remove this in production)
-                setTimeout(() => {
-                    alert("Pendaftaran berhasil! Silakan login dengan akun Anda.");
-                    window.location.href = '{{ route('admin.login') }}';
-                }, 2000);
+                this.submit();
             });
 
         // Auto-focus on first input

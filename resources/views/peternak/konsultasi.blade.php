@@ -511,8 +511,8 @@
                                 <option value="">Pilih Ternak</option>
                                 @if (isset($ternakList))
                                     @foreach ($ternakList as $ternak)
-                                        <option value="{{ $ternak->idTernak }}">{{ $ternak->nama_ternak }} -
-                                            {{ $ternak->jenis_ternak }}</option>
+                                        <option value="{{ $ternak->idTernak }}">{{ $ternak->namaTernak }}                                            
+                                        </option>
                                     @endforeach
                                 @else
                                     <!-- Sample data jika $ternakList tidak tersedia -->
@@ -570,9 +570,7 @@
                                             onclick="selectExpert({{ $penyuluh->idUser }}, this)">
                                             <input type="radio" name="idPenyuluh" value="{{ $penyuluh->idUser }}"
                                                 class="hidden">
-                                            <div class="flex items-center space-x-3">
-                                                <img src="https://ui-avatars.io/api/?name={{ urlencode($penyuluh->name) }}&background=667eea&color=ffffff"
-                                                    alt="{{ $penyuluh->name }}" class="w-12 h-12 rounded-full">
+                                            <div class="flex items-center space-x-3">                                                
                                                 <div class="flex-1">
                                                     <h4 class="font-semibold text-gray-900">{{ $penyuluh->name }}</h4>
                                                     <p class="text-sm text-gray-600">{{ $penyuluh->role }}</p>
@@ -840,13 +838,6 @@
                 currentConsultationId = null;
             }
 
-
-
-
-
-
-
-
             function openDetailModal(consultationId) {
                 const konsultasiItem = document.querySelector(`[data-id="${consultationId}"]`);
 
@@ -857,7 +848,7 @@
 
                 // Extract data from the item
                 const judul = konsultasiItem.getAttribute('data-judul');
-                const kategori = konsultasiItem.getAttribute('data-kategori');                
+                const kategori = konsultasiItem.getAttribute('data-kategori');
                 const penyuluh = konsultasiItem.getAttribute('data-penyuluh');
                 const ternak = konsultasiItem.getAttribute('data-ternak');
                 const jenis = konsultasiItem.getAttribute('data-jenis');

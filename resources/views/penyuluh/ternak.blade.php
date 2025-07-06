@@ -146,19 +146,7 @@
                     <option value="sakit">Sakit</option>
                     <option value="perawatan">Perawatan</option>
                 </select>
-            </div>
-
-            <div class="flex items-center space-x-3">
-                <button onclick="exportData()"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary">
-                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                        </path>
-                    </svg>
-                    Export
-                </button>
-            </div>
+            </div>            
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -323,10 +311,10 @@
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                         </path>
                                     </svg>
-                                </button>                                
+                                </button>
                             </div>
                             @if (($ternak->status ?? 'sehat') !== 'sehat')
-                                <a href="{{route('penyuluh.laporan')}}"
+                                <a href="{{ route('penyuluh.laporan') }}"
                                     class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full hover:bg-yellow-200 transition-colors">
                                     Cek Kesehatan
                                 </a>
@@ -413,7 +401,7 @@
                                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                         </button>
-                                
+
                                     </div>
                                 </td>
                             </tr>
@@ -732,11 +720,14 @@
                     <div>
                         <div class="detail-label">Foto Ternak</div>
                         <div class="detail-value">
-                            <img id="detailFoto" src="{{ asset('storage/foto_ternak/' . $ternak->fotoTernak) }}"
-                                alt="Foto Ternak" class="w-full h-48 object-cover rounded-lg" />
+                            @if (isset($ternak) && isset($ternak->fotoTernak))
+                                <img id="detailFoto" src="{{ asset('storage/foto_ternak/' . $ternak->fotoTernak) }}"
+                                    alt="Foto Ternak" class="w-full h-48 object-cover rounded-lg" />
+                            @else
+                                <p class="text-sm text-gray-500">Tidak ada foto ternak</p>
+                            @endif
                         </div>
                     </div>
-
                     <div>
                         <div class="detail-label">Keterangan</div>
                         <div class="detail-value" id="detailKeterangan">-</div>
@@ -748,7 +739,7 @@
                 <button onclick="closeDetailModal()"
                     class="px-4 py-2 bg-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
                     Tutup
-                </button>                
+                </button>
             </div>
         </div>
     </div>

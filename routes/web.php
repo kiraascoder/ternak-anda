@@ -169,7 +169,6 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     Route::get('laporan/{id}/edit', [LaporanController::class, 'edit'])->name('edit');
     Route::get('laporan/{id}/print', [LaporanController::class, 'printReport'])->name('print');
     Route::get('laporan/{id}/pdf', [LaporanController::class, 'exportPdf'])->name('pdf');
-
     Route::delete('laporan/{id}', [LaporanController::class, 'destroy'])->name('destroy');
     Route::post('laporan/bulk-delete', [LaporanController::class, 'bulkDestroy'])->name('bulk-destroy');
 
@@ -184,7 +183,7 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
         ->name('pakan.detailView');
     Route::get('/pakan/update/{id}', [PakanController::class, 'pakanEditView'])
         ->name('pakan.editView');
-    Route::put('/pakan/edit{id}', [PakanController::class, 'edit'])
+    Route::put('/pakan/edit/{id}', [PakanController::class, 'edit'])
         ->name('pakan.edit');
     Route::delete('/pakan/delete/{id}', [PakanController::class, 'destroy'])
         ->name('pakan.destroy');
