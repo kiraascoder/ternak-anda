@@ -224,3 +224,25 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
 
 
 Route::post('/logout', [AdminSesiController::class, 'logout'])->name('logout');
+
+
+if (app()->environment('local')) {
+    Route::get('/test-errors/{code}', function ($code) {
+        switch ($code) {
+            case '401':
+                abort(401);
+            case '403':
+                abort(403);
+            case '404':
+                abort(404);
+            case '500':
+                abort(500);
+            default:
+                abort(404);
+        }
+    });
+}
+
+Route::get('/unauthorized', function () {
+    abort(403);
+})->name('unauthorized');

@@ -119,8 +119,43 @@ class PakanController extends Controller
 
     public function destroy($id)
     {
-        $pakan = Pakan::findOrFail($id);
-        $pakan->delete();
-        return redirect()->route('penyuluh.pakan')->with('success', 'Pakan berhasil dihapus.');
+        try {
+            $pakan = Pakan::findOrFail($id);
+            $pakanName = $pakan->jenisPakan; // Store name before deletion
+
+            $pakan->delete();
+
+     
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "Rekomendasi pakan '{$pakanName}' berhasil dihapus"
+                ], 200);
+            }
+
+     
+            return redirect()->route('penyuluh.pakan')
+                ->with('success', "Rekomendasi pakan '{$pakanName}' berhasil dihapus");
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Rekomendasi pakan tidak ditemukan'
+                ], 404);
+            }
+
+            return redirect()->route('penyuluh.pakan')
+                ->with('error', 'Rekomendasi pakan tidak ditemukan');
+        } catch (\Exception $e) {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat menghapus rekomendasi pakan'
+                ], 500);
+            }
+
+            return redirect()->route('penyuluh.pakan')
+                ->with('error', 'Terjadi kesalahan saat menghapus rekomendasi pakan');
+        }
     }
 }

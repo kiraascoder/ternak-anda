@@ -793,12 +793,14 @@
             document.getElementById(`tab-${tabName}`).classList.add('active');
         }
 
+        // ✅ REPLACE your existing executeDelete function with this:
         function executeDelete() {
             if (!pendingDeleteId) {
                 alert('Tidak ada rekomendasi yang dipilih untuk dihapus');
                 return;
             }
 
+            // Show loading state
             const deleteBtn = document.getElementById('confirmDeleteBtn');
             const deleteText = document.getElementById('deleteButtonText');
             const deleteLoading = document.getElementById('deleteButtonLoading');
@@ -807,41 +809,52 @@
             deleteText.textContent = 'Menghapus...';
             deleteLoading.classList.remove('hidden');
 
-            const deleteUrl = `penyuluh/pakan/delete/${pendingDeleteId}`;
+            // ✅ FIX: Add leading slash to URL
+            const deleteUrl = `/penyuluh/pakan/delete/${pendingDeleteId}`;
 
             fetch(deleteUrl, {
                     method: 'DELETE',
+                    credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                         'Accept': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.success) {
                         showNotification('success', data.message || 'Rekomendasi pakan berhasil dihapus');
-                        closeDeleteModal();
 
-                        
-                        window.location.reload();
+                        // Remove the card from DOM
+                        const pakanCard = document.querySelector(`[data-id="${pendingDeleteId}"]`);
+                        if (pakanCard) {
+                            pakanCard.style.transition = 'all 0.3s ease';
+                            pakanCard.style.opacity = '0';
+                            pakanCard.style.transform = 'scale(0.95)';
+
+                            setTimeout(() => {
+                                pakanCard.remove();
+                                const remainingCards = document.querySelectorAll('.pakan-item');
+                                if (remainingCards.length === 0) {
+                                    showEmptyState();
+                                }
+                            }, 300);
+                        }
+
+                        closeDeleteModal();
                     } else {
-                        throw new Error('Gagal menghapus data');
+                        throw new Error(data.message || 'Gagal menghapus rekomendasi pakan');
                     }
                 })
                 .catch(error => {
                     console.error('Error deleting recommendation:', error);
-                    let errorMessage = 'Terjadi kesalahan saat menghapus rekomendasi pakan';
-
-                    if (error.message.includes('404')) {
-                        errorMessage = 'Rekomendasi pakan tidak ditemukan';
-                    } else if (error.message.includes('403')) {
-                        errorMessage = 'Anda tidak memiliki akses untuk menghapus rekomendasi ini';
-                    } else if (error.message.includes('500')) {
-                        errorMessage = 'Terjadi kesalahan server. Silakan coba lagi nanti';
-                    }
-
-                    
+                    showNotification('error', error.message || 'Terjadi kesalahan saat menghapus rekomendasi pakan');
                 })
                 .finally(() => {
                     deleteBtn.disabled = false;
