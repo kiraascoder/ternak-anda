@@ -19,6 +19,20 @@ Route::get('/', function () {
 Route::prefix('admin')->middleware('admin:Admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])
         ->name('admin.dashboard');
+    Route::get('/kelola-user', [AdminController::class, 'userView'])
+        ->name('admin.userView');
+    Route::post('/store-user', [AdminController::class, 'storeUser'])
+        ->name('user.store');
+    Route::get('/ternak', [AdminController::class, 'ternak'])
+        ->name('admin.ternak');
+    Route::get('/informasi', [AdminController::class, 'informasi'])
+        ->name('admin.informasi');
+    Route::post('/store-informasi', [AdminController::class, 'storeInformasi'])
+        ->name('informasi.store');
+    Route::get('/pakan', [AdminController::class, 'pakan'])
+        ->name('admin.pakan');
+    Route::post('/store-pakan', [AdminController::class, 'storePakan'])
+        ->name('pakan.store');
 });
 
 Route::prefix('admin')->middleware('authenticated')->group(function () {
@@ -218,7 +232,7 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
         ->name('penyuluh.ambilDetail');
     Route::put('/konsultasi/update-respon/{id}', [KonsultasiController::class, 'storeResponPenyuluh'])
         ->name('konsultasi.updateRespon');
-    Route::put('penyuluh/konsultasi/update-status/{id}', [KonsultasiController::class, 'updateStatus'])
+    Route::put('/konsultasi/update-status/{id}', [KonsultasiController::class, 'updateStatus'])
         ->name('konsultasi.updateStatus');
 });
 

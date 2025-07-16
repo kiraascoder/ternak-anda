@@ -115,13 +115,10 @@
 
 <body class="font-sans antialiased bg-gray-50">
     <div class="min-h-screen">
-
         <aside id="sidebar"
             class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl sidebar-transition transform -translate-x-full lg:translate-x-0">
             @include('layouts.partials.sidebar')
         </aside>
-
-
         <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden hidden"
             onclick="toggleSidebar()"></div>
 
@@ -181,15 +178,19 @@
                                         <p class="text-xs text-gray-500">{{ Auth::user()->email ?? 'user@example.com' }}
                                         </p>
                                     </div>
-                                    <a href="{{ Auth::user()->role == 'peternak' ? route('peternak.profile') : route('penyuluh.profile') }}"
-                                        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <svg class="h-4 w-4 mr-3" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                        Profil Saya
-                                    </a>
+
+                                    @if (Auth::user()->role !== 'Admin')
+                                        <a href="{{ Auth::user()->role == 'peternak' ? route('peternak.profile') : route('penyuluh.profile') }}"
+                                            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <svg class="h-4 w-4 mr-3" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                            Profil Saya
+                                        </a>
+                                    @endif
+
                                     <div class="border-t">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf

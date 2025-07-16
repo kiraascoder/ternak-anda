@@ -116,11 +116,13 @@
                     <div class="flex space-x-4">
                         <button
                             class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
-                            Masuk
+                            <a href="{{ route('admin.login') }}">Masuk</a>
                         </button>
                         <button
                             class="border border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors">
-                            Daftar
+                            <a href="{{ route('admin.register') }}">
+                                Daftar
+                            </a>
                         </button>
                     </div>
                 </div>
@@ -159,13 +161,14 @@
 
                 <!-- Action Buttons -->
                 <div class="space-y-4 pt-6">
-                    <button
-                        class="w-full bg-primary text-white px-4 py-3 rounded-lg hover:bg-primary/90 transition-colors font-semibold">
-                        Masuk
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        <a href="{{ route('admin.login') }}">Masuk</a>
                     </button>
                     <button
                         class="w-full border border-primary text-primary px-4 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors font-semibold">
-                        Daftar
+                        <a href="{{ route('admin.register') }}">
+                            Daftar
+                        </a>
                     </button>
                 </div>
 
@@ -214,11 +217,15 @@
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button
                             class="bg-yellow-400 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-yellow-300 transition-colors">
-                            Mulai Sekarang
+                            <a href="{{ route('admin.register') }}">
+                                Mulai Sekarang
+                            </a>
                         </button>
                         <button
                             class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors">
-                            Kelola Ternak Anda
+                            <a href="{{ route('admin.login') }}">
+                                Kelola Ternak Anda
+                            </a>
                         </button>
                     </div>
                 </div>

@@ -169,17 +169,8 @@
                 </div>
             </div>
 
-            <!-- Trust Indicators -->
-            <div class="mt-12 pt-8 border-t border-white/20">
-                <p class="text-green-200 text-sm mb-4">Dipercaya oleh</p>
-                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6">
-                    <div class="text-white/60 text-sm">1000+ Peternak</div>
-                    <div class="w-1 h-1 bg-white/40 rounded-full"></div>
-                    <div class="text-white/60 text-sm">50+ Penyuluh</div>
-                    <div class="w-1 h-1 bg-white/40 rounded-full"></div>
-                    <div class="text-white/60 text-sm">10+ Provinsi</div>
-                </div>
-            </div>
+
+
         </div>
 
         <!-- Right Side - Registration Form -->
