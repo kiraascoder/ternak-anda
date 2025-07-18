@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Informasi;
+use App\Models\InformasiPakan;
 use App\Models\Konsultasi;
 use App\Models\Ternak;
 use App\Models\User;
@@ -71,11 +73,24 @@ class AdminController extends Controller
 
     public function informasi()
     {
-        return view('admin.informasi');
+        $informasiList = Informasi::latest()->paginate(10);
+        $totalInformasi = Informasi::count();
+        $informasiPublished = Informasi::count();
+        $totalViews = $informasiList->count() * 100;
+        $penyuluhs = User::where('role', 'Penyuluh')->get();
+
+        return view('admin.informasi', compact(
+            'informasiList',
+            'totalInformasi',
+            'informasiPublished',
+            'totalViews',
+            'penyuluhs'
+        ));
     }
 
     public function pakan()
     {
-        return view('admin.pakan');
+        $pakanList = InformasiPakan::latest()->paginate(10);
+        return view('admin.pakan', compact('pakanList'));
     }
 }

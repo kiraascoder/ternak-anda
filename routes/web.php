@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminSesiController;
+use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\InformasiPakanController;
 use App\Http\Controllers\KonsultasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PakanController;
@@ -27,12 +29,15 @@ Route::prefix('admin')->middleware('admin:Admin')->group(function () {
         ->name('admin.ternak');
     Route::get('/informasi', [AdminController::class, 'informasi'])
         ->name('admin.informasi');
-    Route::post('/store-informasi', [AdminController::class, 'storeInformasi'])
+    Route::post('/store-informasi', [InformasiController::class, 'store'])
         ->name('informasi.store');
     Route::get('/pakan', [AdminController::class, 'pakan'])
         ->name('admin.pakan');
-    Route::post('/store-pakan', [AdminController::class, 'storePakan'])
+    Route::post('/store-pakan', [InformasiPakanController::class, 'store'])
         ->name('pakan.store');
+    Route::delete('pakan/{idPakan}', [InformasiPakanController::class, 'destroy'])->name('pakan.destroy');
+    Route::delete('informasi/{idInformasi}', [InformasiController::class, 'destroy'])->name('informasi.destroy');
+    Route::put('informasi/{idInformasi}/update', [InformasiController::class, 'update'])->name('informasi.update');
 });
 
 Route::prefix('admin')->middleware('authenticated')->group(function () {
