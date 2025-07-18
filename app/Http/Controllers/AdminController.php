@@ -90,7 +90,10 @@ class AdminController extends Controller
 
     public function pakan()
     {
+        $informasiPakan = InformasiPakan::count();
         $pakanList = InformasiPakan::latest()->paginate(10);
-        return view('admin.pakan', compact('pakanList'));
+        $draftPakan = InformasiPakan::where('is_published', 0)->count();
+        $publishedPakan = InformasiPakan::where('is_published', 1)->count();
+        return view('admin.pakan', compact('pakanList', 'informasiPakan', 'draftPakan', 'publishedPakan'));
     }
 }

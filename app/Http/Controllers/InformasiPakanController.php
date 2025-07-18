@@ -101,4 +101,81 @@ class InformasiPakanController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data');
         }
     }
+    public function update(Request $request, $idPakan)
+    {
+        $informasi = InformasiPakan::findOrFail($idPakan);
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string|min:10',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:10240', // 10MB max
+            'sumber' => 'nullable|string',
+            'jenis_pakan' => 'required|string|in:hijauan,konsentrat,fermentasi,organik,limbah',
+            'is_published' => 'required|integer|in:0,1',
+
+        ], [
+            'judul.required' => 'Judul wajib diisi',
+            'judul.max' => 'Judul maksimal 255 karakter',
+            'deskripsi.required' => 'Deskripsi wajib diisi',
+            'deskripsi.min' => 'Deskripsi minimal 10 karakter',
+            'foto.image' => 'File harus berupa gambar',
+            'foto.mimes' => 'Format foto harus jpg, jpeg, atau png',
+            'foto.max' => 'Ukuran foto maksimal 10MB',
+            'sumber.string' => 'Sumber harus berupa teks',
+            'is_published.in' => 'Status publikasi harus benar (0 atau 1)',
+        ]);
+
+        try {
+            $fotoPath = $informasi->foto;
+
+            // Handle file upload
+            if ($request->hasFile('foto')) {
+                // Delete old file if exists
+                if ($fotoPath && Storage::disk('public')->exists('pakan/' . $fotoPath)) {
+                    Storage::disk('public')->delete('pakan/' . $fotoPath);
+                }
+
+                $file = $request->file('foto');
+                $filename = time() . '_' . \Illuminate\Support\Str::random(10) . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('informasi-pakan', $filename, 'public');
+                $fotoPath = $filename;
+            }
+
+
+            $informasi->update([
+                'judul' => $request->input('judul'),
+                'deskripsi' => $request->input('deskripsi'),
+                'sumber' => $request->input('sumber'),
+                'jenis_pakan' => $request->input('jenis_pakan'),
+                'is_published' => $request->input('is_published'),
+                'foto' => $fotoPath,
+            ]);
+
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Informasi Pakan berhasil diperbarui',
+                    'data' => $informasi
+                ]);
+            }
+
+            return redirect()->route('admin.pakan')->with('success', 'Informasi Pakan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat memperbarui data');
+        }
+    }
+    public function index()
+    {
+        return view('pakan.index');
+    }
 }

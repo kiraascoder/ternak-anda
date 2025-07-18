@@ -226,7 +226,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Informasi Pakan</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $totalPakan ?? 28 }}</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $informasiPakan ?? 28 }}</p>
                     </div>
                     <div class="bg-green-100 p-3 rounded-full">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -241,7 +241,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Published</p>
-                        <p class="text-2xl font-bold text-green-600">{{ $pakanPublished ?? 22 }}</p>
+                        <p class="text-2xl font-bold text-green-600">{{ $publishedPakan ?? 22 }}</p>
                     </div>
                     <div class="bg-green-100 p-3 rounded-full">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -257,7 +257,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Draft</p>
-                        <p class="text-2xl font-bold text-yellow-600">{{ $pakanDraft ?? 6 }}</p>
+                        <p class="text-2xl font-bold text-yellow-600">{{ $draftPakan ?? 6 }}</p>
                     </div>
                     <div class="bg-yellow-100 p-3 rounded-full">
                         <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -332,7 +332,7 @@
 
                     <div class="relative">
                         @if (isset($pakan->foto) && $pakan->foto)
-                            <img src="{{ asset('storage/pakan/' . $pakan->foto) }}" alt="Featured Image"
+                            <img src="{{ asset('storage/informasi-pakan/' . $pakan->foto) }}" alt="Featured Image"
                                 class="w-full h-48 object-cover rounded-t-xl">
                         @else
                             <div

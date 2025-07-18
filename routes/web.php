@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware('admin:Admin')->group(function () {
     Route::post('/store-pakan', [InformasiPakanController::class, 'store'])
         ->name('pakan.store');
     Route::delete('pakan/{idPakan}', [InformasiPakanController::class, 'destroy'])->name('pakan.destroy');
+    Route::put('pakan/{idPakan}/update', [InformasiPakanController::class, 'update'])->name('pakan.update');
     Route::delete('informasi/{idInformasi}', [InformasiController::class, 'destroy'])->name('informasi.destroy');
     Route::put('informasi/{idInformasi}/update', [InformasiController::class, 'update'])->name('informasi.update');
 });
@@ -265,3 +266,8 @@ if (app()->environment('local')) {
 Route::get('/unauthorized', function () {
     abort(403);
 })->name('unauthorized');
+
+Route::get('/informasi', [InformasiController::class, 'index'])->name('informasi.index');
+Route::get('/informasi/{idInformasi}', [InformasiController::class, 'show'])->name('informasi.show');
+Route::get('/pakan', [InformasiPakanController::class, 'index'])->name('pakan.index');
+Route::get('/pakan/{idPakan}', [InformasiPakanController::class, 'show'])->name('pakan.show');

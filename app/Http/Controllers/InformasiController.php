@@ -11,7 +11,7 @@ class InformasiController extends Controller
 {
     public function index()
     {
-        return view('informasi.informasi');
+        return view('informasi.index');
     }
 
 

@@ -113,6 +113,10 @@
                     <a href="#home" class="text-gray-700 hover:text-primary transition-colors">Beranda</a>
                     <a href="#about" class="text-gray-700 hover:text-primary transition-colors">Tentang</a>
                     <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Kontak</a>
+                    <a href="{{ route('informasi.index') }}"
+                        class="text-gray-700 hover:text-primary transition-colors">Informasi</a>
+                    <a href="{{ route('pakan.index') }}"
+                        class="text-gray-700 hover:text-primary transition-colors">Pakan</a>
                     <div class="flex space-x-4">
                         <button
                             class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
