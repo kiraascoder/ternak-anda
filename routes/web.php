@@ -270,4 +270,4 @@ Route::get('/unauthorized', function () {
 Route::get('/informasi', [InformasiController::class, 'index'])->name('informasi.index');
 Route::get('/informasi/{idInformasi}', [InformasiController::class, 'show'])->name('informasi.show');
 Route::get('/pakan', [InformasiPakanController::class, 'index'])->name('pakan.index');
-Route::get('/pakan/{idPakan}', [InformasiPakanController::class, 'show'])->name('pakan.show');
+Route::get('/pakan/{idPakan}', [InformasiPakanController::class, 'show'])->name('public.pakan.show');

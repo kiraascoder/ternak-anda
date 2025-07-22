@@ -11,7 +11,8 @@ class InformasiController extends Controller
 {
     public function index()
     {
-        return view('informasi.index');
+        $informasiList = Informasi::latest()->paginate(10);
+        return view('informasi.index', compact('informasiList'));
     }
 
 

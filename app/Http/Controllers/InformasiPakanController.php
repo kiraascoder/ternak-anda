@@ -176,6 +176,13 @@ class InformasiPakanController extends Controller
     }
     public function index()
     {
-        return view('pakan.index');
+        $pakanList = InformasiPakan::all();
+        return view('pakan.index', compact('pakanList'));
+    }
+
+    public function show($idPakan)
+    {
+        $pakan = InformasiPakan::findOrFail($idPakan);
+        return view('pakan.detail-pakan', compact('pakan'));
     }
 }
