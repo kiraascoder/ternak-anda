@@ -176,7 +176,7 @@ class InformasiPakanController extends Controller
     }
     public function index()
     {
-        $pakanList = InformasiPakan::all();
+        $pakanList = InformasiPakan::where('is_published', 1)->paginate(10);
         return view('pakan.index', compact('pakanList'));
     }
 

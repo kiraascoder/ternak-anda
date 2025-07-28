@@ -33,6 +33,7 @@ class User extends Authenticatable
         'password',
         'phone',
         'role',
+        'status'
     ];
 
     /**
@@ -40,6 +41,10 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    protected $casts = [
+        'password' => 'string',
+    ];
     protected $hidden = [
         'password',
         'remember_token',

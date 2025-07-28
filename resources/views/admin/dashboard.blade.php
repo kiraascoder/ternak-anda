@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Peternak')
-@section('page-title', 'Dashboard Peternak')
+@section('title', 'Dashboard Admin')
+@section('page-title', 'Dashboard Admin')
 @section('page-description',
     'Selamat datang kembali, ' .
     (Auth::user()->nama ?? Auth::user()->name) .
     '! Berikut
-    ringkasan peternakan Anda hari ini.')
+    ringkasan peternakan hari ini.')
 
     @push('styles')
         <style>
@@ -79,7 +79,7 @@
                     <h2 class="text-2xl font-bold mb-2">Selamat Datang, {{ Auth::user()->nama ?? Auth::user()->name }}! 👋
                     </h2>
                     <p class="text-green-100">Hari ini adalah {{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}</p>
-                    <p class="text-sm text-green-200 mt-1">Penyuluhan Anda dalam kondisi baik dan siap produktif!</p>
+                    <p class="text-sm text-green-200 mt-1">Pakeng Ternak Desa dalam kondisi baik dan siap produktif!</p>
                 </div>
                 <div class="hidden md:block">
                     <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
@@ -279,42 +279,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Quick Actions -->
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
-                        <div class="space-y-3">
-                            <a href="{{ route('peternak.ternak') }}"
-                                class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
-                                <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-gray-900">Tambah Ternak</p>
-                                    <p class="text-xs text-gray-500">Daftarkan ternak baru</p>
-                                </div>
-                            </a>
-
-                            <a href="{{ route('peternak.konsultasi') }}"
-                                class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
-                                <div class="bg-green-100 p-2 rounded-lg mr-3">
-                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-gray-900">Konsultasi</p>
-                                    <p class="text-xs text-gray-500">Tanya ahli peternakan</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -362,7 +326,7 @@
             });
         });
 
-        
+
         function updateTime() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('id-ID');

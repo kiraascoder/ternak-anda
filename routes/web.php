@@ -25,6 +25,10 @@ Route::prefix('admin')->middleware('admin:Admin')->group(function () {
         ->name('admin.userView');
     Route::post('/store-user', [AdminController::class, 'storeUser'])
         ->name('user.store');
+    Route::delete('/users/{idUser}', [AdminController::class, 'deleteUser'])
+        ->name('user.delete');
+    Route::put('/users/{idUser}/update', [AdminController::class, 'updateUser'])
+        ->name('user.update');
     Route::get('/ternak', [AdminController::class, 'ternak'])
         ->name('admin.ternak');
     Route::get('/informasi', [AdminController::class, 'informasi'])
@@ -271,3 +275,4 @@ Route::get('/informasi', [InformasiController::class, 'index'])->name('informasi
 Route::get('/informasi/{idInformasi}', [InformasiController::class, 'show'])->name('informasi.show');
 Route::get('/pakan', [InformasiPakanController::class, 'index'])->name('pakan.index');
 Route::get('/pakan/{idPakan}', [InformasiPakanController::class, 'show'])->name('public.pakan.show');
+Route::get('/informasi/{idInformasi}', [InformasiController::class, 'show'])->name('public.informasi.show');

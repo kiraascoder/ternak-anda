@@ -2,7 +2,7 @@
 
 @section('title', 'Informasi Umum')
 @section('meta-description',
-    'Dapatkan informasi lengkap tentang berbagai jenis pakan ternak untuk meningkatkan
+    'Dapatkan informasi lengkap tentang berbagai jenis informasi ternak untuk meningkatkan
     produktivitas peternakan Anda')
 
     @push('styles')
@@ -26,36 +26,31 @@
                 box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
             }
 
-            .jenis-pakan-badge {
+            .jenis-informasi-badge {
                 font-size: 0.75rem;
                 padding: 0.25rem 0.75rem;
                 border-radius: 9999px;
                 font-weight: 500;
             }
 
-            .jenis-hijauan {
+            .jenis-berita {
                 background-color: #dcfce7;
                 color: #16a34a;
             }
 
-            .jenis-konsentrat {
+            .jenis-pengumuman {
                 background-color: #fef3c7;
                 color: #d97706;
             }
 
-            .jenis-fermentasi {
+            .jenis-panduan {
                 background-color: #f3e8ff;
                 color: #7c3aed;
             }
 
-            .jenis-organik {
+            .jenis-tips {
                 background-color: #dbeafe;
                 color: #1d4ed8;
-            }
-
-            .jenis-limbah {
-                background-color: #fecaca;
-                color: #dc2626;
             }
 
             .skeleton {
@@ -173,7 +168,7 @@
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">Jelajahi Informasi Umum</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">
-                    Temukan berbagai informasi tentang pakan ternak yang telah terpercaya dan teruji untuk meningkatkan
+                    Temukan berbagai informasi tentang informasi ternak yang telah terpercaya dan teruji untuk meningkatkan
                     produktivitas ternak Anda
                 </p>
             </div>
@@ -186,7 +181,7 @@
                         <div class="relative">
                             <input type="text" id="searchInput" placeholder="Cari informasi umum..."
                                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                onkeyup="searchPakan()">
+                                onkeyup="searchinformasi()">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -198,17 +193,16 @@
 
                     <!-- Filters -->
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <select id="jenisPakanFilter" onchange="filterByJenisPakan()"
+                        <select id="jenisinformasiFilter" onchange="filterByJenisinformasi()"
                             class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                             <option value="">Semua Jenis</option>
-                            <option value="hijauan">Hijauan</option>
-                            <option value="konsentrat">Konsentrat</option>
-                            <option value="fermentasi">Fermentasi</option>
-                            <option value="organik">Organik</option>
-                            <option value="limbah">Limbah Pertanian</option>
+                            <option value="berita">Berita</option>
+                            <option value="pengumuman">Pengumuman</option>
+                            <option value="tips">Tips & Trick</option>
+                            <option value="panduan">Panduan</option>
                         </select>
 
-                        <select id="sortFilter" onchange="sortPakan()"
+                        <select id="sortFilter" onchange="sortinformasi()"
                             class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                             <option value="terbaru">Terbaru</option>
                             <option value="terlama">Terlama</option>
@@ -225,35 +219,26 @@
                     class="filter-tag active px-4 py-2 rounded-full text-sm font-medium transition-colors">
                     Semua
                 </button>
-                <button onclick="filterByTag('hijauan')"
+                <button onclick="filterByTag('berita')"
                     class="filter-tag px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    Hijauan
+                    Berita
                 </button>
-                <button onclick="filterByTag('konsentrat')"
+                <button onclick="filterByTag('pengumuman')"
                     class="filter-tag px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    Konsentrat
+                    Pengumuman
                 </button>
-                <button onclick="filterByTag('fermentasi')"
+                <button onclick="filterByTag('tips')"
                     class="filter-tag px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    Fermentasi
+                    Tips & Trick
                 </button>
-                <button onclick="filterByTag('organik')"
+                <button onclick="filterByTag('panduan')"
                     class="filter-tag px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    Organik
-                </button>
-                <button onclick="filterByTag('limbah')"
-                    class="filter-tag px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    Limbah Pertanian
+                    Panduan
                 </button>
             </div>
 
             <!-- Results Counter -->
-            <div class="flex justify-between items-center mb-8">
-                <p class="text-gray-600">
-                    Menampilkan <span id="resultCount">{{ isset($informasiList) ? $informasiList->count() : 12 }}</span> dari
-                    {{ $totalPakan ?? 28 }}
-                    informasi umum
-                </p>
+            <div class="flex justify-end items-center mb-8">
                 <div class="flex items-center space-x-2">
                     <button onclick="toggleView('grid')" id="gridViewBtn" class="p-2 rounded-lg view-btn active">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,21 +277,22 @@
             <!-- Grid View -->
             <div id="gridView" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @php
-                    $jenisPakanTypes = ['hijauan', 'konsentrat', 'fermentasi', 'organik', 'limbah'];
-                    $jenisPakanNames = ['Hijauan', 'Konsentrat', 'Fermentasi', 'Organik', 'Limbah Pertanian'];
+                    $jenisinformasiTypes = ['berita', 'pengumuman', 'tips', 'panduan'];
+                    $jenisinformasiNames = ['Berita', 'Pengumuman', 'Tips & Trick', 'Panduan'];
                 @endphp
 
-                @forelse($informasiList ?? [] as $index => $pakan)
+                @forelse($informasiList ?? [] as $index => $informasi)
                     <article
-                        class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden card-hover pakan-card"
-                        data-title="{{ $pakan->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}"
-                        data-jenis-pakan="{{ $pakan->jenis_pakan ?? $jenisPakanTypes[$index % 5] }}"
-                        data-created="{{ isset($pakan->created_at) ? $pakan->created_at : date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}">
+                        class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden card-hover informasi-card"
+                        data-title="{{ $informasi->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}"
+                        data-jenis-informasi="{{ $informasi->jenis_informasi ?? $jenisinformasiTypes[$index % 5] }}"
+                        data-created="{{ isset($informasi->created_at) ? $informasi->created_at : date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}">
 
                         <!-- Image -->
                         <div class="relative overflow-hidden">
-                            @if (isset($pakan->foto) && $pakan->foto)
-                                <img src="{{ asset('storage/informasi-pakan/' . $pakan->foto) }}" alt="{{ $pakan->judul }}"
+                            @if (isset($informasi->foto) && $informasi->foto)
+                                <img src="{{ asset('storage/informasi/' . $informasi->foto) }}"
+                                    alt="{{ $informasi->judul }}"
                                     class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105">
                             @else
                                 <div
@@ -319,11 +305,11 @@
                                 </div>
                             @endif
 
-                            <!-- Badge Jenis Pakan -->
+                            <!-- Badge Jenis informasi -->
                             <div class="absolute top-4 left-4">
                                 <span
-                                    class="jenis-pakan-badge jenis-{{ $pakan->jenis_pakan ?? $jenisPakanTypes[$index % 5] }}">
-                                    {{ $pakan->jenis_pakan_display ?? $jenisPakanNames[$index % 5] }}
+                                    class="jenis-informasi-badge jenis-{{ $informasi->jenis_informasi ?? $jenisinformasiTypes[$index % 5] }}">
+                                    {{ $informasi->jenis_informasi_display ?? $jenisinformasiNames[$index % 5] }}
                                 </span>
                             </div>
                         </div>
@@ -333,13 +319,13 @@
                             <h3
                                 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2 hover:text-green-600 transition-colors">
                                 <a
-                                    href="{{ route('public.pakan.show', $pakan->slug ?? Str::slug($pakan->judul ?? 'informasi-pakan-' . $index)) }}">
-                                    {{ $pakan->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}
+                                    href="{{ route('public.informasi.show', $informasi->slug ?? Str::slug($informasi->judul ?? 'informasi-informasi-' . $index)) }}">
+                                    {{ $informasi->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}
                                 </a>
                             </h3>
 
                             <p class="text-gray-600 mb-4 line-clamp-3">
-                                {{ isset($pakan->deskripsi) ? Str::limit(strip_tags($pakan->deskripsi), 120) : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' }}
+                                {{ isset($informasi->deskripsi) ? Str::limit(strip_tags($informasi->deskripsi), 120) : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' }}
                             </p>
 
                             <div class="flex items-center justify-between">
@@ -349,14 +335,14 @@
                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                         </path>
                                     </svg>
-                                    @if (isset($pakan->created_at))
-                                        {{ \Carbon\Carbon::parse($pakan->created_at)->format('d M Y') }}
+                                    @if (isset($informasi->created_at))
+                                        {{ \Carbon\Carbon::parse($informasi->created_at)->format('d M Y') }}
                                     @else
                                         {{ date('d M Y', strtotime('-' . rand(1, 30) . ' days')) }}
                                     @endif
                                 </div>
 
-                                <a href="{{ route('public.pakan.show', $pakan->slug ?? Str::slug($pakan->judul ?? 'informasi-pakan-' . $index)) }}"
+                                <a href="{{ route('public.informasi.show', $informasi->idInformasi ?? Str::slug($informasi->judul ?? 'informasi-informasi-' . $index)) }}"
                                     class="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm transition-colors">
                                     Baca Selengkapnya
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -383,19 +369,19 @@
 
             <!-- List View -->
             <div id="listView" class="hidden space-y-6">
-                @forelse($informasiList ?? [] as $index => $pakan)
+                @forelse($informasiList ?? [] as $index => $informasi)
                     <article
-                        class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden card-hover pakan-card"
-                        data-title="{{ $pakan->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}"
-                        data-jenis-pakan="{{ $pakan->jenis_pakan ?? $jenisPakanTypes[$index % 5] }}"
-                        data-created="{{ isset($pakan->created_at) ? $pakan->created_at : date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}">
+                        class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden card-hover informasi-card"
+                        data-title="{{ $informasi->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}"
+                        data-jenis-informasi="{{ $informasi->jenis_informasi ?? $jenisinformasiTypes[$index % 5] }}"
+                        data-created="{{ isset($informasi->created_at) ? $informasi->created_at : date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}">
 
                         <div class="flex flex-col md:flex-row">
                             <!-- Image -->
                             <div class="md:w-1/3 relative overflow-hidden">
-                                @if (isset($pakan->foto) && $pakan->foto)
-                                    <img src="{{ asset('storage/informasi-pakan/' . $pakan->foto) }}"
-                                        alt="{{ $pakan->judul }}" class="w-full h-48 md:h-full object-cover">
+                                @if (isset($informasi->foto) && $informasi->foto)
+                                    <img src="{{ asset('storage/informasi/' . $informasi->foto) }}"
+                                        alt="{{ $informasi->judul }}" class="w-full h-48 md:h-full object-cover">
                                 @else
                                     <div
                                         class="w-full h-48 md:h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
@@ -410,8 +396,8 @@
                                 <!-- Badge -->
                                 <div class="absolute top-4 left-4">
                                     <span
-                                        class="jenis-pakan-badge jenis-{{ $pakan->jenis_pakan ?? $jenisPakanTypes[$index % 5] }}">
-                                        {{ $pakan->jenis_pakan_display ?? $jenisPakanNames[$index % 5] }}
+                                        class="jenis-informasi-badge jenis-{{ $informasi->jenis_informasi ?? $jenisinformasiTypes[$index % 5] }}">
+                                        {{ $informasi->jenis_informasi_display ?? $jenisinformasiNames[$index % 5] }}
                                     </span>
                                 </div>
                             </div>
@@ -422,13 +408,13 @@
                                     <h3
                                         class="text-2xl font-semibold text-gray-900 mb-3 hover:text-green-600 transition-colors">
                                         <a
-                                            href="{{ route('public.pakan.show', $pakan->slug ?? Str::slug($pakan->judul ?? 'informasi-pakan-' . $index)) }}">
-                                            {{ $pakan->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}
+                                            href="{{ route('public.informasi.show', $informasi->idInformasi ?? Str::slug($informasi->judul ?? 'informasi-informasi-' . $index)) }}">
+                                            {{ $informasi->judul ?? 'Informasi Umum ' . sprintf('%03d', $index + 1) }}
                                         </a>
                                     </h3>
 
                                     <p class="text-gray-600 mb-4 line-clamp-4">
-                                        {{ isset($pakan->deskripsi) ? Str::limit(strip_tags($pakan->deskripsi), 200) : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.' }}
+                                        {{ isset($informasi->deskripsi) ? Str::limit(strip_tags($informasi->deskripsi), 200) : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.' }}
                                     </p>
                                 </div>
 
@@ -440,14 +426,14 @@
                                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                             </path>
                                         </svg>
-                                        @if (isset($pakan->created_at))
-                                            {{ \Carbon\Carbon::parse($pakan->created_at)->format('d M Y') }}
+                                        @if (isset($informasi->created_at))
+                                            {{ \Carbon\Carbon::parse($informasi->created_at)->format('d M Y') }}
                                         @else
                                             {{ date('d M Y', strtotime('-' . rand(1, 30) . ' days')) }}
                                         @endif
                                     </div>
 
-                                    <a href="{{ route('public.pakan.show', $pakan->slug ?? Str::slug($pakan->judul ?? 'informasi-pakan-' . $index)) }}"
+                                    <a href="{{ route('public.informasi.show', $informasi->idInformasi ?? Str::slug($informasi->judul ?? 'informasi-informasi-' . $index)) }}"
                                         class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                                         Baca Selengkapnya
                                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
@@ -495,25 +481,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="bg-green-600 py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">Butuh Konsultasi Lebih Lanjut?</h2>
-            <p class="text-green-100 mb-8 max-w-2xl mx-auto">
-                Tim ahli kami siap membantu Anda dalam memilih dan mengelola pakan ternak yang tepat untuk usaha peternakan
-                Anda.
-            </p>
-            <a href="#"
-                class="inline-flex items-center px-8 py-3 bg-white text-green-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Hubungi Konsultan
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                    </path>
-                </svg>
-            </a>
-        </div>
-    </section>
 @endsection
 
 
@@ -526,13 +493,13 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            allCards = Array.from(document.querySelectorAll('.pakan-card'));
+            allCards = Array.from(document.querySelectorAll('.informasi-card'));
             filteredCards = [...allCards];
             updateResultCounter();
         });
 
         // Search functionality
-        function searchPakan() {
+        function searchinformasi() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
             filteredCards = allCards.filter(card => {
@@ -544,22 +511,22 @@
             applyFilters();
         }
 
-        // Filter by jenis pakan
-        function filterByJenisPakan() {
-            const jenisPakan = document.getElementById('jenisPakanFilter').value;
+        // Filter by jenis informasi
+        function filterByJenisinformasi() {
+            const jenisinformasi = document.getElementById('jenisinformasiFilter').value;
 
-            if (jenisPakan === '') {
+            if (jenisinformasi === '') {
                 filteredCards = [...allCards];
             } else {
                 filteredCards = allCards.filter(card => {
-                    return card.getAttribute('data-jenis-pakan') === jenisPakan;
+                    return card.getAttribute('data-jenis-informasi') === jenisinformasi;
                 });
             }
 
             applyFilters();
         }
 
-        // Filter by tag (same as jenis pakan but for buttons)
+        // Filter by tag (same as jenis informasi but for buttons)
         function filterByTag(tag) {
             // Update active tag
             document.querySelectorAll('.filter-tag').forEach(btn => {
@@ -571,14 +538,14 @@
             event.target.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
 
             // Update select
-            document.getElementById('jenisPakanFilter').value = tag;
+            document.getElementById('jenisinformasiFilter').value = tag;
 
             // Apply filter
-            filterByJenisPakan();
+            filterByJenisinformasi();
         }
 
         // Sort functionality
-        function sortPakan() {
+        function sortinformasi() {
             const sortType = document.getElementById('sortFilter').value;
 
             filteredCards.sort((a, b) => {

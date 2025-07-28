@@ -222,7 +222,7 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-700 hover:text-primary transition-colors">Beranda</a>
+                    <a href="/" class="text-gray-700 hover:text-primary transition-colors">Beranda</a>
                     <a href="#about" class="text-gray-700 hover:text-primary transition-colors">Tentang</a>
                     <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Kontak</a>
                     <a href="{{ route('informasi.index') }}"
@@ -438,24 +438,7 @@
                 </div>
             </div>
 
-            <!-- Newsletter Subscription -->
-            <div class="border-t border-gray-800 mt-8 pt-8">
-                <div class="max-w-md">
-                    <h3 class="font-semibold text-lg mb-2">Newsletter</h3>
-                    <p class="text-gray-400 text-sm mb-4">Dapatkan update terbaru tentang informasi pakan dan tips
-                        peternakan.</p>
-                    <form class="flex" onsubmit="subscribeNewsletter(event)">
-                        <input type="email"
-                            class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-l-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Email Anda" required>
-                        <button type="submit"
-                            class="px-6 py-2 bg-primary text-white rounded-r-lg hover:bg-secondary transition-colors focus-visible">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
-            </div>
-
+            
             <!-- Bottom Bar -->
             <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400 text-sm">

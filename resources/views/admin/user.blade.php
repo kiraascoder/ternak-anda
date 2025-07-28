@@ -168,9 +168,9 @@
                     class="block px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     onchange="filterByRole()">
                     <option value="">Semua Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="peternak">Peternak</option>
-                    <option value="user">User</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Penyuluh">Penyuluh</option>
+                    <option value="Peternak">Peternak</option>
                 </select>
             </div>
 
@@ -284,18 +284,18 @@
         <div id="gridView" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @forelse ($userList as $index => $user)
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 card-hover user-card"
-                    data-name="{{ $user->name ?? 'User #' . sprintf('%03d', $index + 1) }}"
-                    data-status="{{ $user->status ?? 'aktif' }}" data-id="{{ $user->id ?? $index + 1 }}"
+                    data-name="{{ $user->nama ?? 'User #' . sprintf('%03d', $index + 1) }}"
+                    data-status="{{ $user->status ?? 'aktif' }}" data-id="{{ $user->idUser ?? $index + 1 }}"
                     data-email="{{ $user->email ?? 'user' . ($index + 1) . '@example.com' }}"
                     data-phone="{{ $user->phone ?? '08' . str_pad(rand(1000000000, 9999999999), 10, '0', STR_PAD_LEFT) }}"
-                    data-role="{{ $user->role ?? ['admin', 'peternak', 'user'][rand(0, 2)] }}"
+                    data-role="{{ $user->role ?? ['Admin', 'Peternak', 'Penyuluh'][rand(0, 2)] }}"
                     data-created="{{ $user->created_at ?? date('Y-m-d H:i:s', strtotime('-' . rand(1, 365) . ' days')) }}"
                     data-last-login="{{ $user->last_login ?? date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}">
 
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="user-avatar">
-                                {{ strtoupper(substr($user->name ?? 'U', 0, 2)) }}
+                                {{ strtoupper(substr($user->nama ?? 'U', 0, 2)) }}
                             </div>
                             <span class="status-badge status-{{ $user->status ?? 'aktif' }}">
                                 {{ ucfirst($user->status ?? 'aktif') }}
@@ -304,15 +304,15 @@
 
                         <div class="space-y-2">
                             <h3 class="text-lg font-semibold text-gray-900">
-                                {{ $user->name ?? 'User #' . sprintf('%03d', $index + 1) }}
+                                {{ $user->nama ?? 'User #' . sprintf('%03d', $index + 1) }}
                             </h3>
                             <p class="text-sm text-gray-600">
                                 {{ $user->email ?? 'user' . ($index + 1) . '@example.com' }}
                             </p>
                             <div class="flex items-center justify-between">
                                 <span
-                                    class="role-badge role-{{ $user->role ?? ['admin', 'peternak', 'user'][rand(0, 2)] }}">
-                                    {{ ucfirst($user->role ?? ['admin', 'peternak', 'user'][rand(0, 2)]) }}
+                                    class="role-badge role-{{ $user->role ?? ['Admin', 'Penyuluh', 'Peternak'][rand(0, 2)] }}">
+                                    {{ ucfirst($user->role ?? ['Admin', 'Penyuluh', 'Peternak'][rand(0, 2)]) }}
                                 </span>
                                 <div class="flex items-center text-sm text-gray-500">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -344,7 +344,7 @@
                                         </path>
                                     </svg>
                                 </button>
-                                <button onclick="openDeleteModal('{{ $user->id ?? $index + 1 }}')"
+                                <button onclick="openDeleteModal('{{ $user->idUser ?? $index + 1 }}')"
                                     class="action-btn bg-red-100 text-red-600 hover:bg-red-200" title="Hapus"
                                     type="button">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,16 +352,9 @@
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                 </button>
-                            </div>
-
-                            @if (($user->status ?? 'aktif') !== 'aktif')
-                                <button onclick="toggleUserStatus('{{ $user->id ?? $index + 1 }}')"
-                                    class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full hover:bg-yellow-200 transition-colors">
-                                    Aktivasi
-                                </button>
-                            @endif
+                            </div>                            
                         </div>
-                    </div>
+                </div>
                 </div>
             @empty
                 <div class="col-span-full text-center text-gray-500">
@@ -396,9 +389,9 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="tableBody">
                         @forelse($userList as $index => $user)
-                            <tr class="hover:bg-gray-50 user-row" data-name="{{ $user->name }}"
+                            <tr class="hover:bg-gray-50 user-row" data-name="{{ $user->nama }}"
                                 data-status="{{ $user->status }}" data-role="{{ $user->role }}"
-                                data-id="{{ $user->id ?? $index + 1 }}"
+                                data-id="{{ $user->idUser ?? $index + 1 }}"
                                 data-email="{{ $user->email ?? 'user' . ($index + 1) . '@example.com' }}"
                                 data-phone="{{ $user->phone ?? '08' . str_pad(rand(1000000000, 9999999999), 10, '0', STR_PAD_LEFT) }}"
                                 data-created="{{ $user->created_at ?? date('Y-m-d H:i:s', strtotime('-' . rand(1, 365) . ' days')) }}"
@@ -407,11 +400,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="user-avatar mr-3" style="width: 40px; height: 40px; font-size: 1rem;">
-                                            {{ strtoupper(substr($user->name, 0, 2)) }}
+                                            {{ strtoupper(substr($user->nama, 0, 2)) }}
                                         </div>
                                         <div>
-                                            <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
-                                            <div class="text-sm text-gray-500">ID: #{{ $user->id ?? $index + 1 }}</div>
+                                            <div class="text-sm font-medium text-gray-900">{{ $user->nama }}</div>
+                                            <div class="text-sm text-gray-500">ID: #{{ $user->idUser ?? $index + 1 }}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -420,8 +413,8 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
-                                        class="role-badge role-{{ $user->role ?? ['admin', 'peternak', 'user'][rand(0, 2)] }}">
-                                        {{ ucfirst($user->role ?? ['admin', 'peternak', 'user'][rand(0, 2)]) }}
+                                        class="role-badge role-{{ $user->role ?? ['Admin', 'Penyuluh', 'Peternak'][rand(0, 2)] }}">
+                                        {{ ucfirst($user->role ?? ['Admin', 'Penyuluh', 'Peternak'][rand(0, 2)]) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -454,7 +447,7 @@
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
                                         </button>
-                                        <button onclick="openDeleteModal('{{ $user->id ?? $index + 1 }}')"
+                                        <button onclick="openDeleteModal('{{ $user->idUser ?? $index + 1 }}')"
                                             class="action-btn bg-red-100 text-red-600 hover:bg-red-200" title="Hapus"
                                             type="button">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -535,7 +528,7 @@
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
                             Nama Lengkap <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="name" name="name" required
+                        <input type="text" id="name" name="nama" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                             placeholder="Masukkan nama lengkap">
                     </div>
@@ -583,9 +576,9 @@
                         <select id="role" name="role" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                             <option value="">Pilih Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="peternak">Peternak</option>
-                            <option value="user">User</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Penyuluh">Penyuluh</option>
+                            <option value="Peternak">Peternak</option>
                         </select>
                     </div>
 
@@ -724,20 +717,7 @@
                         <div class="detail-label">Login Terakhir</div>
                         <div class="detail-value" id="detailLastLogin">-</div>
                     </div>
-
-                    <div>
-                        <div class="detail-label">Email Verified</div>
-                        <div class="detail-value" id="detailEmailVerified">
-                            <span
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                Terverifikasi
-                            </span>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -774,7 +754,7 @@
                         <label for="editName" class="block text-sm font-medium text-gray-700 mb-2">
                             Nama Lengkap <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="editName" name="name" required
+                        <input type="text" id="editName" name="nama" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                             placeholder="Masukkan nama lengkap">
                     </div>
@@ -804,25 +784,13 @@
                         <select id="editRole" name="role" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                             <option value="">Pilih Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="peternak">Peternak</option>
-                            <option value="user">User</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Penyuluh">Penyuluh</option>
+                            <option value="Peternak">Peternak</option>
                         </select>
                     </div>
 
-                    <div class="col-span-1 md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Reset Password
-                        </label>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="resetPassword" name="reset_password"
-                                class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                            <label for="resetPassword" class="ml-2 text-sm text-gray-700">
-                                Generate password baru dan kirim ke email user
-                            </label>
-                        </div>
-                    </div>
-
+                    
                     <div class="col-span-1 md:col-span-2">
                         <label for="editStatus" class="block text-sm font-medium text-gray-700 mb-2">
                             Status <span class="text-red-500">*</span>
@@ -1166,7 +1134,7 @@
             }
 
             const form = document.getElementById("editUserForm");
-            form.action = `/admin/users/${data.id}`;
+            form.action = `/admin/users/${data.id}/update`;
         }
 
         function closeEditModal() {

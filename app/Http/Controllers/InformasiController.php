@@ -12,7 +12,8 @@ class InformasiController extends Controller
     public function index()
     {
         $informasiList = Informasi::latest()->paginate(10);
-        return view('informasi.index', compact('informasiList'));
+        $totalInformasi = Informasi::count();
+        return view('informasi.index', compact('informasiList', 'totalInformasi'));
     }
 
 
@@ -199,5 +200,10 @@ class InformasiController extends Controller
                 ->withInput()
                 ->with('error', 'Terjadi kesalahan saat memperbarui data');
         }
+    }
+    public function show($idInformasi)
+    {
+        $informasi = Informasi::findOrFail($idInformasi);
+        return view('informasi.detail-informasi', compact('informasi'));
     }
 }

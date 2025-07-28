@@ -479,11 +479,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Informasi</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Kategori</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Views</th>
+                                Kategori</th>                                                    
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Tanggal</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi
@@ -499,6 +495,8 @@
                                 data-created="{{ $info->created_at ?? date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}"
                                 data-priority="medium" data-content="{{ $info->deskripsi ?? 'Lorem ipsum content...' }}"
                                 data-excerpt="{{ Str::limit(strip_tags($info->deskripsi), 150) ?? 'Excerpt singkat...' }}"
+                                data-featured-image="{{ $info->foto }}"
+                                data-tanggal-kegiatan="{{ $info->tanggal_kegiatan }}"
                                 data-tanggal-kegiatan="{{ $info->tanggal_kegiatan }}" data-lokasi="{{ $info->lokasi }}">
 
                                 <td class="px-6 py-4">
@@ -534,10 +532,7 @@
                                         class="kategori-badge kategori-{{ $info->kategori ?? ['berita', 'pengumuman', 'tips', 'panduan'][$index % 4] }}">
                                         {{ ucfirst($info->kategori ?? ['Berita', 'Pengumuman', 'Tips', 'Panduan'][$index % 4]) }}
                                     </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ rand(100, 1000) }}
-                                </td>
+                                </td>                                
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     @if ($info->tanggal_kegiatan)
                                         {{ \Carbon\Carbon::parse($info->tanggal_kegiatan)->format('d M Y') }}

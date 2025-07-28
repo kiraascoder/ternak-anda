@@ -248,12 +248,7 @@
             </div>
 
             <!-- Results Counter -->
-            <div class="flex justify-between items-center mb-8">
-                <p class="text-gray-600">
-                    Menampilkan <span id="resultCount">{{ isset($pakanList) ? $pakanList->count() : 12 }}</span> dari
-                    {{ $totalPakan ?? 28 }}
-                    informasi pakan
-                </p>
+            <div class="flex justify-end items-center mb-8">
                 <div class="flex items-center space-x-2">
                     <button onclick="toggleView('grid')" id="gridViewBtn" class="p-2 rounded-lg view-btn active">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -447,7 +442,7 @@
                                         @endif
                                     </div>
 
-                                    <a href="{{ route('public.pakan.show', $pakan->slug ?? Str::slug($pakan->judul ?? 'informasi-pakan-' . $index)) }}"
+                                    <a href="{{ route('public.pakan.show', $pakan->idPakan ?? Str::slug($pakan->judul ?? 'informasi-pakan-' . $index)) }}"
                                         class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                                         Baca Selengkapnya
                                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
@@ -492,26 +487,6 @@
                     {{ $pakanList->appends(request()->query())->links() }}
                 </div>
             @endif
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="bg-green-600 py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">Butuh Konsultasi Lebih Lanjut?</h2>
-            <p class="text-green-100 mb-8 max-w-2xl mx-auto">
-                Tim ahli kami siap membantu Anda dalam memilih dan mengelola pakan ternak yang tepat untuk usaha peternakan
-                Anda.
-            </p>
-            <a href="#"
-                class="inline-flex items-center px-8 py-3 bg-white text-green-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Hubungi Konsultan
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                    </path>
-                </svg>
-            </a>
         </div>
     </section>
 @endsection

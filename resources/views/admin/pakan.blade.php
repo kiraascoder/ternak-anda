@@ -201,7 +201,7 @@
                     <option value="">Semua Jenis Pakan</option>
                     <option value="hijauan">Hijauan</option>
                     <option value="konsentrat">Konsentrat</option>
-                    <option value="fermentasi">Fermentasi</option>
+                    <option value="a">Fermentasi</option>
                     <option value="organik">Organik</option>
                     <option value="limbah">Limbah Pertanian</option>
                 </select>
@@ -452,14 +452,14 @@
                                 data-created="{{ $pakan->created_at ?? date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days')) }}"
                                 data-content="{{ $pakan->deskripsi ?? 'Lorem ipsum content...' }}"
                                 data-excerpt="{{ Str::limit(strip_tags($pakan->deskripsi), 150) ?? 'Excerpt singkat...' }}"
-                                data-sumber="{{ $pakan->sumber }}">
+                                data-featured-image="{{ $pakan->foto }}" data-sumber="{{ $pakan->sumber }}">
 
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-12 w-12">
                                             @if (isset($pakan->foto))
                                                 <img class="h-12 w-12 rounded-lg object-cover"
-                                                    src="{{ asset('storage/pakan/' . $pakan->foto) }}" alt="">
+                                                    src="{{ asset('storage/informasi-pakan/' . $pakan->foto) }}" alt="">
                                             @else
                                                 <div
                                                     class="h-12 w-12 rounded-lg bg-green-200 flex items-center justify-center">
@@ -1229,7 +1229,7 @@
                 if (featuredImageContainer) {
                     if (data.featuredImage) {
                         featuredImageContainer.innerHTML =
-                            `<img src="/storage/pakan/${data.featuredImage}" alt="Featured Image" class="w-full h-64 object-cover rounded-lg mb-4">`;
+                            `<img src="/storage/informasi-pakan/${data.featuredImage}" alt="Featured Image" class="w-full h-64 object-cover rounded-lg mb-4">`;
                     } else {
                         featuredImageContainer.innerHTML = '';
                     }
