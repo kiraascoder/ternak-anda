@@ -174,7 +174,7 @@
                             <span class="mr-2">🐄</span>
                             Ternak Terbaru
                         </h3>
-                        <a href="{{ route('peternak.ternak') }}"
+                        <a href="{{ route('admin.ternak') }}"
                             class="text-sm text-primary hover:text-secondary font-medium transition-colors">
                             Lihat Semua →
                         </a>

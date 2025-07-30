@@ -223,8 +223,10 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="/" class="text-gray-700 hover:text-primary transition-colors">Beranda</a>
-                    <a href="#about" class="text-gray-700 hover:text-primary transition-colors">Tentang</a>
-                    <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Kontak</a>
+                    <a href="{{ url('/#about') }}"
+                        class="text-gray-700 hover:text-primary transition-colors">Tentang</a>
+                    <a href="{{ url('/#contact') }}"
+                        class="text-gray-700 hover:text-primary transition-colors">Kontak</a>
                     <a href="{{ route('informasi.index') }}"
                         class="text-gray-700 hover:text-primary transition-colors">Informasi</a>
                     <a href="{{ route('pakan.index') }}"
@@ -265,11 +267,11 @@
                         class="block text-lg text-gray-700 hover:text-primary transition-colors py-2 border-b border-gray-100">
                         Beranda
                     </a>
-                    <a href="#about"
+                    <a href="{{ url('/#about') }}"
                         class="block text-lg text-gray-700 hover:text-primary transition-colors py-2 border-b border-gray-100">
                         Tentang
                     </a>
-                    <a href="#contact"
+                    <a href="{{ url('/#contact') }}"
                         class="block text-lg text-gray-700 hover:text-primary transition-colors py-2 border-b border-gray-100">
                         Kontak
                     </a>
@@ -438,7 +440,7 @@
                 </div>
             </div>
 
-            
+
             <!-- Bottom Bar -->
             <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400 text-sm">

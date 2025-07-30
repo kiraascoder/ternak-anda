@@ -39,7 +39,7 @@ class AdminController extends Controller
                 'nama' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8|confirmed',
-                'role' => 'required|in:admin,peternak,user',
+                'role' => 'required|in:Admin,Peternak,Penyuluh',
                 'phone' => 'nullable|string|max:20',
                 'status' => 'required|in:aktif,nonaktif,suspend'
             ]);
@@ -95,7 +95,7 @@ class AdminController extends Controller
                     'email',
                     Rule::unique('users', 'email')->ignore($idUser, 'idUser')
                 ],
-                'role' => 'required|in:admin,peternak,user',
+                'role' => 'required|in:Admin,Peternak,Penyuluh',
                 'phone' => 'nullable|string|max:20',
                 'status' => 'required|string|max:255'
             ]);
@@ -210,12 +210,12 @@ class AdminController extends Controller
 
     public function ternak()
     {
-        $ternakList = Ternak::where('idPemilik', Auth::user()->idUser)->get();
+        $ternakList = Ternak::all();
         $totalTernak = $ternakList->count();
-        $ternakSehat = Ternak::where('idPemilik', Auth::user()->idUser)->where('status', 'sehat')->count();
-        $ternakSakit = Ternak::where('idPemilik', Auth::user()->idUser)->where('status', 'sakit')->count();
-        $ternakPerawatan = Ternak::where('idPemilik', Auth::user()->idUser)->where('status', 'perawatan')->count();
-        $konsultasiSaya = Konsultasi::where('idPeternak', Auth::user()->idUser)->count();
+        $ternakSehat = Ternak::where('status', 'sehat')->count();
+        $ternakSakit = Ternak::where('status', 'sakit')->count();
+        $ternakPerawatan = Ternak::where('status', 'perawatan')->count();
+        $konsultasiSaya = Konsultasi::count();
         return view('admin.ternak', compact(
             'ternakList',
             'totalTernak',
