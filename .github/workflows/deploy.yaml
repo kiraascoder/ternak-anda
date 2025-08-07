@@ -24,6 +24,6 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /pakeng-ternak/
+          server-dir: /domains/pakeng-ternak.site/pakeng-ternak
           local-dir: ./ 
 
