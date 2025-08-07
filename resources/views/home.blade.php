@@ -212,7 +212,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="text-white">
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                        Sistem Manajemen <span class="text-yellow-300">Peternakan</span> Modern
+                        Sistem Manajemen <span class="text-yellow-300">Peternakan</span>
                     </h1>
                     <p class="text-lg sm:text-xl mb-8 text-green-100">
                         Kelola ternak Anda dengan mudah, pantau kesehatan, dapatkan konsultasi ahli, dan tingkatkan
