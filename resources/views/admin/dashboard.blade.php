@@ -176,7 +176,7 @@
                         </h3>
                         <a href="{{ route('admin.ternak') }}"
                             class="text-sm text-primary hover:text-secondary font-medium transition-colors">
-                            Lihat Semua →
+                            Lihat Semua Data Ternak →
                         </a>
                     </div>
 
