@@ -119,6 +119,15 @@
             border-radius: 0.5rem;
             border: 2px solid #e5e7eb;
         }
+
+        .detail-foto-placeholder {
+            background: linear-gradient(45deg, #f3f4f6 25%, transparent 25%),
+                linear-gradient(-45deg, #f3f4f6 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #f3f4f6 75%),
+                linear-gradient(-45deg, transparent 75%, #f3f4f6 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
     </style>
 @endpush
 
@@ -270,7 +279,6 @@
                     data-asal="{{ $ternak->asal ?? 'Pembelian' }}"
                     data-keterangan="{{ $ternak->keterangan ?? 'Tidak ada keterangan khusus' }}"
                     data-foto="{{ $ternak->fotoTernak }}">
-
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="text-3xl">🐄</div>
@@ -323,7 +331,7 @@
                                         </path>
                                     </svg>
                                 </button>
-                                {{-- <button onclick="openEditModal(this)"
+                                <button onclick="openEditModal(this)"
                                     class="action-btn bg-green-100 text-green-600 hover:bg-green-200" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -339,21 +347,21 @@
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                 </button>
-                            </div> --}}
-
-                                @if (($ternak->status ?? 'sehat') !== 'sehat')
-                                    <a href="{{ route('peternak.konsultasi') }}"
-                                        class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full hover:bg-yellow-200 transition-colors">
-                                        Cek Kesehatan
-                                    </a>
-                                @endif
                             </div>
+
+                            @if (($ternak->status ?? 'sehat') !== 'sehat')
+                                <a href="{{ route('peternak.konsultasi') }}"
+                                    class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full hover:bg-yellow-200 transition-colors">
+                                    Cek Kesehatan
+                                </a>
+                            @endif
                         </div>
                     </div>
-                @empty
-                    <div class="col-span-full text-center text-gray-500">
-                        Tidak ada data ternak tersedia.
-                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center text-gray-500">
+                    Tidak ada data ternak tersedia.
+                </div>
             @endforelse
         </div>
 
@@ -389,8 +397,8 @@
                                 data-tanggal-lahir="{{ $ternak->tanggalLahir ?? date('Y-m-d', strtotime('-' . rand(1, 5) . ' years')) }}"
                                 data-kelamin="{{ $ternak->jenis_kelamin ?? ['Jantan', 'Betina'][rand(0, 1)] }}"
                                 data-asal="{{ $ternak->asal ?? 'Pembelian' }}"
-                                data-keterangan="{{ $ternak->keterangan ?? 'Tidak ada keterangan khusus' }}">
-
+                                data-keterangan="{{ $ternak->keterangan ?? 'Tidak ada keterangan khusus' }}"
+                                data-foto="{{ $ternak->fotoTernak ?? '' }}">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="text-2xl mr-3">🐄</div>
@@ -765,12 +773,19 @@
                     <div>
                         <div class="detail-label">Foto Ternak</div>
                         <div class="detail-value">
-                            @if (isset($ternak) && isset($ternak->fotoTernak))
-                                <img id="detailFoto" src="{{ asset('storage/foto_ternak/' . $ternak->fotoTernak) }}"
-                                    alt="Foto Ternak" class="w-full h-48 object-cover rounded-lg" />
-                            @else
-                                <p class="text-sm text-gray-500">Tidak ada foto ternak</p>
-                            @endif
+                            <div id="detailFotoContainer">
+                                <img id="detailFoto" src="" alt="Foto Ternak"
+                                    class="w-full h-48 object-cover rounded-lg hidden" />
+                                <div id="noPhotoText"
+                                    class="text-sm text-gray-500 p-8 text-center border-2 border-dashed border-gray-300 rounded-lg">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-2" fill="none"
+                                        stroke="currentColor" viewBox="0 0 48 48">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L32 26.414M16 16l5.586-5.586a2 2 0 012.828 0L48 34.414M34 14l-1.586 1.586a2 2 0 01-2.828 0L24 10.414m0 0L18.586 5a2 2 0 00-2.828 0L10 10.414" />
+                                    </svg>
+                                    Tidak ada foto ternak
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -1161,7 +1176,6 @@
 
         // Get ternak data from element
         function getTernakDataFromElement(element) {
-            // Cari parent element yang memiliki data attributes
             let parent = element.closest('[data-id]');
             if (!parent) {
                 parent = element.closest('.ternak-card, .ternak-row');
@@ -1182,8 +1196,8 @@
                 tanggalLahir: parent.getAttribute("data-tanggal-lahir"),
                 asal: parent.getAttribute("data-asal"),
                 status: parent.getAttribute("data-status"),
-                keterangan: parent.getAttribute("data-keterangan")
-                // foto: parent.getAttribute("data-foto")
+                keterangan: parent.getAttribute("data-keterangan"),
+                foto: parent.getAttribute("data-foto") // TAMBAHKAN INI
             };
         }
 
@@ -1202,7 +1216,26 @@
             document.getElementById("detailKelamin").textContent = data.kelamin || '-';
             document.getElementById("detailUmur").textContent = (data.umur || '-') + " tahun";
             document.getElementById("detailBerat").textContent = (data.berat || '-') + " kg";
-            // document.getElementById("detailFoto").textContent = data.foto || '-';
+
+            // PERBAIKAN FOTO - Logika yang benar
+            const detailFoto = document.getElementById("detailFoto");
+            const noPhotoText = document.getElementById("noPhotoText");
+
+            if (data.foto && data.foto.trim() !== '') {
+                detailFoto.src = `/storage/foto_ternak/${data.foto}`;
+                detailFoto.classList.remove("hidden");
+                noPhotoText.classList.add("hidden");
+
+                // Handle error loading image
+                detailFoto.onerror = function() {
+                    this.classList.add("hidden");
+                    noPhotoText.classList.remove("hidden");
+                };
+            } else {
+                detailFoto.classList.add("hidden");
+                noPhotoText.classList.remove("hidden");
+            }
+
             // Format tanggal lahir
             if (data.tanggalLahir && data.tanggalLahir !== '-') {
                 try {
@@ -1230,6 +1263,7 @@
             document.getElementById("detailModal").classList.remove("hidden");
             document.body.style.overflow = "hidden";
         }
+
 
         function closeDetailModal() {
             document.getElementById("detailModal").classList.add("hidden");

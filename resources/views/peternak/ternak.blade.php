@@ -270,7 +270,6 @@
                     data-asal="{{ $ternak->asal ?? 'Pembelian' }}"
                     data-keterangan="{{ $ternak->keterangan ?? 'Tidak ada keterangan khusus' }}"
                     data-foto="{{ $ternak->fotoTernak }}">
-
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="text-3xl">🐄</div>
