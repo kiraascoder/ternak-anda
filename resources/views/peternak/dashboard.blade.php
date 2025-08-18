@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @forelse($recentTernakList ?? [] as $ternak)
+                        @foreach($recentTernakList ?? [] as $ternak)
                             <div class="ternak-card border border-gray-200 rounded-lg p-4">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-xl">🐄</span>
@@ -203,105 +203,8 @@
                                         ID: {{ $ternak->idTernak ?? 'TRN-' . sprintf('%03d', rand(1, 999)) }}
                                     </div>
                                 </div>
-                            </div>
-                        @empty
-                            <!-- Sample data jika tidak ada data -->
-                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xl">🐄</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Sehat
-                                    </span>
-                                </div>
-                                <h4 class="font-semibold text-gray-900">Sapi #001</h4>
-                                <p class="text-sm text-gray-600">Sapi Limosin</p>
-                                <p class="text-xs text-gray-500 mt-2">Umur: 3 tahun</p>
-                                <div class="mt-3 pt-3 border-t border-gray-100">
-                                    <div class="text-xs text-gray-400">ID: TRN-001</div>
-                                </div>
-                            </div>
-
-                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xl">🐄</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Sehat
-                                    </span>
-                                </div>
-                                <h4 class="font-semibold text-gray-900">Sapi #002</h4>
-                                <p class="text-sm text-gray-600">Sapi Brahman</p>
-                                <p class="text-xs text-gray-500 mt-2">Umur: 2 tahun</p>
-                                <div class="mt-3 pt-3 border-t border-gray-100">
-                                    <div class="text-xs text-gray-400">ID: TRN-002</div>
-                                </div>
-                            </div>
-
-                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xl">🐄</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        Sakit
-                                    </span>
-                                </div>
-                                <h4 class="font-semibold text-gray-900">Sapi #003</h4>
-                                <p class="text-sm text-gray-600">Sapi Angus</p>
-                                <p class="text-xs text-gray-500 mt-2">Umur: 4 tahun</p>
-                                <div class="mt-3 pt-3 border-t border-gray-100">
-                                    <div class="text-xs text-gray-400">ID: TRN-003</div>
-                                </div>
-                            </div>
-
-                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xl">🐄</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Sehat
-                                    </span>
-                                </div>
-                                <h4 class="font-semibold text-gray-900">Sapi #004</h4>
-                                <p class="text-sm text-gray-600">Sapi Simental</p>
-                                <p class="text-xs text-gray-500 mt-2">Umur: 1 tahun</p>
-                                <div class="mt-3 pt-3 border-t border-gray-100">
-                                    <div class="text-xs text-gray-400">ID: TRN-004</div>
-                                </div>
-                            </div>
-
-                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xl">🐄</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Sehat
-                                    </span>
-                                </div>
-                                <h4 class="font-semibold text-gray-900">Sapi #005</h4>
-                                <p class="text-sm text-gray-600">Sapi Bali</p>
-                                <p class="text-xs text-gray-500 mt-2">Umur: 2 tahun</p>
-                                <div class="mt-3 pt-3 border-t border-gray-100">
-                                    <div class="text-xs text-gray-400">ID: TRN-005</div>
-                                </div>
-                            </div>
-
-                            <div class="ternak-card border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-xl">🐄</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Sehat
-                                    </span>
-                                </div>
-                                <h4 class="font-semibold text-gray-900">Sapi #006</h4>
-                                <p class="text-sm text-gray-600">Sapi Ongole</p>
-                                <p class="text-xs text-gray-500 mt-2">Umur: 5 tahun</p>
-                                <div class="mt-3 pt-3 border-t border-gray-100">
-                                    <div class="text-xs text-gray-400">ID: TRN-006</div>
-                                </div>
-                            </div>
-                        @endforelse
+                            </div>                       
+                        @endforeach
                     </div>
 
                     @if (count($recentTernakList ?? []) == 0)
@@ -309,7 +212,7 @@
                             <p class="text-sm text-gray-500">
                                 Belum ada data ternak.
                                 <a href="{{ route('peternak.ternak') }}"
-                                    class="text-primary hover:text-secondary font-medium">
+                          endforea       class="text-primary hover:text-secondary font-medium">
                                     Tambah ternak pertama Anda →
                                 </a>
                             </p>

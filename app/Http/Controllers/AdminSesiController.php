@@ -22,33 +22,35 @@ class AdminSesiController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|min:6',
         ], [
             'email.required' => 'Silahkan Masukkan Email Anda',
-            'email.email' => 'Format email yang Anda masukkan tidak valid',
+            'email.email'    => 'Format email yang Anda masukkan tidak valid',
             'password.required' => 'Silahkan Masukkan Password Anda',
-            'password.min' => 'Password minimal terdiri dari 6 karakter',
+            'password.min'      => 'Password minimal terdiri dari 6 karakter',
         ]);
 
-        $infologin = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($infologin, $request->has('remember'))) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = Auth::user();
 
+            // redirect sesuai role + flash message sukses
             if ($user->role == "Peternak") {
-                return redirect('/peternak/dashboard');
+                return redirect('/peternak/dashboard')->with('success', 'Berhasil login sebagai Peternak');
             } elseif ($user->role == "Penyuluh") {
-                return redirect('/penyuluh/dashboard');
-            } elseif ($user->role == 'Admin') {
-                return redirect('/admin/dashboard');
+                return redirect('/penyuluh/dashboard')->with('success', 'Berhasil login sebagai Penyuluh');
+            } elseif ($user->role == "Admin") {
+                return redirect('/admin/dashboard')->with('success', 'Berhasil login sebagai Admin');
             }
-        }
-        return redirect('/admin/login')->withErrors(['login' => 'Login Gagal, Email atau Password tidak sesuai!'])->withInput();
+        }        
+        return redirect()
+            ->back()
+            ->with('error', 'Login Gagal, Email atau Password tidak sesuai!')
+            ->withInput();
     }
+
     public function register(Request $request)
     {
         $request->validate([

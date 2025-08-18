@@ -111,22 +111,21 @@
                 Masuk ke dashboard Anda dan lanjutkan mengelola peternakan dengan teknologi terdepan.
             </p>
 
-            <!-- Features highlight -->            
+            <!-- Features highlight -->
         </div>
 
         <!-- Right Side - Login Form -->
         <div class="w-full max-w-md mx-auto">
             <div class="glass-effect rounded-2xl shadow-2xl p-8 slide-in" style="animation-delay: 0.2s;">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Masuk</h2>                    
-                </div>                
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Masuk</h2>
+                </div>
 
                 <!-- Error Messages (Laravel Style) -->
                 <div id="error-message"
                     class="hidden mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 text-red-500 mr-3" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -135,6 +134,32 @@
                 </div>
 
                 <!-- Login Form -->
+                @if (session('success'))
+                    <div class="mb-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-red-500 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                    </div>
+                @endif
+
                 <form id="loginForm" method="POST" action="{{ route('admin.login.submit') }}">
                     @csrf
                     <input type="hidden" id="selected-role" name="role" value="personal">
@@ -184,7 +209,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between mb-6">                        
+                    <div class="flex items-center justify-between mb-6">
                     </div>
 
                     <button type="submit"
