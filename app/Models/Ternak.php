@@ -24,6 +24,24 @@ class Ternak extends Model
         'keterangan'
     ];
 
+    protected $casts = [
+        'tanggalLahir' => 'date',
+    ];
+
+    public function getUmurTextAttribute()
+    {
+        if (!$this->tanggalLahir) return 'Belum diketahui';
+
+        $diff   = $this->tanggalLahir->diff(now());
+        $years  = $diff->y;
+        $months = $diff->m;
+
+        if ($years < 1) {
+            return ($years === 0 && $months === 0) ? '0 bulan' : $months . ' bulan';
+        }
+        return $years . ' tahun' . ($months ? ' ' . $months . ' bulan' : '');
+    }
+
     public function pemilik()
     {
         return $this->belongsTo(User::class, 'idPemilik');

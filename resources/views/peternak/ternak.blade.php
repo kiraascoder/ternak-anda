@@ -157,7 +157,7 @@
                 </select>
             </div>
 
-            {{-- <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3">
                 <button onclick="openAddModal()"
                     class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary transform hover:scale-105 transition-all">
                     <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,7 +166,7 @@
                     </svg>
                     Tambah Ternak
                 </button>
-            </div> --}}
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -272,7 +272,7 @@
                     data-name="{{ $ternak->namaTernak ?? 'Sapi #' . sprintf('%03d', $index + 1) }}"
                     data-status="{{ $ternak->status ?? 'sehat' }}" data-id="{{ $ternak->idTernak ?? $index + 1 }}"
                     data-jenis="{{ $ternak->jenis ?? ['Sapi Limosin', 'Sapi Brahman', 'Sapi Angus', 'Sapi Simental'][$index % 4] }}"
-                    data-umur="{{ $ternak->tanggalLahir ? \Carbon\Carbon::parse($ternak->tanggalLahir)->age : rand(1, 5) }}"
+                    data-umur="{{ $ternak ? $ternak->umur_text : 'Belum diketahui' }}"
                     data-berat="{{ $ternak->berat ?? rand(200, 500) }}"
                     data-tanggal-lahir="{{ $ternak->tanggalLahir ?? date('Y-m-d', strtotime('-' . rand(1, 5) . ' years')) }}"
                     data-kelamin="{{ $ternak->jenis_kelamin ?? ['Jantan', 'Betina'][rand(0, 1)] }}"
@@ -302,7 +302,14 @@
                                 </svg>
                                 Umur:
                                 @if ($ternak->tanggalLahir)
-                                    {{ \Carbon\Carbon::parse($ternak->tanggalLahir)->age }} tahun
+                                    @php
+                                        $diff = \Carbon\Carbon::parse($ternak->tanggalLahir)->diff(now());
+                                    @endphp
+                                    @if ($diff->y < 1)
+                                        {{ $diff->m }} bulan
+                                    @else
+                                        {{ $diff->y }} tahun {{ $diff->m ? $diff->m . ' bulan' : '' }}
+                                    @endif
                                 @else
                                     {{ rand(1, 5) }} tahun
                                 @endif
@@ -409,12 +416,20 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">                                
                                     @if ($ternak->tanggalLahir)
-                                        {{ \Carbon\Carbon::parse($ternak->tanggalLahir)->age }} tahun
+                                        @php
+                                            $diff = \Carbon\Carbon::parse($ternak->tanggalLahir)->diff(now());
+                                        @endphp
+                                        @if ($diff->y < 1)
+                                            {{ $diff->m }} bulan
+                                        @else
+                                            {{ $diff->y }} tahun {{ $diff->m ? $diff->m . ' bulan' : '' }}
+                                        @endif
                                     @else
                                         {{ rand(1, 5) }} tahun
                                     @endif
+
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $ternak->berat ?? rand(200, 500) }} kg
@@ -1214,7 +1229,7 @@
             document.getElementById("detailId").textContent = "#" + (data.id || '-');
             document.getElementById("detailJenis").textContent = data.jenis || '-';
             document.getElementById("detailKelamin").textContent = data.kelamin || '-';
-            document.getElementById("detailUmur").textContent = (data.umur || '-') + " tahun";
+            document.getElementById("detailUmur").textContent = (data.umur || '-');
             document.getElementById("detailBerat").textContent = (data.berat || '-') + " kg";
 
             // PERBAIKAN FOTO - Logika yang benar

@@ -605,18 +605,61 @@
                             </button>
                         </div>
                     </div>
-                </div>                
+                </div>
                 <!-- Search Bar -->
                 <div class="bg-gray-50 rounded-lg p-4 mb-6">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                    <div
+                        class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
+                        <!-- Search Input -->
                         <div class="search-container flex-1 lg:max-w-md">
                             <input type="text" id="searchInput"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 placeholder="Cari laporan..." onkeyup="searchReports()">
                         </div>
+
+                        <!-- Date Filter Buttons -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-sm font-medium text-gray-700 mr-2">Filter:</span>
+                            <button onclick="filterByPeriod('all')" id="filter-all"
+                                class="filter-btn active px-3 py-2 text-sm rounded-lg border transition-colors">
+                                Semua
+                            </button>
+                            <button onclick="filterByPeriod('today')" id="filter-today"
+                                class="filter-btn px-3 py-2 text-sm rounded-lg border transition-colors">
+                                Hari Ini
+                            </button>
+                            <button onclick="filterByPeriod('week')" id="filter-week"
+                                class="filter-btn px-3 py-2 text-sm rounded-lg border transition-colors">
+                                Minggu Ini
+                            </button>
+                            <button onclick="filterByPeriod('month')" id="filter-month"
+                                class="filter-btn px-3 py-2 text-sm rounded-lg border transition-colors">
+                                Bulan Ini
+                            </button>
+
+                            <!-- Custom Date Range -->
+                            <div class="flex items-center space-x-2 ml-4">
+                                <input type="date" id="dateFrom"
+                                    class="px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
+                                    onchange="filterByCustomRange()">
+                                <span class="text-gray-500 text-sm">s/d</span>
+                                <input type="date" id="dateTo"
+                                    class="px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
+                                    onchange="filterByCustomRange()">
+                                <button onclick="clearCustomRange()"
+                                    class="px-2 py-1 text-xs bg-gray-200 text-gray-600 rounded hover:bg-gray-300"
+                                    title="Clear custom range">
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Results Count -->
+                        <div class="text-sm text-gray-600" id="resultsCount">
+                            Menampilkan semua laporan
+                        </div>
                     </div>
                 </div>
-
                 <!-- Reports Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="reportsGrid">
                     @forelse ($laporans ?? [] as $laporan)
@@ -671,7 +714,7 @@
                                         </svg>
                                         Detail
                                     </button>
-                                    
+
                                     <button
                                         onclick="confirmDeleteReport({{ $laporan->id }}, '{{ $laporan->ternak->namaTernak ?? 'Ternak' }}')"
                                         class="px-3 py-2 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
@@ -917,7 +960,7 @@
                             <p class="text-sm text-gray-600">
                                 Laporan dibuat pada: <span id="createdAt">-</span>
                             </p>
-                            <div class="flex space-x-3">                                
+                            <div class="flex space-x-3">
                                 <button onclick="printReport()"
                                     class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1013,7 +1056,72 @@
         </div>
     </div>
 @endsection
+<style>
+    /* Filter Button Styles */
+    .filter-btn {
+        background: white;
+        border-color: #d1d5db;
+        color: #6b7280;
+    }
 
+    .filter-btn:hover {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+        color: #374151;
+    }
+
+    .filter-btn.active {
+        background: #3b82f6;
+        border-color: #3b82f6;
+        color: white;
+    }
+
+    .filter-btn.active:hover {
+        background: #2563eb;
+        border-color: #2563eb;
+    }
+
+    /* Date input styling */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        filter: invert(0.5);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator:hover {
+        filter: invert(0.3);
+    }
+
+    .hidden-report {
+        display: none !important;
+    }
+
+    /* Animation for filtering */
+    .report-card {
+        transition: all 0.3s ease;
+    }
+
+    .report-card.filtering-out {
+        opacity: 0.3;
+        transform: scale(0.95);
+    }
+
+    /* Filter statistics */
+    .filter-stats {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #1d4ed8;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-stats.no-results {
+        background: #fef2f2;
+        border-color: #fecaca;
+        color: #dc2626;
+    }
+</style>
 @push('scripts')
     <script>
         // Global variable to store current report data
@@ -2107,5 +2215,449 @@
                 await originalExecuteDelete();
             }
         };
+        let currentFilter = 'all';
+        let currentSearchTerm = '';
+        let customDateRange = {
+            from: null,
+            to: null
+        };
+
+        /**
+         * Main filter function by period
+         */
+        function filterByPeriod(period) {
+            currentFilter = period;
+
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`filter-${period}`).classList.add('active');
+
+            // Clear custom date range when using preset filters
+            if (period !== 'custom') {
+                document.getElementById('dateFrom').value = '';
+                document.getElementById('dateTo').value = '';
+                customDateRange = {
+                    from: null,
+                    to: null
+                };
+            }
+
+            // Apply filters
+            applyFilters();
+        }
+
+        /**
+         * Filter by custom date range
+         */
+        function filterByCustomRange() {
+            const fromDate = document.getElementById('dateFrom').value;
+            const toDate = document.getElementById('dateTo').value;
+
+            if (fromDate && toDate) {
+                customDateRange = {
+                    from: fromDate,
+                    to: toDate
+                };
+                currentFilter = 'custom';
+
+                // Update button states
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                applyFilters();
+            } else if (fromDate || toDate) {
+                // Partial date range
+                customDateRange = {
+                    from: fromDate,
+                    to: toDate
+                };
+                currentFilter = 'custom';
+                applyFilters();
+            }
+        }
+
+        /**
+         * Clear custom date range
+         */
+        function clearCustomRange() {
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            customDateRange = {
+                from: null,
+                to: null
+            };
+
+            // Reset to 'all' filter
+            filterByPeriod('all');
+        }
+
+        /**
+         * Enhanced search function that works with filters
+         */
+        function searchReports() {
+            currentSearchTerm = document.getElementById('searchInput').value.toLowerCase();
+            applyFilters();
+        }
+
+        /**
+         * Apply both search and date filters
+         */
+        function applyFilters() {
+            const reportCards = document.querySelectorAll('#reportsGrid > div[data-report-id]');
+            let visibleCount = 0;
+            const totalCount = reportCards.length;
+
+            reportCards.forEach(card => {
+                const shouldShow = passesFilters(card);
+
+                if (shouldShow) {
+                    card.classList.remove('hidden-report');
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden-report');
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update results count
+            updateResultsCount(visibleCount, totalCount);
+
+            // Show/hide empty state
+            if (visibleCount === 0 && totalCount > 0) {
+                showFilterEmptyState();
+            } else {
+                hideFilterEmptyState();
+            }
+        }
+
+        /**
+         * Check if a report card passes all current filters
+         */
+        function passesFilters(card) {
+            // Extract data from card
+            const cardText = card.textContent.toLowerCase();
+            const dateText = card.querySelector('.text-xs.bg-blue-100')?.textContent?.trim();
+
+            // Parse the date from the card
+            let cardDate = null;
+            if (dateText) {
+                // Convert "12 Jan 2024" format to Date object
+                cardDate = parseIndonesianDate(dateText);
+            }
+
+            // Check search filter
+            if (currentSearchTerm && !cardText.includes(currentSearchTerm)) {
+                return false;
+            }
+
+            // Check date filter
+            if (currentFilter !== 'all' && cardDate) {
+                if (!passesDateFilter(cardDate, currentFilter)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /**
+         * Check if date passes the current filter
+         */
+        function passesDateFilter(cardDate, filter) {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+            switch (filter) {
+                case 'today':
+                    const cardDateOnly = new Date(cardDate.getFullYear(), cardDate.getMonth(), cardDate.getDate());
+                    return cardDateOnly.getTime() === today.getTime();
+
+                case 'week':
+                    const weekStart = new Date(today);
+                    weekStart.setDate(today.getDate() - today.getDay()); // Start of week (Sunday)
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6); // End of week (Saturday)
+                    weekEnd.setHours(23, 59, 59, 999);
+
+                    return cardDate >= weekStart && cardDate <= weekEnd;
+
+                case 'month':
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                    return cardDate >= monthStart && cardDate <= monthEnd;
+
+                case 'custom':
+                    if (customDateRange.from && customDateRange.to) {
+                        const fromDate = new Date(customDateRange.from);
+                        const toDate = new Date(customDateRange.to + 'T23:59:59');
+                        return cardDate >= fromDate && cardDate <= toDate;
+                    } else if (customDateRange.from) {
+                        const fromDate = new Date(customDateRange.from);
+                        return cardDate >= fromDate;
+                    } else if (customDateRange.to) {
+                        const toDate = new Date(customDateRange.to + 'T23:59:59');
+                        return cardDate <= toDate;
+                    }
+                    return true;
+
+                default:
+                    return true;
+            }
+        }
+
+        /**
+         * Parse Indonesian date format like "12 Jan 2024"
+         */
+        function parseIndonesianDate(dateStr) {
+            const months = {
+                'Jan': 0,
+                'Feb': 1,
+                'Mar': 2,
+                'Apr': 3,
+                'Mei': 4,
+                'Jun': 5,
+                'Jul': 6,
+                'Agu': 7,
+                'Sep': 8,
+                'Okt': 9,
+                'Nov': 10,
+                'Des': 11
+            };
+
+            const parts = dateStr.split(' ');
+            if (parts.length === 3) {
+                const day = parseInt(parts[0]);
+                const month = months[parts[1]];
+                const year = parseInt(parts[2]);
+
+                if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+                    return new Date(year, month, day);
+                }
+            }
+
+            // Fallback: try to parse as standard date
+            return new Date(dateStr);
+        }
+
+        /**
+         * Update results count display
+         */
+        function updateResultsCount(visible, total) {
+            const countElement = document.getElementById('resultsCount');
+            let message = '';
+
+            if (currentFilter === 'all' && !currentSearchTerm) {
+                message = `Menampilkan semua ${total} laporan`;
+            } else {
+                message = `Menampilkan ${visible} dari ${total} laporan`;
+
+                if (currentSearchTerm) {
+                    message += ` (pencarian: "${currentSearchTerm}")`;
+                }
+
+                if (currentFilter !== 'all') {
+                    const filterNames = {
+                        'today': 'hari ini',
+                        'week': 'minggu ini',
+                        'month': 'bulan ini',
+                        'custom': 'periode khusus'
+                    };
+                    message += ` (filter: ${filterNames[currentFilter]})`;
+                }
+            }
+
+            countElement.textContent = message;
+        }
+
+        /**
+         * Show empty state for filtered results
+         */
+        function showFilterEmptyState() {
+            const existingEmptyState = document.getElementById('filter-empty-state');
+            if (existingEmptyState) return;
+
+            const reportsGrid = document.getElementById('reportsGrid');
+            const emptyState = document.createElement('div');
+            emptyState.id = 'filter-empty-state';
+            emptyState.className = 'col-span-full text-center py-12';
+
+            let message = 'Tidak ada laporan yang ditemukan';
+            let suggestion = '';
+
+            if (currentSearchTerm && currentFilter !== 'all') {
+                message = 'Tidak ada laporan yang cocok dengan pencarian dan filter';
+                suggestion = 'Coba ubah kata kunci pencarian atau pilih periode yang berbeda.';
+            } else if (currentSearchTerm) {
+                message = 'Tidak ada laporan yang cocok dengan pencarian';
+                suggestion = 'Coba gunakan kata kunci yang berbeda.';
+            } else if (currentFilter !== 'all') {
+                const filterNames = {
+                    'today': 'hari ini',
+                    'week': 'minggu ini',
+                    'month': 'bulan ini',
+                    'custom': 'periode yang dipilih'
+                };
+                message = `Tidak ada laporan untuk ${filterNames[currentFilter]}`;
+                suggestion = 'Coba pilih periode yang berbeda.';
+            }
+
+            emptyState.innerHTML = `
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+            </path>
+        </svg>
+        <h3 class="mt-2 text-lg font-medium text-gray-900">${message}</h3>
+        <p class="mt-1 text-gray-500">${suggestion}</p>
+        <div class="mt-4 space-x-2">
+            <button onclick="clearAllFilters()" 
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Hapus Semua Filter
+            </button>
+            <button onclick="switchTab('form')" 
+                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                Buat Laporan Baru
+            </button>
+        </div>
+    `;
+
+            reportsGrid.appendChild(emptyState);
+        }
+
+        /**
+         * Hide filter empty state
+         */
+        function hideFilterEmptyState() {
+            const emptyState = document.getElementById('filter-empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+        }
+
+        /**
+         * Clear all filters and search
+         */
+        function clearAllFilters() {
+            // Clear search
+            document.getElementById('searchInput').value = '';
+            currentSearchTerm = '';
+
+            // Clear custom date range
+            clearCustomRange();
+
+            // Reset to 'all' filter
+            filterByPeriod('all');
+        }
+
+        /**
+         * Get filter statistics
+         */
+        function getFilterStatistics() {
+            const reportCards = document.querySelectorAll('#reportsGrid > div[data-report-id]');
+            const stats = {
+                total: reportCards.length,
+                today: 0,
+                week: 0,
+                month: 0
+            };
+
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+            reportCards.forEach(card => {
+                const dateText = card.querySelector('.text-xs.bg-blue-100')?.textContent?.trim();
+                if (dateText) {
+                    const cardDate = parseIndonesianDate(dateText);
+
+                    // Count today
+                    const cardDateOnly = new Date(cardDate.getFullYear(), cardDate.getMonth(), cardDate.getDate());
+                    if (cardDateOnly.getTime() === today.getTime()) {
+                        stats.today++;
+                    }
+
+                    // Count this week
+                    const weekStart = new Date(today);
+                    weekStart.setDate(today.getDate() - today.getDay());
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6);
+                    weekEnd.setHours(23, 59, 59, 999);
+
+                    if (cardDate >= weekStart && cardDate <= weekEnd) {
+                        stats.week++;
+                    }
+
+                    // Count this month
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                    if (cardDate >= monthStart && cardDate <= monthEnd) {
+                        stats.month++;
+                    }
+                }
+            });
+
+            return stats;
+        }
+
+        /**
+         * Update filter buttons with counts
+         */
+        function updateFilterButtonsWithCounts() {
+            const stats = getFilterStatistics();
+
+            document.getElementById('filter-all').innerHTML = `Semua (${stats.total})`;
+            document.getElementById('filter-today').innerHTML = `Hari Ini (${stats.today})`;
+            document.getElementById('filter-week').innerHTML = `Minggu Ini (${stats.week})`;
+            document.getElementById('filter-month').innerHTML = `Bulan Ini (${stats.month})`;
+        }
+
+        // Initialize filters on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update button counts
+            updateFilterButtonsWithCounts();
+
+            // Set default date range to current month for quick access
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+            // You can uncomment these to set default date range
+            // document.getElementById('dateFrom').value = firstDay.toISOString().split('T')[0];
+            // document.getElementById('dateTo').value = lastDay.toISOString().split('T')[0];
+        });
+
+        // Quick filter keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Only if search input is not focused
+            if (document.activeElement.id !== 'searchInput' &&
+                document.activeElement.type !== 'date') {
+
+                if (e.altKey) {
+                    switch (e.key) {
+                        case '1':
+                            filterByPeriod('all');
+                            e.preventDefault();
+                            break;
+                        case '2':
+                            filterByPeriod('today');
+                            e.preventDefault();
+                            break;
+                        case '3':
+                            filterByPeriod('week');
+                            e.preventDefault();
+                            break;
+                        case '4':
+                            filterByPeriod('month');
+                            e.preventDefault();
+                            break;
+                    }
+                }
+            }
+        });
     </script>
 @endpush

@@ -174,9 +174,9 @@
                             <span class="mr-2">🐄</span>
                             Ternak Terbaru
                         </h3>
-                        <a href="{{ route('admin.ternak') }}"
+                        <a href="{{ route('penyuluh.ternak') }}"
                             class="text-sm text-primary hover:text-secondary font-medium transition-colors">
-                            Lihat Semua Data Ternak →
+                            Lihat Semua →
                         </a>
                     </div>
 
@@ -196,7 +196,7 @@
                                 </h4>
                                 <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Tidak diketahui' }}</p>
                                 <p class="text-xs text-gray-500 mt-2">
-                                    Umur: {{ $ternak->umur ? $ternak->umur . ' tahun' : 'Belum diketahui' }}
+                                    Umur: {{ $ternak ? $ternak->umur_text : 'Belum diketahui' }}
                                 </p>
                                 <div class="mt-3 pt-3 border-t border-gray-100">
                                     <div class="text-xs text-gray-400">
@@ -210,9 +210,9 @@
                         <div class="mt-4 text-center py-4">
                             <p class="text-sm text-gray-500">
                                 Belum ada data ternak.
-                                <a href="{{ route('peternak.ternak') }}"
+                                <a href="{{ route('penyuluh.ternak') }}"
                                     class="text-primary hover:text-secondary font-medium">
-                                    Tambah ternak pertama Anda →
+                                    Lihat Ternak
                                 </a>
                             </p>
                         </div>

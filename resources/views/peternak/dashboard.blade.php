@@ -151,7 +151,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm font-medium">Konsultasi Aktif</p>
-                        <p class="text-3xl font-bold text-gray-900">{{ $konsultasiSaya ?? 3 }}</p>                        
+                        <p class="text-3xl font-bold text-gray-900">{{ $konsultasiSaya ?? 3 }}</p>
                     </div>
                     <div class="bg-purple-100 p-3 rounded-full">
                         <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @foreach($recentTernakList ?? [] as $ternak)
+                        @foreach ($recentTernakList ?? [] as $ternak)
                             <div class="ternak-card border border-gray-200 rounded-lg p-4">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-xl">🐄</span>
@@ -196,14 +196,15 @@
                                 </h4>
                                 <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Tidak diketahui' }}</p>
                                 <p class="text-xs text-gray-500 mt-2">
-                                    Umur: {{ $ternak->umur ? $ternak->umur . ' tahun' : 'Belum diketahui' }}
+                                    Umur: {{ $ternak ? $ternak->umur_text : 'Belum diketahui' }}
+
                                 </p>
                                 <div class="mt-3 pt-3 border-t border-gray-100">
                                     <div class="text-xs text-gray-400">
                                         ID: {{ $ternak->idTernak ?? 'TRN-' . sprintf('%03d', rand(1, 999)) }}
                                     </div>
                                 </div>
-                            </div>                       
+                            </div>
                         @endforeach
                     </div>
 
@@ -211,8 +212,8 @@
                         <div class="mt-4 text-center py-4">
                             <p class="text-sm text-gray-500">
                                 Belum ada data ternak.
-                                <a href="{{ route('peternak.ternak') }}"
-                          endforea       class="text-primary hover:text-secondary font-medium">
+                                <a href="{{ route('peternak.ternak') }}" endforea
+                                    class="text-primary hover:text-secondary font-medium">
                                     Tambah ternak pertama Anda →
                                 </a>
                             </p>

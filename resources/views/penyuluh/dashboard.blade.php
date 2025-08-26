@@ -196,7 +196,7 @@
                                 </h4>
                                 <p class="text-sm text-gray-600">{{ $ternak->jenis ?? 'Tidak diketahui' }}</p>
                                 <p class="text-xs text-gray-500 mt-2">
-                                    Umur: {{ $ternak->umur ? $ternak->umur . ' tahun' : 'Belum diketahui' }}
+                                    Umur: {{ $ternak ? $ternak->umur_text : 'Belum diketahui' }}
                                 </p>
                                 <div class="mt-3 pt-3 border-t border-gray-100">
                                     <div class="text-xs text-gray-400">

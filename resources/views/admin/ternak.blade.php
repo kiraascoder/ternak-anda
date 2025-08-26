@@ -272,7 +272,7 @@
                     data-name="{{ $ternak->namaTernak ?? 'Sapi #' . sprintf('%03d', $index + 1) }}"
                     data-status="{{ $ternak->status ?? 'sehat' }}" data-id="{{ $ternak->idTernak ?? $index + 1 }}"
                     data-jenis="{{ $ternak->jenis ?? ['Sapi Limosin', 'Sapi Brahman', 'Sapi Angus', 'Sapi Simental'][$index % 4] }}"
-                    data-umur="{{ $ternak->tanggalLahir ? \Carbon\Carbon::parse($ternak->tanggalLahir)->age : rand(1, 5) }}"
+                    data-umur="{{ $ternak ? $ternak->umur_text : 'Belum diketahui' }}"
                     data-berat="{{ $ternak->berat ?? rand(200, 500) }}"
                     data-tanggal-lahir="{{ $ternak->tanggalLahir ?? date('Y-m-d', strtotime('-' . rand(1, 5) . ' years')) }}"
                     data-kelamin="{{ $ternak->jenis_kelamin ?? ['Jantan', 'Betina'][rand(0, 1)] }}"
@@ -302,7 +302,14 @@
                                 </svg>
                                 Umur:
                                 @if ($ternak->tanggalLahir)
-                                    {{ \Carbon\Carbon::parse($ternak->tanggalLahir)->age }} tahun
+                                    @php
+                                        $diff = \Carbon\Carbon::parse($ternak->tanggalLahir)->diff(now());
+                                    @endphp
+                                    @if ($diff->y < 1)
+                                        {{ $diff->m }} bulan
+                                    @else
+                                        {{ $diff->y }} tahun {{ $diff->m ? $diff->m . ' bulan' : '' }}
+                                    @endif
                                 @else
                                     {{ rand(1, 5) }} tahun
                                 @endif
@@ -411,10 +418,18 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     @if ($ternak->tanggalLahir)
-                                        {{ \Carbon\Carbon::parse($ternak->tanggalLahir)->age }} tahun
+                                        @php
+                                            $diff = \Carbon\Carbon::parse($ternak->tanggalLahir)->diff(now());
+                                        @endphp
+                                        @if ($diff->y < 1)
+                                            {{ $diff->m }} bulan
+                                        @else
+                                            {{ $diff->y }} tahun {{ $diff->m ? $diff->m . ' bulan' : '' }}
+                                        @endif
                                     @else
                                         {{ rand(1, 5) }} tahun
                                     @endif
+
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $ternak->berat ?? rand(200, 500) }} kg

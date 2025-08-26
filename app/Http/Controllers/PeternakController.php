@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Konsultasi;
 use App\Models\Pakan;
 use App\Models\Ternak;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,10 @@ class PeternakController extends Controller
         $ternakSakit = Ternak::where('idPemilik', Auth::user()->idUser)->where('status', 'sakit')->count();
         $konsultasiSaya = Konsultasi::where('idPeternak', Auth::user()->idUser)->count();
         $recentTernakList = Ternak::where('idPemilik', Auth::user()->idUser)->orderBy('created_at', 'desc')->take(5)->get();
+        $tanggalLahir = Carbon::parse($ternak->tanggal_lahir);
+        $now = Carbon::now();
+        $years = $tanggalLahir->diffInYears($now);
+        $months = $tanggalLahir->diffInMonths($now) % 12;
         return view('peternak.dashboard', compact('ternak', 'totalTernak', 'ternakSehat', 'ternakSakit', 'konsultasiSaya', 'recentTernakList'));
     }
 
