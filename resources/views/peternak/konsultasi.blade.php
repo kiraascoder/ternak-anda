@@ -381,7 +381,7 @@
                                                 </path>
                                             </svg>
                                             Chat
-                                        </button>                                    
+                                        </button>
                                     @endif
                                     <button onclick="openDetailModal({{ $item->idKonsultasi }})"
                                         class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors">
@@ -499,7 +499,7 @@
                                 <option value="">Pilih Ternak</option>
                                 @if (isset($ternakList))
                                     @foreach ($ternakList as $ternak)
-                                        <option value="{{ $ternak->idTernak }}">{{ $ternak->namaTernak }}                                            
+                                        <option value="{{ $ternak->idTernak }}">{{ $ternak->namaTernak }}
                                         </option>
                                     @endforeach
                                 @else
@@ -558,7 +558,7 @@
                                             onclick="selectExpert({{ $penyuluh->idUser }}, this)">
                                             <input type="radio" name="idPenyuluh" value="{{ $penyuluh->idUser }}"
                                                 class="hidden">
-                                            <div class="flex items-center space-x-3">                                                
+                                            <div class="flex items-center space-x-3">
                                                 <div class="flex-1">
                                                     <h4 class="font-semibold text-gray-900">{{ $penyuluh->name }}</h4>
                                                     <p class="text-sm text-gray-600">{{ $penyuluh->role }}</p>
@@ -685,6 +685,37 @@
                                         class="max-w-full max-h-96 rounded-lg shadow-md object-cover">
                                 </div>
                             </div>
+                            <!-- Saran dari Penyuluh -->
+                            <div id="detailSaranCard" class="bg-white border border-gray-200 rounded-lg p-6 hidden">
+                                <h5 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 8h10M7 12h6m-6 4h10M5 6a2 2 0 012-2h10a2 2 0 012 2v12l-4-3H7a2 2 0 01-2-2V6z" />
+                                    </svg>
+                                    Saran dari Penyuluh
+                                </h5>
+
+                                <!-- loading state -->
+                                <div id="detailSaranLoading" class="flex items-center text-sm text-gray-500">
+                                    <svg class="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                            stroke="currentColor" stroke-width="4" />
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0A12 12 0 000 12h4z" />
+                                    </svg>
+                                    Memuat saran...
+                                </div>
+
+                                <!-- empty state -->
+                                <div id="detailSaranEmpty" class="hidden text-sm text-gray-500">
+                                    Belum ada saran yang diberikan.
+                                </div>
+
+                                <!-- list -->
+                                <div id="detailSaranList" class="space-y-4 hidden"></div>
+                            </div>
+
 
                         </div>
 
@@ -723,7 +754,7 @@
     @endsection
 
     @push('scripts')
-        <script>            
+        <script>
             let currentConsultationId = null;
             let chatAttachments = [];
 
@@ -915,6 +946,7 @@
                 // Show modal
                 document.getElementById('detailModal').classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
+                loadSaran(consultationId);
             }
 
             function closeDetailModal() {
@@ -1161,5 +1193,123 @@
                     });
                 }
             });
+
+            function formatTanggalIndo(isoString) {
+                const d = new Date(isoString);
+                if (isNaN(d)) return '-';
+                const pad = n => String(n).padStart(2, '0');
+                return `${pad(d.getDate())}-${pad(d.getMonth()+1)}-${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            }
+
+            function loadSaran(consultationId) {
+                const card = document.getElementById('detailSaranCard');
+                const loading = document.getElementById('detailSaranLoading');
+                const empty = document.getElementById('detailSaranEmpty');
+                const list = document.getElementById('detailSaranList');
+
+                card.classList.remove('hidden');
+                loading.classList.remove('hidden');
+                empty.classList.add('hidden');
+                list.classList.add('hidden');
+                list.innerHTML = '';
+
+                fetch(`{{ url('/konsultasi') }}/${consultationId}/saran`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                    .then(data => {
+                        loading.classList.add('hidden');
+
+                        if (!data || !data.length) {
+                            empty.classList.remove('hidden');
+                            return;
+                        }
+
+                        list.innerHTML = data.map(item => `
+            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="text-sm font-medium text-gray-900">${item.penyuluh ?? 'Penyuluh'}</div>
+                    <div class="text-xs text-gray-500">${formatTanggalIndo(item.created_at)}</div>
+                </div>
+                <div class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                    ${ (item.saran || '').replace(/\n/g, '<br>') }
+                </div>
+            </div>
+        `).join('');
+
+                        list.classList.remove('hidden');
+                    })
+                    .catch(() => {
+                        loading.classList.add('hidden');
+                        empty.classList.remove('hidden');
+                        empty.textContent = 'Gagal memuat saran.';
+                    });
+            }
+            const saranUrlTemplate = @json(route('konsultasi.saran.list', ['id' => 'ID_PLACEHOLDER']));
+
+            function formatTanggalIndo(isoString) {
+                const d = new Date(isoString);
+                if (isNaN(d)) return '-';
+                const pad = n => String(n).padStart(2, '0');
+                return `${pad(d.getDate())}-${pad(d.getMonth()+1)}-${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            }
+
+            function loadSaran(consultationId) {
+                const card = document.getElementById('detailSaranCard');
+                const loading = document.getElementById('detailSaranLoading');
+                const empty = document.getElementById('detailSaranEmpty');
+                const list = document.getElementById('detailSaranList');
+
+                card.classList.remove('hidden');
+                loading.classList.remove('hidden');
+                empty.classList.add('hidden');
+                list.classList.add('hidden');
+                list.innerHTML = '';
+
+                const url = saranUrlTemplate.replace('ID_PLACEHOLDER', consultationId);
+
+                fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                    .then(data => {
+                        loading.classList.add('hidden');
+
+                        if (!data || !data.length) {
+                            empty.classList.remove('hidden');
+                            return;
+                        }
+
+                        list.innerHTML = data.map(item => {
+                            const penyuluh = item.penyuluh ?? 'Penyuluh';
+                            const waktu = formatTanggalIndo(item.created_at);
+                            const judul = item.judul ?
+                                `<div class="text-sm font-semibold text-gray-900 mb-1">${item.judul}</div>` : '';
+                            const isiHtml = (item.isi || '').replace(/\n/g, '<br>');
+
+                            return `
+              <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="text-sm font-medium text-gray-900">${penyuluh}</div>
+                  <div class="text-xs text-gray-500">${waktu}</div>
+                </div>
+                ${judul}
+                <div class="text-sm text-gray-700 leading-relaxed">${isiHtml}</div>
+              </div>
+            `;
+                        }).join('');
+
+                        list.classList.remove('hidden');
+                    })
+                    .catch(() => {
+                        loading.classList.add('hidden');
+                        empty.classList.remove('hidden');
+                        empty.textContent = 'Gagal memuat saran.';
+                    });
+            }
         </script>
     @endpush

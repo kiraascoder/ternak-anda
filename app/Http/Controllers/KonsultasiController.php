@@ -170,6 +170,31 @@ class KonsultasiController extends Controller
             ], 500);
         }
     }
+
+    public function storeSaran(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'judul'  => 'nullable|string|max:255',
+            'isi'    => 'required|string|max:1000',
+            'rating' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        // contoh simpan ke tabel konsultasi_sarans
+        $saran = KonsultasiSaran::create([
+            'konsultasi_id' => $id,
+            'penyuluh_id'   => auth()->id(),
+            'judul'         => $validated['judul'] ?? null,
+            'isi'           => $validated['isi'],
+            'rating'        => $validated['rating'] ?? null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Saran berhasil disimpan.',
+            'data'    => $saran,
+        ]);
+    }
+
     public function penyuluhView()
     {
         $konsultasis = Konsultasi::where('idPenyuluh', Auth::id())->get();

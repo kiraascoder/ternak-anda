@@ -119,6 +119,109 @@
             margin-bottom: 1rem;
         }
 
+        /* Table Styles */
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .reports-table th {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 0.875rem;
+        }
+
+        .reports-table td {
+            padding: 1rem 0.75rem;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+
+        .reports-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .reports-table tbody tr.hidden-report {
+            display: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .status-badge.sehat {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge.perlu_perhatian {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.sakit {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-action {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-view {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-view:hover {
+            background: #bfdbfe;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+        .checkbox-cell {
+            width: 40px;
+            text-align: center;
+        }
+
+        .checkbox-cell input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+
         /* Modal Styles */
         .modal-overlay {
             background-color: rgba(0, 0, 0, 0.5);
@@ -198,6 +301,7 @@
             }
         }
 
+        /* Print Styles */
         @media print {
             .no-print {
                 display: none !important;
@@ -205,6 +309,7 @@
 
             body {
                 background: white !important;
+                font-size: 12px !important;
             }
 
             .modal-overlay {
@@ -216,6 +321,136 @@
                 max-height: none !important;
                 overflow: visible !important;
                 box-shadow: none !important;
+            }
+
+            .print-header {
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+            }
+
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            .print-table th,
+            .print-table td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .print-table th {
+                background: #f0f0f0;
+                font-weight: bold;
+            }
+
+            .farmer-details {
+                margin-top: 30px;
+                padding: 15px;
+                border: 1px solid #000;
+            }
+
+            .farmer-details h4 {
+                margin: 0 0 10px 0;
+                font-weight: bold;
+            }
+
+            .farmer-info {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .print-footer {
+                margin-top: 30px;
+                text-align: center;
+                font-size: 10px;
+            }
+        }
+
+        /* Filter Button Styles */
+        .filter-btn {
+            background: white;
+            border-color: #d1d5db;
+            color: #6b7280;
+        }
+
+        .filter-btn:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+            color: #374151;
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .filter-btn.active:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        /* Date input styling */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(0.5);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            filter: invert(0.3);
+        }
+
+        .hidden-report {
+            display: none !important;
+        }
+
+        /* Animation for filtering */
+        .report-row {
+            transition: all 0.3s ease;
+        }
+
+        .report-row.filtering-out {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+        .empty-state svg {
+            margin: 0 auto 1rem;
+            color: #d1d5db;
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .reports-table {
+                font-size: 0.75rem;
+            }
+
+            .reports-table th,
+            .reports-table td {
+                padding: 0.5rem 0.25rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .btn-action {
+                padding: 0.375rem;
             }
         }
     </style>
@@ -566,8 +801,9 @@
                 </form>
             </div>
 
-            <!-- Tab Content: Daftar Laporan -->
+            <!-- Tab Content: Daftar Laporan (Table Format) -->
             <div id="content-list" class="tab-content">
+                <!-- Bulk Actions Bar -->
                 <div id="bulkActionsBar" class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 hidden">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -606,7 +842,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Search Bar -->
+
+                <!-- Search and Filter Bar -->
                 <div class="bg-gray-50 rounded-lg p-4 mb-6">
                     <div
                         class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
@@ -660,26 +897,63 @@
                         </div>
                     </div>
                 </div>
-                <!-- Reports Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="reportsGrid">
-                    @forelse ($laporans ?? [] as $laporan)
-                        <div class="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
-                            data-report-id="{{ $laporan->id }}">
-                            <div class="p-6">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-lg font-semibold text-gray-900">
-                                        {{ $laporan->ternak->namaTernak ?? 'Ternak' }}
-                                    </h3>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+
+                <!-- Reports Table -->
+                <div class="overflow-x-auto">
+                    <table class="reports-table" id="reportsTable">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <input type="checkbox" id="selectAllReports" onchange="toggleSelectAll()">
+                                </th>
+                                <th>No</th>
+                                <th>Tanggal Pemeriksaan</th>
+                                <th>Nama Ternak</th>
+                                <th>Jenis</th>
+                                <th>Peternak</th>
+                                <th>Suhu (°C)</th>
+                                <th>Status Kesehatan</th>
+                                <th>Tindakan</th>
+                                <th class="no-print">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody">
+                            @forelse ($laporans ?? [] as $index => $laporan)
+                                <tr class="report-row" data-report-id="{{ $laporan->id }}"
+                                    data-date="{{ \Carbon\Carbon::parse($laporan->tanggal_pemeriksaan)->format('Y-m-d') }}">
+                                    <td class="checkbox-cell no-print">
+                                        <input type="checkbox" class="report-checkbox" value="{{ $laporan->id }}"
+                                            onchange="toggleReportSelection(this.value, this.checked)">
+                                    </td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <div class="text-sm font-medium text-gray-900">
                                             {{ \Carbon\Carbon::parse($laporan->tanggal_pemeriksaan)->format('d M Y') }}
-                                        </span>
-                                        <!-- Status Health Badge -->
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            {{ \Carbon\Carbon::parse($laporan->tanggal_pemeriksaan)->format('H:i') }}
+                                        </div>
+                                    </td>
+                                    <td class="font-medium text-gray-900">
+                                        {{ $laporan->ternak->namaTernak ?? '-' }}
+                                    </td>
+                                    <td class="text-sm text-gray-600">
+                                        {{ $laporan->ternak->jenis ?? '-' }}
+                                    </td>
+                                    <td>
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ $laporan->peternak->nama ?? '-' }}
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="font-mono text-sm">{{ $laporan->suhu_tubuh }}°</span>
+                                    </td>
+                                    <td>
                                         @php
                                             $statusClasses = [
-                                                'sehat' => 'bg-green-100 text-green-700',
-                                                'perlu_perhatian' => 'bg-yellow-100 text-yellow-700',
-                                                'sakit' => 'bg-red-100 text-red-700',
+                                                'sehat' => 'sehat',
+                                                'perlu_perhatian' => 'perlu_perhatian',
+                                                'sakit' => 'sakit',
                                             ];
                                             $statusTexts = [
                                                 'sehat' => 'Sehat',
@@ -688,74 +962,78 @@
                                             ];
                                         @endphp
                                         <span
-                                            class="text-xs px-2 py-1 rounded-full {{ $statusClasses[$laporan->status_kesehatan] ?? 'bg-gray-100 text-gray-700' }}">
+                                            class="status-badge {{ $statusClasses[$laporan->status_kesehatan] ?? 'bg-gray-100 text-gray-700' }}">
                                             {{ $statusTexts[$laporan->status_kesehatan] ?? 'Unknown' }}
                                         </span>
-                                    </div>
-                                </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-xs text-gray-600 max-w-xs">
+                                            {{ Str::limit($laporan->tindakan, 50) }}
+                                        </div>
+                                    </td>
+                                    <td class="no-print">
+                                        <div class="action-buttons">
+                                            <button onclick="viewReport({{ $laporan->id }})" class="btn-action btn-view"
+                                                title="Lihat Detail">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                    </path>
+                                                </svg>
+                                            </button>
 
-                                <div class="space-y-2 text-sm text-gray-600 mb-4">
-                                    <p><strong>Peternak:</strong> {{ $laporan->peternak->nama ?? '-' }}</p>
-                                    <p><strong>Suhu:</strong> {{ $laporan->suhu_tubuh }}°C</p>
-                                    <p><strong>Nafsu Makan:</strong> {{ ucfirst($laporan->nafsu_makan) }}</p>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="flex space-x-2">
-                                    <button onclick="viewReport({{ $laporan->id }})"
-                                        class="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
-                                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                            <button
+                                                onclick="confirmDeleteReport({{ $laporan->id }}, '{{ $laporan->ternak->namaTernak ?? 'Ternak' }}')"
+                                                class="btn-action btn-delete" title="Hapus">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr id="emptyRow">
+                                    <td colspan="10" class="empty-state">
+                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                                             </path>
                                         </svg>
-                                        Detail
-                                    </button>
-
-                                    <button
-                                        onclick="confirmDeleteReport({{ $laporan->id }}, '{{ $laporan->ternak->namaTernak ?? 'Ternak' }}')"
-                                        class="px-3 py-2 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
-                                        title="Hapus Laporan">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <!-- Empty state tetap sama -->
-                        <div class="col-span-full text-center py-12">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                </path>
-                            </svg>
-                            <h3 class="mt-2 text-lg font-medium text-gray-900">Belum Ada Laporan</h3>
-                            <p class="mt-1 text-gray-500">Belum ada laporan kesehatan yang tersedia.</p>
-                            <button onclick="switchTab('form')"
-                                class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                                Buat Laporan Pertama
-                            </button>
-                        </div>
-                    @endforelse
+                                        <h3 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Laporan</h3>
+                                        <p class="text-gray-500 mb-4">Belum ada laporan kesehatan yang tersedia.</p>
+                                        <button onclick="switchTab('form')"
+                                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                                            Buat Laporan Pertama
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Detail Laporan Kesehatan -->
+    <!-- Modal Detail Laporan Kesehatan (with Print Format) -->
     <div id="reportModal" class="fixed inset-0 z-50 hidden modal-overlay">
         <div class="min-h-screen px-4 py-6 flex items-center justify-center">
-            <div class="modal-container bg-white rounded-xl shadow-2xl w-full max-w-4xl fade-in">
-                <!-- Modal Header -->
-                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-xl">
+            <div class="modal-container bg-white rounded-xl shadow-2xl w-full max-w-6xl fade-in">
+                <!-- Print Header (only visible when printing) -->
+                <div class="print-header" style="display: none;">
+                    <h1 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">LAPORAN KESEHATAN TERNAK</h1>
+                    <p style="font-size: 12px; color: #666;">Sistem Manajemen Peternakan</p>
+                </div>
+
+                <!-- Modal Header (hidden in print) -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-xl no-print">
                     <div class="flex justify-between items-center">
                         <div>
                             <h2 class="text-2xl font-bold mb-2">Detail Laporan Kesehatan</h2>
@@ -789,202 +1067,305 @@
 
                 <!-- Modal Content -->
                 <div id="modalContent" class="hidden">
-                    <!-- Basic Information -->
-                    <div class="p-6 border-b border-gray-200">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="bg-blue-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-blue-900 mb-2">Informasi Peternak</h4>
-                                <p class="text-blue-700" id="peternakName">-</p>
-                                <p class="text-blue-600 text-sm" id="peternakAddress">-</p>
+                    <!-- Print Table (only visible when printing) -->
+                    <div style="display: none;" class="print-only">
+                        <table class="print-table">
+                            <tr>
+                                <th style="width: 30%;">Informasi</th>
+                                <th>Detail</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Nama Ternak</strong></td>
+                                <td id="printTernakName">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jenis Ternak</strong></td>
+                                <td id="printTernakType">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Berat Badan</strong></td>
+                                <td id="printTernakWeight">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tanggal Pemeriksaan</strong></td>
+                                <td id="printExamDate">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pemeriksa</strong></td>
+                                <td id="printExaminer">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Suhu Tubuh</strong></td>
+                                <td id="printTemperature">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Status Kesehatan</strong></td>
+                                <td id="printHealthStatus">-</td>
+                            </tr>
+                        </table>
+
+                        <table class="print-table" style="margin-top: 20px;">
+                            <tr>
+                                <th colspan="2" style="text-align: center; background: #f0f0f0;">HASIL PEMERIKSAAN
+                                    FISIK</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Nafsu Makan</strong></td>
+                                <td id="printNafsuMakan">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pernafasan</strong></td>
+                                <td id="printPernafasan">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Kulit & Bulu</strong></td>
+                                <td id="printKulitBulu">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mata & Hidung</strong></td>
+                                <td id="printMataHidung">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Kondisi Feses</strong></td>
+                                <td id="printFeses">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Aktivitas</strong></td>
+                                <td id="printAktivitas">-</td>
+                            </tr>
+                        </table>
+
+                        <table class="print-table" style="margin-top: 20px;">
+                            <tr>
+                                <th colspan="2" style="text-align: center; background: #f0f0f0;">TINDAKAN & REKOMENDASI
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="width: 30%;"><strong>Tindakan yang Dilakukan</strong></td>
+                                <td id="printTindakan">-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rekomendasi Perawatan</strong></td>
+                                <td id="printRekomendasi">-</td>
+                            </tr>
+                        </table>
+
+                        <!-- Farmer Details for Print -->
+                        <div class="farmer-details">
+                            <h4>INFORMASI PETERNAK</h4>
+                            <div class="farmer-info">
+                                <div><strong>Nama:</strong> <span id="printPeternakName">-</span></div>
+                                <div><strong>Alamat:</strong> <span id="printPeternakAddress">-</span></div>
                             </div>
-                            <div class="bg-green-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-green-900 mb-2">Informasi Ternak</h4>
-                                <p class="text-green-700" id="ternakName">-</p>
-                                <p class="text-green-600 text-sm" id="ternakType">-</p>
-                                <p class="text-green-600 text-sm" id="ternakWeight">-</p>
-                            </div>
-                            <div class="bg-purple-50 rounded-lg p-4">
-                                <h4 class="font-semibold text-purple-900 mb-2">Pemeriksaan</h4>
-                                <p class="text-purple-700" id="examDate">-</p>
-                                <p class="text-purple-600 text-sm" id="examiner">-</p>
-                            </div>
+                        </div>
+
+                        <div class="print-footer">
+                            <p>Laporan dicetak pada: <span id="printDate"></span></p>
+                            <p>© Sistem Manajemen Peternakan</p>
                         </div>
                     </div>
 
-                    <!-- Health Status Banner -->
-                    <div class="p-6 border-b border-gray-200">
-                        <div id="healthStatusBanner" class="rounded-lg p-4 text-center">
-                            <div class="flex items-center justify-center mb-2">
-                                <div id="statusIndicator" class="health-indicator-circle"></div>
-                                <h3 class="text-xl font-bold" id="healthStatusText">Status Kesehatan</h3>
-                            </div>
-                            <div class="flex justify-center items-center space-x-4">
-                                <div class="text-center">
-                                    <div class="text-2xl font-bold" id="healthScore">-</div>
-                                    <div class="text-sm opacity-75">Skor Kesehatan</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-xl font-semibold" id="temperatureValue">-</div>
-                                    <div class="text-sm opacity-75">Suhu Tubuh</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Physical Examination -->
-                    <div class="p-6 border-b border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Hasil Pemeriksaan Fisik</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- Nafsu Makan -->
-                            <div class="parameter-card bg-gray-50 rounded-lg p-4">
-                                <div class="flex items-center mb-2">
-                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                    </svg>
-                                    <h4 class="font-medium text-gray-900">Nafsu Makan</h4>
-                                </div>
-                                <p id="nafsuMakan" class="text-gray-700 font-semibold">-</p>
-                            </div>
-
-                            <!-- Pernafasan -->
-                            <div class="parameter-card bg-gray-50 rounded-lg p-4">
-                                <div class="flex items-center mb-2">
-                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                                        </path>
-                                    </svg>
-                                    <h4 class="font-medium text-gray-900">Pernafasan</h4>
-                                </div>
-                                <p id="pernafasan" class="text-gray-700 font-semibold">-</p>
-                            </div>
-
-                            <!-- Kulit & Bulu -->
-                            <div class="parameter-card bg-gray-50 rounded-lg p-4">
-                                <div class="flex items-center mb-2">
-                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                                        </path>
-                                    </svg>
-                                    <h4 class="font-medium text-gray-900">Kulit & Bulu</h4>
-                                </div>
-                                <p id="kulitBulu" class="text-gray-700 font-semibold">-</p>
-                            </div>
-
-                            <!-- Mata & Hidung -->
-                            <div class="parameter-card bg-gray-50 rounded-lg p-4">
-                                <div class="flex items-center mb-2">
-                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                        </path>
-                                    </svg>
-                                    <h4 class="font-medium text-gray-900">Mata & Hidung</h4>
-                                </div>
-                                <p id="mataHidung" class="text-gray-700 font-semibold">-</p>
-                            </div>
-
-                            <!-- Feses -->
-                            <div class="parameter-card bg-gray-50 rounded-lg p-4">
-                                <div class="flex items-center mb-2">
-                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <h4 class="font-medium text-gray-900">Feses</h4>
-                                </div>
-                                <p id="feses" class="text-gray-700 font-semibold">-</p>
-                            </div>
-
-                            <!-- Aktivitas -->
-                            <div class="parameter-card bg-gray-50 rounded-lg p-4">
-                                <div class="flex items-center mb-2">
-                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                    </svg>
-                                    <h4 class="font-medium text-gray-900">Aktivitas</h4>
-                                </div>
-                                <p id="aktivitas" class="text-gray-700 font-semibold">-</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Actions and Recommendations -->
-                    <div class="p-6">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                        </path>
-                                    </svg>
-                                    Tindakan yang Dilakukan
-                                </h4>
+                    <!-- Regular Modal Content (hidden in print) -->
+                    <div class="no-print">
+                        <!-- Basic Information -->
+                        <div class="p-6 border-b border-gray-200">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div class="bg-blue-50 rounded-lg p-4">
-                                    <p id="data-tindakan" class="text-gray-700 leading-relaxed">-</p>
+                                    <h4 class="font-semibold text-blue-900 mb-2">Informasi Peternak</h4>
+                                    <p class="text-blue-700" id="peternakName">-</p>
+                                    <p class="text-blue-600 text-sm" id="peternakAddress">-</p>
                                 </div>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                    <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
-                                        </path>
-                                    </svg>
-                                    Rekomendasi Perawatan
-                                </h4>
                                 <div class="bg-green-50 rounded-lg p-4">
-                                    <p id="data-rekomendasi" class="text-gray-700 leading-relaxed"></p>
+                                    <h4 class="font-semibold text-green-900 mb-2">Informasi Ternak</h4>
+                                    <p class="text-green-700" id="ternakName">-</p>
+                                    <p class="text-green-600 text-sm" id="ternakType">-</p>
+                                    <p class="text-green-600 text-sm" id="ternakWeight">-</p>
+                                </div>
+                                <div class="bg-purple-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-purple-900 mb-2">Pemeriksaan</h4>
+                                    <p class="text-purple-700" id="examDate">-</p>
+                                    <p class="text-purple-600 text-sm" id="examiner">-</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Footer -->
-                    <div class="bg-gray-50 px-6 py-4 rounded-b-xl no-print">
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm text-gray-600">
-                                Laporan dibuat pada: <span id="createdAt">-</span>
-                            </p>
-                            <div class="flex space-x-3">
-                                <button onclick="printReport()"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
-                                        </path>
-                                    </svg>
-                                    Cetak
-                                </button>
+                        <!-- Health Status Banner -->
+                        <div class="p-6 border-b border-gray-200">
+                            <div id="healthStatusBanner" class="rounded-lg p-4 text-center">
+                                <div class="flex items-center justify-center mb-2">
+                                    <div id="statusIndicator" class="health-indicator-circle"></div>
+                                    <h3 class="text-xl font-bold" id="healthStatusText">Status Kesehatan</h3>
+                                </div>
+                                <div class="flex justify-center items-center space-x-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold" id="healthScore">-</div>
+                                        <div class="text-sm opacity-75">Skor Kesehatan</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-xl font-semibold" id="temperatureValue">-</div>
+                                        <div class="text-sm opacity-75">Suhu Tubuh</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                <button onclick="confirmDeleteCurrentReport()"
-                                    class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg>
-                                    Hapus
-                                </button>
+                        <!-- Physical Examination -->
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Hasil Pemeriksaan Fisik</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <!-- Nafsu Makan -->
+                                <div class="parameter-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                        <h4 class="font-medium text-gray-900">Nafsu Makan</h4>
+                                    </div>
+                                    <p id="nafsuMakan" class="text-gray-700 font-semibold">-</p>
+                                </div>
 
-                                <button onclick="closeModal()"
-                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors">
-                                    Tutup
-                                </button>
+                                <!-- Pernafasan -->
+                                <div class="parameter-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                                            </path>
+                                        </svg>
+                                        <h4 class="font-medium text-gray-900">Pernafasan</h4>
+                                    </div>
+                                    <p id="pernafasan" class="text-gray-700 font-semibold">-</p>
+                                </div>
+
+                                <!-- Kulit & Bulu -->
+                                <div class="parameter-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                            </path>
+                                        </svg>
+                                        <h4 class="font-medium text-gray-900">Kulit & Bulu</h4>
+                                    </div>
+                                    <p id="kulitBulu" class="text-gray-700 font-semibold">-</p>
+                                </div>
+
+                                <!-- Mata & Hidung -->
+                                <div class="parameter-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+                                        </svg>
+                                        <h4 class="font-medium text-gray-900">Mata & Hidung</h4>
+                                    </div>
+                                    <p id="mataHidung" class="text-gray-700 font-semibold">-</p>
+                                </div>
+
+                                <!-- Feses -->
+                                <div class="parameter-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <h4 class="font-medium text-gray-900">Feses</h4>
+                                    </div>
+                                    <p id="feses" class="text-gray-700 font-semibold">-</p>
+                                </div>
+
+                                <!-- Aktivitas -->
+                                <div class="parameter-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                        <h4 class="font-medium text-gray-900">Aktivitas</h4>
+                                    </div>
+                                    <p id="aktivitas" class="text-gray-700 font-semibold">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions and Recommendations -->
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                            </path>
+                                        </svg>
+                                        Tindakan yang Dilakukan
+                                    </h4>
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <p id="data-tindakan" class="text-gray-700 leading-relaxed">-</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                                            </path>
+                                        </svg>
+                                        Rekomendasi Perawatan
+                                    </h4>
+                                    <div class="bg-green-50 rounded-lg p-4">
+                                        <p id="data-rekomendasi" class="text-gray-700 leading-relaxed">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="bg-gray-50 px-6 py-4 rounded-b-xl">
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm text-gray-600">
+                                    Laporan dibuat pada: <span id="createdAt">-</span>
+                                </p>
+                                <div class="flex space-x-3">
+                                    <button onclick="printReport()"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                                            </path>
+                                        </svg>
+                                        Cetak
+                                    </button>
+
+                                    <button onclick="confirmDeleteCurrentReport()"
+                                        class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                            </path>
+                                        </svg>
+                                        Hapus
+                                    </button>
+
+                                    <button onclick="closeModal()"
+                                        class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors">
+                                        Tutup
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -992,6 +1373,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
     <div id="deleteConfirmModal" class="fixed inset-0 z-50 hidden modal-overlay">
         <div class="min-h-screen px-4 py-6 flex items-center justify-center">
             <div class="bg-white rounded-xl shadow-2xl w-full max-w-md fade-in">
@@ -1056,76 +1439,25 @@
         </div>
     </div>
 @endsection
-<style>
-    /* Filter Button Styles */
-    .filter-btn {
-        background: white;
-        border-color: #d1d5db;
-        color: #6b7280;
-    }
 
-    .filter-btn:hover {
-        background: #f3f4f6;
-        border-color: #9ca3af;
-        color: #374151;
-    }
-
-    .filter-btn.active {
-        background: #3b82f6;
-        border-color: #3b82f6;
-        color: white;
-    }
-
-    .filter-btn.active:hover {
-        background: #2563eb;
-        border-color: #2563eb;
-    }
-
-    /* Date input styling */
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        cursor: pointer;
-        filter: invert(0.5);
-    }
-
-    input[type="date"]::-webkit-calendar-picker-indicator:hover {
-        filter: invert(0.3);
-    }
-
-    .hidden-report {
-        display: none !important;
-    }
-
-    /* Animation for filtering */
-    .report-card {
-        transition: all 0.3s ease;
-    }
-
-    .report-card.filtering-out {
-        opacity: 0.3;
-        transform: scale(0.95);
-    }
-
-    /* Filter statistics */
-    .filter-stats {
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
-        color: #1d4ed8;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-    }
-
-    .filter-stats.no-results {
-        background: #fef2f2;
-        border-color: #fecaca;
-        color: #dc2626;
-    }
-</style>
 @push('scripts')
     <script>
-        // Global variable to store current report data
+        // Global variables
         let currentReportData = null;
+        let pendingDeleteId = null;
+        let pendingDeleteName = null;
+        let selectedReports = new Set();
+        let isDeleting = false;
+        let currentFilter = 'all';
+        let currentSearchTerm = '';
+        let customDateRange = {
+            from: null,
+            to: null
+        };
+
+        // ========================================
+        // TAB AND FORM FUNCTIONS
+        // ========================================
 
         function switchTab(tabName) {
             // Hide all tab contents
@@ -1144,7 +1476,7 @@
         }
 
         // Filter ternak berdasarkan peternak yang dipilih
-        document.getElementById('idPeternak').addEventListener('change', function() {
+        document.getElementById('idPeternak')?.addEventListener('change', function() {
             const peternakId = this.value;
             const ternakSelect = document.getElementById('idTernak');
             const ternakOptions = ternakSelect.querySelectorAll('option');
@@ -1182,7 +1514,7 @@
         });
 
         // Form validation and submission
-        document.getElementById('healthReportForm').addEventListener('submit', function(e) {
+        document.getElementById('healthReportForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
 
             const submitBtn = document.getElementById('submitBtn');
@@ -1268,7 +1600,7 @@
 
             // Validate specific field values
             const suhuTubuh = document.getElementById('suhu_tubuh');
-            if (suhuTubuh.value && (suhuTubuh.value < 35 || suhuTubuh.value > 45)) {
+            if (suhuTubuh?.value && (suhuTubuh.value < 35 || suhuTubuh.value > 45)) {
                 isValid = false;
                 suhuTubuh.classList.add('border-red-500');
                 if (!firstErrorField) firstErrorField = suhuTubuh;
@@ -1276,7 +1608,7 @@
             }
 
             const beratBadan = document.getElementById('berat_badan');
-            if (beratBadan.value && beratBadan.value < 0) {
+            if (beratBadan?.value && beratBadan.value < 0) {
                 isValid = false;
                 beratBadan.classList.add('border-red-500');
                 if (!firstErrorField) firstErrorField = beratBadan;
@@ -1324,29 +1656,385 @@
             return labels[fieldName] || fieldName;
         }
 
+        // ========================================
+        // TABLE AND FILTERING FUNCTIONS
+        // ========================================
+
         // Search reports function
         function searchReports() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const reportCards = document.querySelectorAll('#reportsGrid > div');
-
-            reportCards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            currentSearchTerm = document.getElementById('searchInput').value.toLowerCase();
+            applyFilters();
         }
 
-        // VIEW REPORT FUNCTION - Updated to use modal
+        // Filter by period
+        function filterByPeriod(period) {
+            currentFilter = period;
+
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`filter-${period}`)?.classList.add('active');
+
+            // Clear custom date range when using preset filters
+            if (period !== 'custom') {
+                const dateFrom = document.getElementById('dateFrom');
+                const dateTo = document.getElementById('dateTo');
+                if (dateFrom) dateFrom.value = '';
+                if (dateTo) dateTo.value = '';
+                customDateRange = {
+                    from: null,
+                    to: null
+                };
+            }
+
+            // Apply filters
+            applyFilters();
+        }
+
+        // Filter by custom date range
+        function filterByCustomRange() {
+            const fromDate = document.getElementById('dateFrom')?.value;
+            const toDate = document.getElementById('dateTo')?.value;
+
+            if (fromDate && toDate) {
+                customDateRange = {
+                    from: fromDate,
+                    to: toDate
+                };
+                currentFilter = 'custom';
+
+                // Update button states
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                applyFilters();
+            } else if (fromDate || toDate) {
+                // Partial date range
+                customDateRange = {
+                    from: fromDate,
+                    to: toDate
+                };
+                currentFilter = 'custom';
+                applyFilters();
+            }
+        }
+
+        // Clear custom date range
+        function clearCustomRange() {
+            const dateFrom = document.getElementById('dateFrom');
+            const dateTo = document.getElementById('dateTo');
+            if (dateFrom) dateFrom.value = '';
+            if (dateTo) dateTo.value = '';
+            customDateRange = {
+                from: null,
+                to: null
+            };
+
+            // Reset to 'all' filter
+            filterByPeriod('all');
+        }
+
+        // Apply both search and date filters
+        function applyFilters() {
+            const reportRows = document.querySelectorAll('#reportsTableBody .report-row');
+            let visibleCount = 0;
+            const totalCount = reportRows.length;
+
+            reportRows.forEach(row => {
+                const shouldShow = passesFilters(row);
+
+                if (shouldShow) {
+                    row.classList.remove('hidden-report');
+                    row.style.display = 'table-row';
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden-report');
+                    row.style.display = 'none';
+                }
+            });
+
+            // Update results count
+            updateResultsCount(visibleCount, totalCount);
+
+            // Show/hide empty state
+            if (visibleCount === 0 && totalCount > 0) {
+                showFilterEmptyState();
+            } else {
+                hideFilterEmptyState();
+            }
+        }
+
+        // Check if a report row passes all current filters
+        function passesFilters(row) {
+            // Extract data from row
+            const rowText = row.textContent.toLowerCase();
+            const dateAttr = row.getAttribute('data-date');
+
+            // Parse the date from the row
+            let rowDate = null;
+            if (dateAttr) {
+                rowDate = new Date(dateAttr);
+            }
+
+            // Check search filter
+            if (currentSearchTerm && !rowText.includes(currentSearchTerm)) {
+                return false;
+            }
+
+            // Check date filter
+            if (currentFilter !== 'all' && rowDate) {
+                if (!passesDateFilter(rowDate, currentFilter)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Check if date passes the current filter
+        function passesDateFilter(rowDate, filter) {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+            switch (filter) {
+                case 'today':
+                    const rowDateOnly = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
+                    return rowDateOnly.getTime() === today.getTime();
+
+                case 'week':
+                    const weekStart = new Date(today);
+                    weekStart.setDate(today.getDate() - today.getDay()); // Start of week (Sunday)
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6); // End of week (Saturday)
+                    weekEnd.setHours(23, 59, 59, 999);
+
+                    return rowDate >= weekStart && rowDate <= weekEnd;
+
+                case 'month':
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                    return rowDate >= monthStart && rowDate <= monthEnd;
+
+                case 'custom':
+                    if (customDateRange.from && customDateRange.to) {
+                        const fromDate = new Date(customDateRange.from);
+                        const toDate = new Date(customDateRange.to + 'T23:59:59');
+                        return rowDate >= fromDate && rowDate <= toDate;
+                    } else if (customDateRange.from) {
+                        const fromDate = new Date(customDateRange.from);
+                        return rowDate >= fromDate;
+                    } else if (customDateRange.to) {
+                        const toDate = new Date(customDateRange.to + 'T23:59:59');
+                        return rowDate <= toDate;
+                    }
+                    return true;
+
+                default:
+                    return true;
+            }
+        }
+
+        // Update results count display
+        function updateResultsCount(visible, total) {
+            const countElement = document.getElementById('resultsCount');
+            if (!countElement) return;
+
+            let message = '';
+
+            if (currentFilter === 'all' && !currentSearchTerm) {
+                message = `Menampilkan semua ${total} laporan`;
+            } else {
+                message = `Menampilkan ${visible} dari ${total} laporan`;
+
+                if (currentSearchTerm) {
+                    message += ` (pencarian: "${currentSearchTerm}")`;
+                }
+
+                if (currentFilter !== 'all') {
+                    const filterNames = {
+                        'today': 'hari ini',
+                        'week': 'minggu ini',
+                        'month': 'bulan ini',
+                        'custom': 'periode khusus'
+                    };
+                    message += ` (filter: ${filterNames[currentFilter]})`;
+                }
+            }
+
+            countElement.textContent = message;
+        }
+
+        // Show empty state for filtered results
+        function showFilterEmptyState() {
+            const existingEmptyState = document.getElementById('filter-empty-state');
+            if (existingEmptyState) return;
+
+            const tableBody = document.getElementById('reportsTableBody');
+            const emptyRow = document.createElement('tr');
+            emptyRow.id = 'filter-empty-state';
+
+            let message = 'Tidak ada laporan yang ditemukan';
+            let suggestion = '';
+
+            if (currentSearchTerm && currentFilter !== 'all') {
+                message = 'Tidak ada laporan yang cocok dengan pencarian dan filter';
+                suggestion = 'Coba ubah kata kunci pencarian atau pilih periode yang berbeda.';
+            } else if (currentSearchTerm) {
+                message = 'Tidak ada laporan yang cocok dengan pencarian';
+                suggestion = 'Coba gunakan kata kunci yang berbeda.';
+            } else if (currentFilter !== 'all') {
+                const filterNames = {
+                    'today': 'hari ini',
+                    'week': 'minggu ini',
+                    'month': 'bulan ini',
+                    'custom': 'periode yang dipilih'
+                };
+                message = `Tidak ada laporan untuk ${filterNames[currentFilter]}`;
+                suggestion = 'Coba pilih periode yang berbeda.';
+            }
+
+            emptyRow.innerHTML = `
+                <td colspan="10" class="empty-state">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+                        </path>
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">${message}</h3>
+                    <p class="text-gray-500 mb-4">${suggestion}</p>
+                    <div class="space-x-2">
+                        <button onclick="clearAllFilters()" 
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                            Hapus Semua Filter
+                        </button>
+                        <button onclick="switchTab('form')" 
+                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">
+                            Buat Laporan Baru
+                        </button>
+                    </div>
+                </td>
+            `;
+
+            tableBody.appendChild(emptyRow);
+        }
+
+        // Hide filter empty state
+        function hideFilterEmptyState() {
+            const emptyState = document.getElementById('filter-empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+        }
+
+        // Clear all filters and search
+        function clearAllFilters() {
+            // Clear search
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            currentSearchTerm = '';
+
+            // Clear custom date range
+            clearCustomRange();
+
+            // Reset to 'all' filter
+            filterByPeriod('all');
+        }
+
+        // ========================================
+        // SELECTION AND BULK ACTIONS
+        // ========================================
+
+        // Toggle select all reports
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAllReports');
+            const reportCheckboxes = document.querySelectorAll('.report-checkbox');
+
+            reportCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+                toggleReportSelection(checkbox.value, checkbox.checked);
+            });
+
+            updateBulkActionsBar();
+        }
+
+        // Toggle individual report selection
+        function toggleReportSelection(reportId, isSelected) {
+            if (isSelected) {
+                selectedReports.add(parseInt(reportId));
+            } else {
+                selectedReports.delete(parseInt(reportId));
+            }
+
+            // Update select all checkbox state
+            updateSelectAllState();
+            updateBulkActionsBar();
+        }
+
+        // Update select all checkbox state
+        function updateSelectAllState() {
+            const selectAllCheckbox = document.getElementById('selectAllReports');
+            if (!selectAllCheckbox) return;
+
+            const reportCheckboxes = document.querySelectorAll('.report-checkbox');
+            const totalCheckboxes = reportCheckboxes.length;
+            const checkedCheckboxes = Array.from(reportCheckboxes).filter(cb => cb.checked).length;
+
+            if (checkedCheckboxes === 0) {
+                selectAllCheckbox.indeterminate = false;
+                selectAllCheckbox.checked = false;
+            } else if (checkedCheckboxes === totalCheckboxes) {
+                selectAllCheckbox.indeterminate = false;
+                selectAllCheckbox.checked = true;
+            } else {
+                selectAllCheckbox.indeterminate = true;
+                selectAllCheckbox.checked = false;
+            }
+        }
+
+        // Update bulk actions bar visibility and count
+        function updateBulkActionsBar() {
+            const bulkBar = document.getElementById('bulkActionsBar');
+            const countElement = document.getElementById('selectedCount');
+            if (!bulkBar || !countElement) return;
+
+            const count = selectedReports.size;
+
+            if (count > 0) {
+                bulkBar.classList.remove('hidden');
+                countElement.textContent = `${count} laporan dipilih`;
+            } else {
+                bulkBar.classList.add('hidden');
+            }
+        }
+
+        // Clear all selections
+        function clearSelection() {
+            selectedReports.clear();
+
+            // Uncheck all checkboxes
+            document.querySelectorAll('.report-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+
+            const selectAllCheckbox = document.getElementById('selectAllReports');
+            if (selectAllCheckbox) selectAllCheckbox.checked = false;
+
+            updateBulkActionsBar();
+        }
+
+        // ========================================
+        // VIEW REPORT AND MODAL FUNCTIONS
+        // ========================================
+
+        // View report function
         async function viewReport(reportId) {
             await showReportModal(reportId);
         }
 
-        // MODAL FUNCTIONS
-        // Ganti function showReportModal dengan versi ini yang lebih robust
-
+        // Show report modal with data
         async function showReportModal(reportId) {
             const modal = document.getElementById('reportModal');
             const loading = document.getElementById('modalLoading');
@@ -1360,7 +2048,7 @@
             try {
                 console.log(`Fetching report detail for ID: ${reportId}`);
 
-                // Fetch report data with better error handling
+                // Fetch report data
                 const response = await fetch(`/penyuluh/laporan/${reportId}/detail`, {
                     method: 'GET',
                     headers: {
@@ -1373,37 +2061,24 @@
                     credentials: 'same-origin'
                 });
 
-                console.log(`Response status: ${response.status}`);
-                console.log(`Response headers:`, response.headers);
-
-                // Check if response is ok
                 if (!response.ok) {
-                    // Try to get error message from response
                     let errorMessage = `HTTP ${response.status}`;
                     try {
                         const errorData = await response.json();
                         errorMessage = errorData.message || errorMessage;
                     } catch (e) {
-                        // If response is not JSON, get text
-                        const errorText = await response.text();
-                        console.log('Error response text:', errorText.substring(0, 500));
-
                         if (response.status === 404) {
                             errorMessage = 'Endpoint tidak ditemukan. Pastikan route sudah terdaftar.';
                         } else if (response.status === 500) {
                             errorMessage = 'Server error. Periksa Laravel log untuk detail.';
                         } else if (response.status === 302 || response.status === 401) {
                             errorMessage = 'Session expired atau tidak terautentikasi. Silakan login ulang.';
-                        } else {
-                            errorMessage = `Server mengembalikan ${response.status}. Periksa log server.`;
                         }
                     }
                     throw new Error(errorMessage);
                 }
 
-                // Parse JSON response
                 const result = await response.json();
-                console.log('Parsed response:', result);
 
                 if (!result.success) {
                     throw new Error(result.message || 'Failed to load report data');
@@ -1423,94 +2098,76 @@
 
                 // Show detailed error message
                 loading.innerHTML = `
-            <div class="text-center max-w-md mx-auto">
-                <div class="text-red-600 mb-3">
-                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-medium text-red-800 mb-2">Gagal Memuat Data</h3>
-                <p class="text-red-600 text-sm mb-3">${error.message}</p>
-                <div class="text-xs text-gray-600 mb-4">
-                    <p><strong>Report ID:</strong> ${reportId}</p>
-                    <p><strong>URL:</strong> /penyuluh/laporan/${reportId}/detail</p>
-                </div>
-                <div class="space-y-2">
-                    <button onclick="showReportModal(${reportId})" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
-                        🔄 Coba Lagi
-                    </button>
-                    <button onclick="closeModal()" class="w-full px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm">
-                        Tutup
-                    </button>
-                </div>
-                <div class="mt-4 p-3 bg-yellow-50 rounded-lg text-left">
-                    <h4 class="text-sm font-medium text-yellow-800 mb-2">🔧 Langkah Troubleshooting:</h4>
-                    <ul class="text-xs text-yellow-700 space-y-1">
-                        <li>• Pastikan route /detail sudah terdaftar</li>
-                        <li>• Pastikan method getDetail() ada di controller</li>
-                        <li>• Periksa Laravel log: storage/logs/laravel.log</li>
-                        <li>• Periksa browser console untuk detail error</li>
-                    </ul>
-                </div>
-            </div>
-        `;
+                    <div class="text-center max-w-md mx-auto">
+                        <div class="text-red-600 mb-3">
+                            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-red-800 mb-2">Gagal Memuat Data</h3>
+                        <p class="text-red-600 text-sm mb-3">${error.message}</p>
+                        <div class="space-y-2">
+                            <button onclick="showReportModal(${reportId})" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                                🔄 Coba Lagi
+                            </button>
+                            <button onclick="closeModal()" class="w-full px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm">
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                `;
             }
         }
 
-        // Tambahkan function untuk test endpoint
-        function testEndpoint(reportId) {
-            console.log('Testing endpoint...');
-            fetch(`penyuluh/laporan/${reportId}/detail`)
-                .then(response => {
-                    console.log('Response status:', response.status);
-                    console.log('Response headers:', [...response.headers.entries()]);
-                    return response.text();
-                })
-                .then(text => {
-                    console.log('Response text:', text.substring(0, 1000));
-                    if (text.startsWith('<!DOCTYPE')) {
-                        console.error('❌ Endpoint mengembalikan HTML, bukan JSON');
-                        console.log('🔧 Kemungkinan penyebab:');
-                        console.log('   - Route belum terdaftar');
-                        console.log('   - Method controller belum ada');
-                        console.log('   - Authentication error');
-                        console.log('   - Server error 500');
-                    } else {
-                        console.log('✅ Endpoint mengembalikan response yang valid');
-                        try {
-                            const json = JSON.parse(text);
-                            console.log('✅ Response adalah JSON valid:', json);
-                        } catch (e) {
-                            console.error('❌ Response bukan JSON valid');
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('❌ Network error:', error);
-                });
-        }
-
-        // Function untuk debug route
-        function debugRoute(reportId) {
-            console.log('=== ROUTE DEBUG ===');
-            console.log('Report ID:', reportId);
-            console.log('Expected URL:', `/penyuluh/laporan/${reportId}/detail`);
-            console.log('Full URL:', window.location.origin + `/penyuluh/laporan/${reportId}/detail`);
-
-            // Test if route exists
-            testEndpoint(reportId);
-        }
         // Function to populate modal with data
         function populateModal(data) {
-            // Basic Information
-            document.getElementById('peternakName').textContent = data.peternak_name || '-';
-            document.getElementById('peternakAddress').textContent = data.peternak_address || '-';
-            document.getElementById('ternakName').textContent = data.ternak_name || '-';
-            document.getElementById('ternakType').textContent = data.ternak_type || '-';
-            document.getElementById('ternakWeight').textContent = data.berat_badan ? `${data.berat_badan} kg` :
+            // Basic Information (Screen View)
+            const peternakNameEl = document.getElementById('peternakName');
+            if (peternakNameEl) peternakNameEl.textContent = data.peternak_name || '-';
+
+            const peternakAddressEl = document.getElementById('peternakAddress');
+            if (peternakAddressEl) peternakAddressEl.textContent = data.peternak_address || '-';
+
+            const ternakNameEl = document.getElementById('ternakName');
+            if (ternakNameEl) ternakNameEl.textContent = data.ternak_name || '-';
+
+            const ternakTypeEl = document.getElementById('ternakType');
+            if (ternakTypeEl) ternakTypeEl.textContent = data.ternak_type || '-';
+
+            const ternakWeightEl = document.getElementById('ternakWeight');
+            if (ternakWeightEl) ternakWeightEl.textContent = data.berat_badan ? `${data.berat_badan} kg` : 'Tidak diukur';
+
+            const examDateEl = document.getElementById('examDate');
+            if (examDateEl) examDateEl.textContent = formatDate(data.tanggal_pemeriksaan) || '-';
+
+            const examinerEl = document.getElementById('examiner');
+            if (examinerEl) examinerEl.textContent = `Dr. ${data.penyuluh_name}` || '-';
+
+            // Print Version Elements
+            const printTernakNameEl = document.getElementById('printTernakName');
+            if (printTernakNameEl) printTernakNameEl.textContent = data.ternak_name || '-';
+
+            const printTernakTypeEl = document.getElementById('printTernakType');
+            if (printTernakTypeEl) printTernakTypeEl.textContent = data.ternak_type || '-';
+
+            const printTernakWeightEl = document.getElementById('printTernakWeight');
+            if (printTernakWeightEl) printTernakWeightEl.textContent = data.berat_badan ? `${data.berat_badan} kg` :
                 'Tidak diukur';
-            document.getElementById('examDate').textContent = formatDate(data.tanggal_pemeriksaan) || '-';
-            document.getElementById('examiner').textContent = `Dr. ${data.penyuluh_name}` || '-';
+
+            const printExamDateEl = document.getElementById('printExamDate');
+            if (printExamDateEl) printExamDateEl.textContent = formatDate(data.tanggal_pemeriksaan) || '-';
+
+            const printExaminerEl = document.getElementById('printExaminer');
+            if (printExaminerEl) printExaminerEl.textContent = `Dr. ${data.penyuluh_name}` || '-';
+
+            const printTemperatureEl = document.getElementById('printTemperature');
+            if (printTemperatureEl) printTemperatureEl.textContent = `${data.suhu_tubuh}°C`;
+
+            const printPeternakNameEl = document.getElementById('printPeternakName');
+            if (printPeternakNameEl) printPeternakNameEl.textContent = data.peternak_name || '-';
+
+            const printPeternakAddressEl = document.getElementById('printPeternakAddress');
+            if (printPeternakAddressEl) printPeternakAddressEl.textContent = data.peternak_address || '-';
 
             // Health Status
             const statusElement = document.getElementById('healthStatusBanner');
@@ -1518,6 +2175,7 @@
             const statusText = document.getElementById('healthStatusText');
             const healthScore = document.getElementById('healthScore');
             const temperature = document.getElementById('temperatureValue');
+            const printHealthStatus = document.getElementById('printHealthStatus');
 
             // Set status styling
             const statusClasses = {
@@ -1532,41 +2190,113 @@
                 'sakit': 'Sakit'
             };
 
-            statusElement.className =
-                `rounded-lg p-4 text-center ${statusClasses[data.status_kesehatan] || 'bg-gray-100 text-gray-800'}`;
-            statusIndicator.className = `health-indicator-circle status-${data.status_kesehatan}`;
-            statusText.textContent = statusTexts[data.status_kesehatan] || 'Tidak Diketahui';
-            healthScore.textContent = `${data.health_score || 0}/7`;
-            temperature.textContent = `${data.suhu_tubuh}°C`;
+            if (statusElement) {
+                statusElement.className =
+                    `rounded-lg p-4 text-center ${statusClasses[data.status_kesehatan] || 'bg-gray-100 text-gray-800'}`;
+            }
+            if (statusIndicator) {
+                statusIndicator.className = `health-indicator-circle status-${data.status_kesehatan}`;
+            }
+            if (statusText) {
+                statusText.textContent = statusTexts[data.status_kesehatan] || 'Tidak Diketahui';
+            }
+            if (healthScore) {
+                healthScore.textContent = `${data.health_score || 0}/7`;
+            }
+            if (temperature) {
+                temperature.textContent = `${data.suhu_tubuh}°C`;
+            }
+            if (printHealthStatus) {
+                printHealthStatus.textContent = statusTexts[data.status_kesehatan] || 'Tidak Diketahui';
+            }
 
-            // Physical Examination Parameters
-            document.getElementById('nafsuMakan').textContent = data.nafsu_makan_text || '-';
-            document.getElementById('pernafasan').textContent = data.pernafasan_text || '-';
-            document.getElementById('kulitBulu').textContent = data.kulit_bulu_text || '-';
-            document.getElementById('mataHidung').textContent = data.mata_hidung_text || '-';
-            document.getElementById('feses').textContent = data.feses_text || '-';
-            document.getElementById('aktivitas').textContent = data.aktivitas_text || '-';
+            // Physical Examination Parameters (Screen)
+            const nafsuMakanEl = document.getElementById('nafsuMakan');
+            if (nafsuMakanEl) nafsuMakanEl.textContent = data.nafsu_makan_text || '-';
 
-            // Actions and Recommendations
-            document.getElementById('data-tindakan').textContent = data.tindakan;
-            document.getElementById('data-rekomendasi').textContent = data.rekomendasi;
+            const pernafasanEl = document.getElementById('pernafasan');
+            if (pernafasanEl) pernafasanEl.textContent = data.pernafasan_text || '-';
+
+            const kulitBuluEl = document.getElementById('kulitBulu');
+            if (kulitBuluEl) kulitBuluEl.textContent = data.kulit_bulu_text || '-';
+
+            const mataHidungEl = document.getElementById('mataHidung');
+            if (mataHidungEl) mataHidungEl.textContent = data.mata_hidung_text || '-';
+
+            const fesesEl = document.getElementById('feses');
+            if (fesesEl) fesesEl.textContent = data.feses_text || '-';
+
+            const aktivitasEl = document.getElementById('aktivitas');
+            if (aktivitasEl) aktivitasEl.textContent = data.aktivitas_text || '-';
+
+            // Physical Examination Parameters (Print)
+            const printNafsuMakanEl = document.getElementById('printNafsuMakan');
+            if (printNafsuMakanEl) printNafsuMakanEl.textContent = data.nafsu_makan_text || '-';
+
+            const printPernafasanEl = document.getElementById('printPernafasan');
+            if (printPernafasanEl) printPernafasanEl.textContent = data.pernafasan_text || '-';
+
+            const printKulitBuluEl = document.getElementById('printKulitBulu');
+            if (printKulitBuluEl) printKulitBuluEl.textContent = data.kulit_bulu_text || '-';
+
+            const printMataHidungEl = document.getElementById('printMataHidung');
+            if (printMataHidungEl) printMataHidungEl.textContent = data.mata_hidung_text || '-';
+
+            const printFesesEl = document.getElementById('printFeses');
+            if (printFesesEl) printFesesEl.textContent = data.feses_text || '-';
+
+            const printAktivitasEl = document.getElementById('printAktivitas');
+            if (printAktivitasEl) printAktivitasEl.textContent = data.aktivitas_text || '-';
+
+            // Actions and Recommendations (Screen)
+            const dataTindakanEl = document.getElementById('data-tindakan');
+            if (dataTindakanEl) dataTindakanEl.textContent = data.tindakan || '-';
+
+            const dataRekomendasiEl = document.getElementById('data-rekomendasi');
+            if (dataRekomendasiEl) dataRekomendasiEl.textContent = data.rekomendasi || '-';
+
+            // Actions and Recommendations (Print)
+            const printTindakanEl = document.getElementById('printTindakan');
+            if (printTindakanEl) printTindakanEl.textContent = data.tindakan || '-';
+
+            const printRekomendasiEl = document.getElementById('printRekomendasi');
+            if (printRekomendasiEl) printRekomendasiEl.textContent = data.rekomendasi || '-';
 
             // Footer
-            document.getElementById('createdAt').textContent = formatDate(data.created_at) || '-';
+            const createdAtEl = document.getElementById('createdAt');
+            if (createdAtEl) createdAtEl.textContent = formatDate(data.created_at) || '-';
 
             // Update modal subtitle
-            document.getElementById('modalSubtitle').textContent = `${data.ternak_name} - ${data.peternak_name}`;
+            const modalSubtitleEl = document.getElementById('modalSubtitle');
+            if (modalSubtitleEl) modalSubtitleEl.textContent = `${data.ternak_name} - ${data.peternak_name}`;
+
+            // Set print date
+            const printDateEl = document.getElementById('printDate');
+            if (printDateEl) printDateEl.textContent = new Date().toLocaleDateString('id-ID');
         }
 
         // Function to close modal
         function closeModal() {
-            document.getElementById('reportModal').classList.add('hidden');
+            const modal = document.getElementById('reportModal');
+            if (modal) modal.classList.add('hidden');
             currentReportData = null;
         }
 
         // Function to print report
         function printReport() {
+            // Show print elements
+            document.querySelectorAll('.print-only').forEach(el => {
+                el.style.display = 'block';
+            });
+
             window.print();
+
+            // Hide print elements after printing
+            setTimeout(() => {
+                document.querySelectorAll('.print-only').forEach(el => {
+                    el.style.display = 'none';
+                });
+            }, 1000);
         }
 
         // Function to format date
@@ -1585,8 +2315,401 @@
             return date.toLocaleDateString('id-ID', options);
         }
 
+        // ========================================
+        // DELETE FUNCTIONALITY
+        // ========================================
+
+        // Show confirmation modal for single report delete
+        function confirmDeleteReport(reportId, reportName) {
+            pendingDeleteId = reportId;
+            pendingDeleteName = reportName;
+
+            // Update modal content
+            const deleteReportNameEl = document.getElementById('deleteReportName');
+            if (deleteReportNameEl) deleteReportNameEl.textContent = reportName;
+
+            // Show confirmation modal
+            const deleteModal = document.getElementById('deleteConfirmModal');
+            if (deleteModal) deleteModal.classList.remove('hidden');
+        }
+
+        // Delete current report from modal
+        function confirmDeleteCurrentReport() {
+            if (!currentReportData) {
+                showNotification('Error: Data laporan tidak ditemukan', 'error');
+                return;
+            }
+
+            confirmDeleteReport(
+                currentReportData.id,
+                currentReportData.ternak_name || 'Laporan'
+            );
+        }
+
+        // Cancel delete operation
+        function cancelDelete() {
+            pendingDeleteId = null;
+            pendingDeleteName = null;
+
+            // Hide confirmation modal
+            const deleteModal = document.getElementById('deleteConfirmModal');
+            if (deleteModal) deleteModal.classList.add('hidden');
+
+            // Reset button state
+            resetDeleteButton();
+        }
+
+        // Execute the delete operation
+        async function executeDelete() {
+            if (!pendingDeleteId || isDeleting) {
+                return;
+            }
+
+            if (pendingDeleteId === 'bulk') {
+                await executeBulkDelete();
+                return;
+            }
+
+            try {
+                isDeleting = true;
+                showDeleteLoading();
+
+                // Send delete request
+                const response = await fetch(`/penyuluh/laporan/${pendingDeleteId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute(
+                            'content') || ''
+                    },
+                    credentials: 'same-origin'
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || `HTTP ${response.status}`);
+                }
+
+                if (!result.success) {
+                    throw new Error(result.message || 'Delete operation failed');
+                }
+
+                // Hide modal
+                cancelDelete();
+
+                // Show success notification
+                showNotification('Laporan berhasil dihapus!', 'success');
+
+                // Remove from UI
+                removeReportFromUI(pendingDeleteId);
+
+                // Close detail modal if it's open
+                if (!document.getElementById('reportModal').classList.contains('hidden')) {
+                    closeModal();
+                }
+
+                // Clear pending data
+                pendingDeleteId = null;
+                pendingDeleteName = null;
+
+            } catch (error) {
+                console.error('Error deleting report:', error);
+                showNotification(`Gagal menghapus laporan: ${error.message}`, 'error');
+                resetDeleteButton();
+            } finally {
+                isDeleting = false;
+            }
+        }
+
+        // Confirm bulk delete
+        function confirmBulkDelete() {
+            if (selectedReports.size === 0) {
+                showNotification('Pilih laporan yang ingin dihapus terlebih dahulu', 'warning');
+                return;
+            }
+
+            const count = selectedReports.size;
+            const reportName = `${count} laporan terpilih`;
+
+            // Update confirmation modal for bulk delete
+            const deleteReportNameEl = document.getElementById('deleteReportName');
+            if (deleteReportNameEl) deleteReportNameEl.textContent = reportName;
+
+            // Set special flag for bulk delete
+            pendingDeleteId = 'bulk';
+            pendingDeleteName = reportName;
+
+            // Show confirmation modal
+            const deleteModal = document.getElementById('deleteConfirmModal');
+            if (deleteModal) deleteModal.classList.remove('hidden');
+        }
+
+        // Execute bulk delete
+        async function executeBulkDelete() {
+            if (selectedReports.size === 0 || isDeleting) {
+                return;
+            }
+
+            try {
+                isDeleting = true;
+                showDeleteLoading();
+
+                const response = await fetch('/penyuluh/laporan/bulk-delete', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute(
+                            'content') || ''
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        ids: Array.from(selectedReports)
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || `HTTP ${response.status}`);
+                }
+
+                if (!result.success) {
+                    throw new Error(result.message || 'Bulk delete operation failed');
+                }
+
+                // Hide modal
+                cancelDelete();
+
+                // Show success notification
+                showNotification(`Berhasil menghapus ${result.deleted_count} laporan!`, 'success');
+
+                // Remove reports from UI
+                selectedReports.forEach(reportId => {
+                    removeReportFromUI(reportId);
+                });
+
+                // Clear selections
+                clearSelection();
+
+            } catch (error) {
+                console.error('Error in bulk delete:', error);
+                showNotification(`Gagal menghapus laporan: ${error.message}`, 'error');
+                resetDeleteButton();
+            } finally {
+                isDeleting = false;
+            }
+        }
+
+        // Show loading state on delete button
+        function showDeleteLoading() {
+            const button = document.getElementById('confirmDeleteBtn');
+            const textElement = document.getElementById('deleteButtonText');
+            const loadingElement = document.getElementById('deleteButtonLoading');
+
+            if (button) button.disabled = true;
+            if (textElement) textElement.classList.add('hidden');
+            if (loadingElement) loadingElement.classList.remove('hidden');
+        }
+
+        // Reset delete button to normal state
+        function resetDeleteButton() {
+            const button = document.getElementById('confirmDeleteBtn');
+            const textElement = document.getElementById('deleteButtonText');
+            const loadingElement = document.getElementById('deleteButtonLoading');
+
+            if (button) button.disabled = false;
+            if (textElement) textElement.classList.remove('hidden');
+            if (loadingElement) loadingElement.classList.add('hidden');
+        }
+
+        // Remove report from UI
+        function removeReportFromUI(reportId) {
+            const reportRow = document.querySelector(`tr[data-report-id="${reportId}"]`);
+            if (reportRow) {
+                // Add fade out animation
+                reportRow.style.transition = 'all 0.3s ease';
+                reportRow.style.opacity = '0';
+                reportRow.style.transform = 'scale(0.95)';
+
+                setTimeout(() => {
+                    reportRow.remove();
+
+                    // Check if table is empty
+                    const remainingReports = document.querySelectorAll('#reportsTableBody tr[data-report-id]');
+                    if (remainingReports.length === 0) {
+                        showTableEmptyState();
+                    }
+                }, 300);
+            }
+        }
+
+        // Show empty state when no reports in table
+        function showTableEmptyState() {
+            const tableBody = document.getElementById('reportsTableBody');
+            if (!tableBody) return;
+
+            tableBody.innerHTML = `
+                <tr id="emptyRow">
+                    <td colspan="10" class="empty-state">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Laporan</h3>
+                        <p class="text-gray-500 mb-4">Belum ada laporan kesehatan yang tersedia.</p>
+                        <button onclick="switchTab('form')"
+                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                            Buat Laporan Pertama
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className =
+                `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transition-all duration-300 transform translate-x-full`;
+
+            // Set styles based on type
+            const styles = {
+                success: 'bg-green-100 border border-green-400 text-green-700',
+                error: 'bg-red-100 border border-red-400 text-red-700',
+                warning: 'bg-yellow-100 border border-yellow-400 text-yellow-700',
+                info: 'bg-blue-100 border border-blue-400 text-blue-700'
+            };
+
+            notification.className += ` ${styles[type] || styles.info}`;
+
+            // Set icons based on type
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <span class="text-lg mr-2">${icons[type] || icons.info}</span>
+                    <p class="text-sm font-medium">${message}</p>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                        class="ml-4 text-lg leading-none">&times;</button>
+                </div>
+            `;
+
+            // Add to DOM
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // ========================================
+        // OTHER FUNCTIONS
+        // ========================================
+
+        // Bulk print selected reports
+        function bulkPrint() {
+            if (selectedReports.size === 0) {
+                showNotification('Pilih laporan yang ingin dicetak terlebih dahulu', 'warning');
+                return;
+            }
+
+            // Open print page for selected reports
+            const ids = Array.from(selectedReports).join(',');
+            window.open(`/penyuluh/laporan/bulk-print?ids=${ids}`, '_blank');
+        }
+
+        // Get filter statistics
+        function getFilterStatistics() {
+            const reportRows = document.querySelectorAll('#reportsTableBody tr[data-report-id]');
+            const stats = {
+                total: reportRows.length,
+                today: 0,
+                week: 0,
+                month: 0
+            };
+
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+            reportRows.forEach(row => {
+                const dateAttr = row.getAttribute('data-date');
+                if (dateAttr) {
+                    const rowDate = new Date(dateAttr);
+
+                    // Count today
+                    const rowDateOnly = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
+                    if (rowDateOnly.getTime() === today.getTime()) {
+                        stats.today++;
+                    }
+
+                    // Count this week
+                    const weekStart = new Date(today);
+                    weekStart.setDate(today.getDate() - today.getDay());
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6);
+                    weekEnd.setHours(23, 59, 59, 999);
+
+                    if (rowDate >= weekStart && rowDate <= weekEnd) {
+                        stats.week++;
+                    }
+
+                    // Count this month
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                    if (rowDate >= monthStart && rowDate <= monthEnd) {
+                        stats.month++;
+                    }
+                }
+            });
+
+            return stats;
+        }
+
+        // Update filter buttons with counts
+        function updateFilterButtonsWithCounts() {
+            const stats = getFilterStatistics();
+
+            const filterAllEl = document.getElementById('filter-all');
+            if (filterAllEl) filterAllEl.innerHTML = `Semua (${stats.total})`;
+
+            const filterTodayEl = document.getElementById('filter-today');
+            if (filterTodayEl) filterTodayEl.innerHTML = `Hari Ini (${stats.today})`;
+
+            const filterWeekEl = document.getElementById('filter-week');
+            if (filterWeekEl) filterWeekEl.innerHTML = `Minggu Ini (${stats.week})`;
+
+            const filterMonthEl = document.getElementById('filter-month');
+            if (filterMonthEl) filterMonthEl.innerHTML = `Bulan Ini (${stats.month})`;
+        }
+
         // Real-time suhu tubuh validation
-        document.getElementById('suhu_tubuh').addEventListener('input', function() {
+        document.getElementById('suhu_tubuh')?.addEventListener('input', function() {
             const value = parseFloat(this.value);
             const warningDiv = document.getElementById('suhu-warning');
 
@@ -1612,7 +2735,10 @@
 
         // Auto-save draft functionality
         function saveDraft() {
-            const formData = new FormData(document.getElementById('healthReportForm'));
+            const form = document.getElementById('healthReportForm');
+            if (!form) return;
+
+            const formData = new FormData(form);
             const draftData = {};
 
             for (let [key, value] of formData.entries()) {
@@ -1650,12 +2776,19 @@
             localStorage.removeItem('healthReportDraft');
         }
 
-        // Event listeners for modal
+        // ========================================
+        // EVENT LISTENERS AND INITIALIZATION
+        // ========================================
+
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             // Set default values
             const now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('tanggal_pemeriksaan').value = now.toISOString().slice(0, 16);
+            const tanggalPemeriksaanEl = document.getElementById('tanggal_pemeriksaan');
+            if (tanggalPemeriksaanEl) {
+                tanggalPemeriksaanEl.value = now.toISOString().slice(0, 16);
+            }
 
             // Load draft if exists
             loadDraft();
@@ -1668,6 +2801,9 @@
                 clearDraft();
             }
 
+            // Update button counts
+            updateFilterButtonsWithCounts();
+
             // Modal event listeners
             const modal = document.getElementById('reportModal');
             if (modal) {
@@ -1679,516 +2815,6 @@
                 });
             }
 
-            // Close modal with ESC key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-                    closeModal();
-                }
-            });
-        });
-        // ========================================
-        // DELETE FUNCTIONALITY JAVASCRIPT
-        // ========================================
-
-        // Global variables
-        let pendingDeleteId = null;
-        let pendingDeleteName = null;
-        let selectedReports = new Set();
-        let isDeleting = false;
-
-        // ========================================
-        // SINGLE DELETE FUNCTIONS
-        // ========================================
-
-        /**
-         * Show confirmation modal for single report delete
-         */
-        function confirmDeleteReport(reportId, reportName) {
-            console.log(`🗑️ Confirming delete for report ${reportId}: ${reportName}`);
-
-            pendingDeleteId = reportId;
-            pendingDeleteName = reportName;
-
-            // Update modal content
-            document.getElementById('deleteReportName').textContent = reportName;
-
-            // Show confirmation modal
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
-        }
-
-        /**
-         * Delete current report from modal
-         */
-        function confirmDeleteCurrentReport() {
-            if (!currentReportData) {
-                showNotification('Error: Data laporan tidak ditemukan', 'error');
-                return;
-            }
-
-            confirmDeleteReport(
-                currentReportData.id,
-                currentReportData.ternak_name || 'Laporan'
-            );
-        }
-
-        /**
-         * Cancel delete operation
-         */
-        function cancelDelete() {
-            console.log('❌ Delete operation cancelled');
-
-            pendingDeleteId = null;
-            pendingDeleteName = null;
-
-            // Hide confirmation modal
-            document.getElementById('deleteConfirmModal').classList.add('hidden');
-
-            // Reset button state
-            resetDeleteButton();
-        }
-
-        /**
-         * Execute the delete operation
-         */
-        async function executeDelete() {
-            if (!pendingDeleteId || isDeleting) {
-                return;
-            }
-
-            console.log(`🗑️ Executing delete for report ${pendingDeleteId}`);
-
-            try {
-                isDeleting = true;
-                showDeleteLoading();
-
-                // Send delete request
-                const response = await fetch(`/penyuluh/laporan/${pendingDeleteId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute(
-                            'content') || ''
-                    },
-                    credentials: 'same-origin'
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.message || `HTTP ${response.status}`);
-                }
-
-                if (!result.success) {
-                    throw new Error(result.message || 'Delete operation failed');
-                }
-
-                console.log('✅ Report deleted successfully:', result);
-
-                // Hide modal
-                cancelDelete();
-
-                // Show success notification
-                showNotification(
-                    `Laporan berhasil dihapus!`,
-                    'success'
-                );
-
-                // Remove from UI
-                removeReportFromUI(pendingDeleteId);
-
-                // Close detail modal if it's open
-                if (!document.getElementById('reportModal').classList.contains('hidden')) {
-                    closeModal();
-                }
-
-                // Clear pending data
-                pendingDeleteId = null;
-                pendingDeleteName = null;
-
-            } catch (error) {
-                console.error('❌ Error deleting report:', error);
-
-                showNotification(
-                    `Gagal menghapus laporan: ${error.message}`,
-                    'error'
-                );
-
-                resetDeleteButton();
-            } finally {
-                isDeleting = false;
-            }
-        }
-
-        // ========================================
-        // BULK DELETE FUNCTIONS
-        // ========================================
-
-        /**
-         * Toggle select all reports
-         */
-        function toggleSelectAll() {
-            const selectAllCheckbox = document.getElementById('selectAllReports');
-            const reportCheckboxes = document.querySelectorAll('.report-checkbox');
-
-            reportCheckboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
-                toggleReportSelection(checkbox.value, checkbox.checked);
-            });
-
-            updateBulkActionsBar();
-        }
-
-        /**
-         * Toggle individual report selection
-         */
-        function toggleReportSelection(reportId, isSelected) {
-            if (isSelected) {
-                selectedReports.add(parseInt(reportId));
-            } else {
-                selectedReports.delete(parseInt(reportId));
-            }
-
-            // Update select all checkbox state
-            updateSelectAllState();
-            updateBulkActionsBar();
-        }
-
-        /**
-         * Update select all checkbox state
-         */
-        function updateSelectAllState() {
-            const selectAllCheckbox = document.getElementById('selectAllReports');
-            const reportCheckboxes = document.querySelectorAll('.report-checkbox');
-            const totalCheckboxes = reportCheckboxes.length;
-            const checkedCheckboxes = Array.from(reportCheckboxes).filter(cb => cb.checked).length;
-
-            if (checkedCheckboxes === 0) {
-                selectAllCheckbox.indeterminate = false;
-                selectAllCheckbox.checked = false;
-            } else if (checkedCheckboxes === totalCheckboxes) {
-                selectAllCheckbox.indeterminate = false;
-                selectAllCheckbox.checked = true;
-            } else {
-                selectAllCheckbox.indeterminate = true;
-                selectAllCheckbox.checked = false;
-            }
-        }
-
-        /**
-         * Update bulk actions bar visibility and count
-         */
-        function updateBulkActionsBar() {
-            const bulkBar = document.getElementById('bulkActionsBar');
-            const countElement = document.getElementById('selectedCount');
-            const count = selectedReports.size;
-
-            if (count > 0) {
-                bulkBar.classList.remove('hidden');
-                countElement.textContent = `${count} laporan dipilih`;
-            } else {
-                bulkBar.classList.add('hidden');
-            }
-        }
-
-        /**
-         * Clear all selections
-         */
-        function clearSelection() {
-            selectedReports.clear();
-
-            // Uncheck all checkboxes
-            document.querySelectorAll('.report-checkbox').forEach(cb => {
-                cb.checked = false;
-            });
-
-            document.getElementById('selectAllReports').checked = false;
-            updateBulkActionsBar();
-        }
-
-        /**
-         * Confirm bulk delete
-         */
-        function confirmBulkDelete() {
-            if (selectedReports.size === 0) {
-                showNotification('Pilih laporan yang ingin dihapus terlebih dahulu', 'warning');
-                return;
-            }
-
-            const count = selectedReports.size;
-            const reportName = `${count} laporan terpilih`;
-
-            // Update confirmation modal for bulk delete
-            document.getElementById('deleteReportName').textContent = reportName;
-
-            // Set special flag for bulk delete
-            pendingDeleteId = 'bulk';
-            pendingDeleteName = reportName;
-
-            // Show confirmation modal
-            document.getElementById('deleteConfirmModal').classList.remove('hidden');
-        }
-
-        /**
-         * Execute bulk delete
-         */
-        async function executeBulkDelete() {
-            if (selectedReports.size === 0 || isDeleting) {
-                return;
-            }
-
-            console.log(`🗑️ Executing bulk delete for ${selectedReports.size} reports`);
-
-            try {
-                isDeleting = true;
-                showDeleteLoading();
-
-                const response = await fetch('/penyuluh/laporan/bulk-delete', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute(
-                            'content') || ''
-                    },
-                    credentials: 'same-origin',
-                    body: JSON.stringify({
-                        ids: Array.from(selectedReports)
-                    })
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.message || `HTTP ${response.status}`);
-                }
-
-                if (!result.success) {
-                    throw new Error(result.message || 'Bulk delete operation failed');
-                }
-
-                console.log('✅ Bulk delete successful:', result);
-
-                // Hide modal
-                cancelDelete();
-
-                // Show success notification
-                showNotification(
-                    `Berhasil menghapus ${result.deleted_count} laporan!`,
-                    'success'
-                );
-
-                // Remove reports from UI
-                selectedReports.forEach(reportId => {
-                    removeReportFromUI(reportId);
-                });
-
-                // Clear selections
-                clearSelection();
-
-            } catch (error) {
-                console.error('❌ Error in bulk delete:', error);
-
-                showNotification(
-                    `Gagal menghapus laporan: ${error.message}`,
-                    'error'
-                );
-
-                resetDeleteButton();
-            } finally {
-                isDeleting = false;
-            }
-        }
-
-        // ========================================
-        // UI HELPER FUNCTIONS
-        // ========================================
-
-        /**
-         * Show loading state on delete button
-         */
-        function showDeleteLoading() {
-            const button = document.getElementById('confirmDeleteBtn');
-            const textElement = document.getElementById('deleteButtonText');
-            const loadingElement = document.getElementById('deleteButtonLoading');
-
-            button.disabled = true;
-            textElement.classList.add('hidden');
-            loadingElement.classList.remove('hidden');
-        }
-
-        /**
-         * Reset delete button to normal state
-         */
-        function resetDeleteButton() {
-            const button = document.getElementById('confirmDeleteBtn');
-            const textElement = document.getElementById('deleteButtonText');
-            const loadingElement = document.getElementById('deleteButtonLoading');
-
-            button.disabled = false;
-            textElement.classList.remove('hidden');
-            loadingElement.classList.add('hidden');
-        }
-
-        /**
-         * Remove report card from UI
-         */
-        function removeReportFromUI(reportId) {
-            const reportCard = document.querySelector(`[data-report-id="${reportId}"]`);
-            if (reportCard) {
-                // Add fade out animation
-                reportCard.style.transition = 'all 0.3s ease';
-                reportCard.style.opacity = '0';
-                reportCard.style.transform = 'scale(0.95)';
-
-                setTimeout(() => {
-                    reportCard.remove();
-
-                    // Check if grid is empty
-                    const remainingReports = document.querySelectorAll('#reportsGrid > div[data-report-id]');
-                    if (remainingReports.length === 0) {
-                        showEmptyState();
-                    }
-                }, 300);
-            }
-        }
-
-        /**
-         * Show empty state when no reports
-         */
-        function showEmptyState() {
-            const reportsGrid = document.getElementById('reportsGrid');
-            reportsGrid.innerHTML = `
-        <div class="col-span-full text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                </path>
-            </svg>
-            <h3 class="mt-2 text-lg font-medium text-gray-900">Belum Ada Laporan</h3>
-            <p class="mt-1 text-gray-500">Belum ada laporan kesehatan yang tersedia.</p>
-            <button onclick="switchTab('form')"
-                class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                Buat Laporan Pertama
-            </button>
-        </div>
-    `;
-        }
-
-        /**
-         * Show notification
-         */
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className =
-                `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transition-all duration-300 transform translate-x-full`;
-
-            // Set styles based on type
-            const styles = {
-                success: 'bg-green-100 border border-green-400 text-green-700',
-                error: 'bg-red-100 border border-red-400 text-red-700',
-                warning: 'bg-yellow-100 border border-yellow-400 text-yellow-700',
-                info: 'bg-blue-100 border border-blue-400 text-blue-700'
-            };
-
-            notification.className += ` ${styles[type] || styles.info}`;
-
-            // Set icons based on type
-            const icons = {
-                success: '✅',
-                error: '❌',
-                warning: '⚠️',
-                info: 'ℹ️'
-            };
-
-            notification.innerHTML = `
-        <div class="flex items-center">
-            <span class="text-lg mr-2">${icons[type] || icons.info}</span>
-            <p class="text-sm font-medium">${message}</p>
-            <button onclick="this.parentElement.parentElement.remove()" 
-                class="ml-4 text-lg leading-none">&times;</button>
-        </div>
-    `;
-
-            // Add to DOM
-            document.body.appendChild(notification);
-
-            // Animate in
-            setTimeout(() => {
-                notification.classList.remove('translate-x-full');
-            }, 100);
-
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.classList.add('translate-x-full');
-                    setTimeout(() => {
-                        if (notification.parentElement) {
-                            notification.remove();
-                        }
-                    }, 300);
-                }
-            }, 5000);
-        }
-
-        // ========================================
-        // OTHER FUNCTIONS
-        // ========================================
-
-        /**
-         * Edit report function
-         */
-        function editReport(reportId) {
-            console.log(`📝 Edit report ${reportId}`);
-            // Redirect to edit page
-            window.location.href = `/penyuluh/laporan/${reportId}/edit`;
-        }
-
-        /**
-         * Edit current report from modal
-         */
-        function editCurrentReport() {
-            if (!currentReportData) {
-                showNotification('Error: Data laporan tidak ditemukan', 'error');
-                return;
-            }
-
-            editReport(currentReportData.id);
-        }
-
-        /**
-         * Refresh reports list
-         */
-        function refreshReports() {
-            console.log('🔄 Refreshing reports...');
-            window.location.reload();
-        }
-
-        /**
-         * Bulk print selected reports
-         */
-        function bulkPrint() {
-            if (selectedReports.size === 0) {
-                showNotification('Pilih laporan yang ingin dicetak terlebih dahulu', 'warning');
-                return;
-            }
-
-            console.log('🖨️ Bulk printing reports:', Array.from(selectedReports));
-
-            // Open print page for selected reports
-            const ids = Array.from(selectedReports).join(',');
-            window.open(`/penyuluh/laporan/bulk-print?ids=${ids}`, '_blank');
-        }
-
-        // ========================================
-        // EVENT LISTENERS
-        // ========================================
-
-        // Close delete modal when clicking outside
-        document.addEventListener('DOMContentLoaded', function() {
             const deleteModal = document.getElementById('deleteConfirmModal');
             if (deleteModal) {
                 deleteModal.addEventListener('click', function(e) {
@@ -2198,466 +2824,44 @@
                 });
             }
 
-            // Close delete modal with ESC key
+            // Close modals with ESC key
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && !deleteModal.classList.contains('hidden')) {
-                    cancelDelete();
-                }
-            });
-        });
-
-        // Update executeDelete function to handle both single and bulk
-        const originalExecuteDelete = executeDelete;
-        executeDelete = async function() {
-            if (pendingDeleteId === 'bulk') {
-                await executeBulkDelete();
-            } else {
-                await originalExecuteDelete();
-            }
-        };
-        let currentFilter = 'all';
-        let currentSearchTerm = '';
-        let customDateRange = {
-            from: null,
-            to: null
-        };
-
-        /**
-         * Main filter function by period
-         */
-        function filterByPeriod(period) {
-            currentFilter = period;
-
-            // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(`filter-${period}`).classList.add('active');
-
-            // Clear custom date range when using preset filters
-            if (period !== 'custom') {
-                document.getElementById('dateFrom').value = '';
-                document.getElementById('dateTo').value = '';
-                customDateRange = {
-                    from: null,
-                    to: null
-                };
-            }
-
-            // Apply filters
-            applyFilters();
-        }
-
-        /**
-         * Filter by custom date range
-         */
-        function filterByCustomRange() {
-            const fromDate = document.getElementById('dateFrom').value;
-            const toDate = document.getElementById('dateTo').value;
-
-            if (fromDate && toDate) {
-                customDateRange = {
-                    from: fromDate,
-                    to: toDate
-                };
-                currentFilter = 'custom';
-
-                // Update button states
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-
-                applyFilters();
-            } else if (fromDate || toDate) {
-                // Partial date range
-                customDateRange = {
-                    from: fromDate,
-                    to: toDate
-                };
-                currentFilter = 'custom';
-                applyFilters();
-            }
-        }
-
-        /**
-         * Clear custom date range
-         */
-        function clearCustomRange() {
-            document.getElementById('dateFrom').value = '';
-            document.getElementById('dateTo').value = '';
-            customDateRange = {
-                from: null,
-                to: null
-            };
-
-            // Reset to 'all' filter
-            filterByPeriod('all');
-        }
-
-        /**
-         * Enhanced search function that works with filters
-         */
-        function searchReports() {
-            currentSearchTerm = document.getElementById('searchInput').value.toLowerCase();
-            applyFilters();
-        }
-
-        /**
-         * Apply both search and date filters
-         */
-        function applyFilters() {
-            const reportCards = document.querySelectorAll('#reportsGrid > div[data-report-id]');
-            let visibleCount = 0;
-            const totalCount = reportCards.length;
-
-            reportCards.forEach(card => {
-                const shouldShow = passesFilters(card);
-
-                if (shouldShow) {
-                    card.classList.remove('hidden-report');
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden-report');
-                    card.style.display = 'none';
-                }
-            });
-
-            // Update results count
-            updateResultsCount(visibleCount, totalCount);
-
-            // Show/hide empty state
-            if (visibleCount === 0 && totalCount > 0) {
-                showFilterEmptyState();
-            } else {
-                hideFilterEmptyState();
-            }
-        }
-
-        /**
-         * Check if a report card passes all current filters
-         */
-        function passesFilters(card) {
-            // Extract data from card
-            const cardText = card.textContent.toLowerCase();
-            const dateText = card.querySelector('.text-xs.bg-blue-100')?.textContent?.trim();
-
-            // Parse the date from the card
-            let cardDate = null;
-            if (dateText) {
-                // Convert "12 Jan 2024" format to Date object
-                cardDate = parseIndonesianDate(dateText);
-            }
-
-            // Check search filter
-            if (currentSearchTerm && !cardText.includes(currentSearchTerm)) {
-                return false;
-            }
-
-            // Check date filter
-            if (currentFilter !== 'all' && cardDate) {
-                if (!passesDateFilter(cardDate, currentFilter)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /**
-         * Check if date passes the current filter
-         */
-        function passesDateFilter(cardDate, filter) {
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-            switch (filter) {
-                case 'today':
-                    const cardDateOnly = new Date(cardDate.getFullYear(), cardDate.getMonth(), cardDate.getDate());
-                    return cardDateOnly.getTime() === today.getTime();
-
-                case 'week':
-                    const weekStart = new Date(today);
-                    weekStart.setDate(today.getDate() - today.getDay()); // Start of week (Sunday)
-                    const weekEnd = new Date(weekStart);
-                    weekEnd.setDate(weekStart.getDate() + 6); // End of week (Saturday)
-                    weekEnd.setHours(23, 59, 59, 999);
-
-                    return cardDate >= weekStart && cardDate <= weekEnd;
-
-                case 'month':
-                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-
-                    return cardDate >= monthStart && cardDate <= monthEnd;
-
-                case 'custom':
-                    if (customDateRange.from && customDateRange.to) {
-                        const fromDate = new Date(customDateRange.from);
-                        const toDate = new Date(customDateRange.to + 'T23:59:59');
-                        return cardDate >= fromDate && cardDate <= toDate;
-                    } else if (customDateRange.from) {
-                        const fromDate = new Date(customDateRange.from);
-                        return cardDate >= fromDate;
-                    } else if (customDateRange.to) {
-                        const toDate = new Date(customDateRange.to + 'T23:59:59');
-                        return cardDate <= toDate;
+                if (e.key === 'Escape') {
+                    if (modal && !modal.classList.contains('hidden')) {
+                        closeModal();
                     }
-                    return true;
-
-                default:
-                    return true;
-            }
-        }
-
-        /**
-         * Parse Indonesian date format like "12 Jan 2024"
-         */
-        function parseIndonesianDate(dateStr) {
-            const months = {
-                'Jan': 0,
-                'Feb': 1,
-                'Mar': 2,
-                'Apr': 3,
-                'Mei': 4,
-                'Jun': 5,
-                'Jul': 6,
-                'Agu': 7,
-                'Sep': 8,
-                'Okt': 9,
-                'Nov': 10,
-                'Des': 11
-            };
-
-            const parts = dateStr.split(' ');
-            if (parts.length === 3) {
-                const day = parseInt(parts[0]);
-                const month = months[parts[1]];
-                const year = parseInt(parts[2]);
-
-                if (!isNaN(day) && month !== undefined && !isNaN(year)) {
-                    return new Date(year, month, day);
-                }
-            }
-
-            // Fallback: try to parse as standard date
-            return new Date(dateStr);
-        }
-
-        /**
-         * Update results count display
-         */
-        function updateResultsCount(visible, total) {
-            const countElement = document.getElementById('resultsCount');
-            let message = '';
-
-            if (currentFilter === 'all' && !currentSearchTerm) {
-                message = `Menampilkan semua ${total} laporan`;
-            } else {
-                message = `Menampilkan ${visible} dari ${total} laporan`;
-
-                if (currentSearchTerm) {
-                    message += ` (pencarian: "${currentSearchTerm}")`;
-                }
-
-                if (currentFilter !== 'all') {
-                    const filterNames = {
-                        'today': 'hari ini',
-                        'week': 'minggu ini',
-                        'month': 'bulan ini',
-                        'custom': 'periode khusus'
-                    };
-                    message += ` (filter: ${filterNames[currentFilter]})`;
-                }
-            }
-
-            countElement.textContent = message;
-        }
-
-        /**
-         * Show empty state for filtered results
-         */
-        function showFilterEmptyState() {
-            const existingEmptyState = document.getElementById('filter-empty-state');
-            if (existingEmptyState) return;
-
-            const reportsGrid = document.getElementById('reportsGrid');
-            const emptyState = document.createElement('div');
-            emptyState.id = 'filter-empty-state';
-            emptyState.className = 'col-span-full text-center py-12';
-
-            let message = 'Tidak ada laporan yang ditemukan';
-            let suggestion = '';
-
-            if (currentSearchTerm && currentFilter !== 'all') {
-                message = 'Tidak ada laporan yang cocok dengan pencarian dan filter';
-                suggestion = 'Coba ubah kata kunci pencarian atau pilih periode yang berbeda.';
-            } else if (currentSearchTerm) {
-                message = 'Tidak ada laporan yang cocok dengan pencarian';
-                suggestion = 'Coba gunakan kata kunci yang berbeda.';
-            } else if (currentFilter !== 'all') {
-                const filterNames = {
-                    'today': 'hari ini',
-                    'week': 'minggu ini',
-                    'month': 'bulan ini',
-                    'custom': 'periode yang dipilih'
-                };
-                message = `Tidak ada laporan untuk ${filterNames[currentFilter]}`;
-                suggestion = 'Coba pilih periode yang berbeda.';
-            }
-
-            emptyState.innerHTML = `
-        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
-            </path>
-        </svg>
-        <h3 class="mt-2 text-lg font-medium text-gray-900">${message}</h3>
-        <p class="mt-1 text-gray-500">${suggestion}</p>
-        <div class="mt-4 space-x-2">
-            <button onclick="clearAllFilters()" 
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                Hapus Semua Filter
-            </button>
-            <button onclick="switchTab('form')" 
-                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                Buat Laporan Baru
-            </button>
-        </div>
-    `;
-
-            reportsGrid.appendChild(emptyState);
-        }
-
-        /**
-         * Hide filter empty state
-         */
-        function hideFilterEmptyState() {
-            const emptyState = document.getElementById('filter-empty-state');
-            if (emptyState) {
-                emptyState.remove();
-            }
-        }
-
-        /**
-         * Clear all filters and search
-         */
-        function clearAllFilters() {
-            // Clear search
-            document.getElementById('searchInput').value = '';
-            currentSearchTerm = '';
-
-            // Clear custom date range
-            clearCustomRange();
-
-            // Reset to 'all' filter
-            filterByPeriod('all');
-        }
-
-        /**
-         * Get filter statistics
-         */
-        function getFilterStatistics() {
-            const reportCards = document.querySelectorAll('#reportsGrid > div[data-report-id]');
-            const stats = {
-                total: reportCards.length,
-                today: 0,
-                week: 0,
-                month: 0
-            };
-
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-            reportCards.forEach(card => {
-                const dateText = card.querySelector('.text-xs.bg-blue-100')?.textContent?.trim();
-                if (dateText) {
-                    const cardDate = parseIndonesianDate(dateText);
-
-                    // Count today
-                    const cardDateOnly = new Date(cardDate.getFullYear(), cardDate.getMonth(), cardDate.getDate());
-                    if (cardDateOnly.getTime() === today.getTime()) {
-                        stats.today++;
-                    }
-
-                    // Count this week
-                    const weekStart = new Date(today);
-                    weekStart.setDate(today.getDate() - today.getDay());
-                    const weekEnd = new Date(weekStart);
-                    weekEnd.setDate(weekStart.getDate() + 6);
-                    weekEnd.setHours(23, 59, 59, 999);
-
-                    if (cardDate >= weekStart && cardDate <= weekEnd) {
-                        stats.week++;
-                    }
-
-                    // Count this month
-                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-                    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-
-                    if (cardDate >= monthStart && cardDate <= monthEnd) {
-                        stats.month++;
+                    if (deleteModal && !deleteModal.classList.contains('hidden')) {
+                        cancelDelete();
                     }
                 }
             });
 
-            return stats;
-        }
-
-        /**
-         * Update filter buttons with counts
-         */
-        function updateFilterButtonsWithCounts() {
-            const stats = getFilterStatistics();
-
-            document.getElementById('filter-all').innerHTML = `Semua (${stats.total})`;
-            document.getElementById('filter-today').innerHTML = `Hari Ini (${stats.today})`;
-            document.getElementById('filter-week').innerHTML = `Minggu Ini (${stats.week})`;
-            document.getElementById('filter-month').innerHTML = `Bulan Ini (${stats.month})`;
-        }
-
-        // Initialize filters on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Update button counts
-            updateFilterButtonsWithCounts();
-
-            // Set default date range to current month for quick access
-            const now = new Date();
-            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-            // You can uncomment these to set default date range
-            // document.getElementById('dateFrom').value = firstDay.toISOString().split('T')[0];
-            // document.getElementById('dateTo').value = lastDay.toISOString().split('T')[0];
-        });
-
-        // Quick filter keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Only if search input is not focused
-            if (document.activeElement.id !== 'searchInput' &&
-                document.activeElement.type !== 'date') {
-
-                if (e.altKey) {
-                    switch (e.key) {
-                        case '1':
-                            filterByPeriod('all');
-                            e.preventDefault();
-                            break;
-                        case '2':
-                            filterByPeriod('today');
-                            e.preventDefault();
-                            break;
-                        case '3':
-                            filterByPeriod('week');
-                            e.preventDefault();
-                            break;
-                        case '4':
-                            filterByPeriod('month');
-                            e.preventDefault();
-                            break;
+            // Quick filter keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Only if search input is not focused
+                if (document.activeElement.id !== 'searchInput' && document.activeElement.type !== 'date') {
+                    if (e.altKey) {
+                        switch (e.key) {
+                            case '1':
+                                filterByPeriod('all');
+                                e.preventDefault();
+                                break;
+                            case '2':
+                                filterByPeriod('today');
+                                e.preventDefault();
+                                break;
+                            case '3':
+                                filterByPeriod('week');
+                                e.preventDefault();
+                                break;
+                            case '4':
+                                filterByPeriod('month');
+                                e.preventDefault();
+                                break;
+                        }
                     }
                 }
-            }
+            });
         });
     </script>
 @endpush

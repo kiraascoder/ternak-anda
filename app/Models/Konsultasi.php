@@ -18,6 +18,7 @@ class Konsultasi extends Model
         'kategori',
         'deskripsi',
         'status',
+        'saran',
         'foto_ternak',
     ];
     public function penyuluh()

@@ -498,13 +498,19 @@
                                                     </option>
                                                 </select>
                                             </div>
+                                            @if ($konsultasi->status === 'selesai')
+                                                <button onclick="openSaranModal({{ $konsultasi->idKonsultasi }})"
+                                                    class="quick-action-btn bg-yellow-100 text-yellow-800 border border-yellow-200 hover:bg-yellow-200">
+                                                    📝 Beri Saran
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                                 @empty
                                     <div class="text-center py-8">
-                                        <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                                             </path>
@@ -753,10 +759,199 @@
                 </div>
             </div>
         </div>
+        <!-- Saran Modal -->
+        <div id="saranModal"
+            class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+            <div class="relative top-10 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-lg bg-white modal-content">
+                <div class="flex items-center justify-between mb-4 border-b border-gray-200 pb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">📝</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Beri Saran untuk Konsultasi</h3>
+                            <p id="saranForId" class="text-sm text-gray-600"></p>
+                        </div>
+                    </div>
+                    <button onclick="closeSaranModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="saranForm" onsubmit="event.preventDefault(); submitSaran();">
+                    <input type="hidden" id="saranKonsultasiId" value="">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Judul (opsional)</label>
+                            <input id="saranJudul" type="text"
+                                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                                placeholder="Contoh: Rekomendasi Perawatan Pasca-Konsultasi">
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Isi Saran</label>
+                                <span id="saranCounter" class="text-xs text-gray-500">0/1000</span>
+                            </div>
+                            <textarea id="saranIsi" rows="6" maxlength="1000"
+                                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                                placeholder="Tulis saran yang jelas dan dapat ditindaklanjuti..."></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">                         
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Template Cepat</label>
+                                <select id="saranTemplate" onchange="applySaranTemplate(this.value)"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                    <option value="">— Pilih Template —</option>
+                                    <option value="perawatan">Template: Perawatan Lanjutan</option>
+                                    <option value="pencegahan">Template: Pencegahan</option>
+                                    <option value="kontrol">Template: Jadwal Kontrol</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 flex justify-end space-x-2 border-t border-gray-200 pt-3">
+                        <button type="button" onclick="closeSaranModal()"
+                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                            Batal
+                        </button>
+                        <button id="saranSubmitBtn" type="submit"
+                            class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                            Kirim Saran
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     @endsection
 
     @push('scripts')
         <script>
+            /* ===== Modal Saran ===== */
+            let currentSaranId = null;
+
+            function openSaranModal(konsultasiId) {
+                currentSaranId = konsultasiId;
+                document.getElementById('saranKonsultasiId').value = konsultasiId;
+                document.getElementById('saranForId').textContent = `ID Konsultasi: ${konsultasiId}`;
+                document.getElementById('saranJudul').value = '';
+                document.getElementById('saranIsi').value = '';                
+                document.getElementById('saranTemplate').value = '';
+                document.getElementById('saranCounter').textContent = '0/1000';
+
+                const modal = document.getElementById('saranModal');
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSaranModal() {
+                const modal = document.getElementById('saranModal');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+                currentSaranId = null;
+            }
+
+            // Counter karakter
+            const saranIsiEl = document.getElementById('saranIsi');
+            if (saranIsiEl) {
+                saranIsiEl.addEventListener('input', function() {
+                    document.getElementById('saranCounter').textContent = `${this.value.length}/1000`;
+                });
+            }
+
+            // Template cepat
+            function applySaranTemplate(type) {
+                const isi = document.getElementById('saranIsi');
+                const blocks = {
+                    perawatan: `Perawatan Lanjutan:
+- Lanjutkan pemberian obat sesuai dosis yang dianjurkan
+- Pantau suhu tubuh 2x sehari
+- Pastikan istirahat cukup & kandang bersih`,
+
+                    pencegahan: `Pencegahan:
+- Jaga kebersihan kandang & peralatan
+- Pastikan pakan bergizi dan air bersih cukup
+- Lakukan vaksinasi sesuai jadwal`,
+
+                    kontrol: `Jadwal Kontrol:
+- Kontrol ulang dalam 3–7 hari
+- Segera hubungi jika gejala memburuk
+- Pemeriksaan rutin bulanan direkomendasikan`
+                };
+                if (type && blocks[type]) {
+                    isi.value = (isi.value ? isi.value + '\n\n' : '') + blocks[type];
+                    document.getElementById('saranCounter').textContent = `${isi.value.length}/1000`;
+                }
+            }
+
+            // Submit saran (AJAX)
+            function submitSaran() {
+                const id = document.getElementById('saranKonsultasiId').value;
+                const judul = document.getElementById('saranJudul').value.trim();
+                const isi = document.getElementById('saranIsi').value.trim();                
+
+                if (!isi) {
+                    showNotification('error', 'Isi saran tidak boleh kosong');
+                    return;
+                }
+
+                const btn = document.getElementById('saranSubmitBtn');
+                const oldText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = 'Mengirim...';
+
+                fetch(`/penyuluh/konsultasi/${id}/saran`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            judul,
+                            isi,                            
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.success) throw new Error(data.message || 'Gagal mengirim saran');
+                        showNotification('success', data.message || 'Saran berhasil dikirim');
+                        closeSaranModal();
+                        // opsional: refresh agar muncul di riwayat/komentar
+                        setTimeout(() => window.location.reload(), 1200);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showNotification('error', err.message || 'Terjadi kesalahan');
+                    })
+                    .finally(() => {
+                        btn.disabled = false;
+                        btn.textContent = oldText;
+                    });
+            }
+
+            // Tutup modal saat klik backdrop / Escape
+            document.addEventListener('DOMContentLoaded', function() {
+                const saranModal = document.getElementById('saranModal');
+                if (saranModal) {
+                    saranModal.addEventListener('click', function(e) {
+                        if (e.target === saranModal) closeSaranModal();
+                    });
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const saranModal = document.getElementById('saranModal');
+                    if (saranModal && !saranModal.classList.contains('hidden')) {
+                        closeSaranModal();
+                    }
+                }
+            });
+
             let currentDetailId = null;
 
             /**
@@ -974,6 +1169,18 @@
                 }
 
                 actionsContainer.innerHTML = actions;
+                if (status === 'selesai') {
+                    actionsContainer.insertAdjacentHTML('beforeend', `
+        <div class="mt-3">
+            <button 
+                onclick="openSaranModal(${id})"
+                class="w-full px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-sm font-medium">
+                📝 Beri Saran
+            </button>
+        </div>
+    `);
+                }
+
             }
 
             /**
@@ -1010,7 +1217,7 @@
                     const dropdown = event.target;
                     if (dropdown) {
                         const currentBadge = dropdown.closest('.queue-item, .consultation-item')?.querySelector(
-                        '.status-badge');
+                            '.status-badge');
                         const currentStatus = currentBadge ? currentBadge.textContent.toLowerCase().trim() : '';
                         dropdown.value = currentStatus;
                     }

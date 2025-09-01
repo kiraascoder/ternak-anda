@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminSesiController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\InformasiPakanController;
 use App\Http\Controllers\KonsultasiController;
+use App\Http\Controllers\KonsultasiSaranController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PakanController;
 use App\Http\Controllers\PenyuluhController;
@@ -183,6 +184,9 @@ Route::prefix('penyuluh')->middleware('admin:Penyuluh')->group(function () {
     Route::get('/ternak', [PenyuluhController::class, 'ternak'])
         ->name('penyuluh.ternak');
 
+    Route::post('/konsultasi/{id}/saran', [KonsultasiSaranController::class, 'storeSaran'])
+        ->name('penyuluh.konsultasi.saran.store');
+
 
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->name('penyuluh.laporan');
@@ -276,3 +280,6 @@ Route::get('/informasi/{idInformasi}', [InformasiController::class, 'show'])->na
 Route::get('/pakan', [InformasiPakanController::class, 'index'])->name('pakan.index');
 Route::get('/pakan/{idPakan}', [InformasiPakanController::class, 'show'])->name('public.pakan.show');
 Route::get('/informasi/{idInformasi}', [InformasiController::class, 'show'])->name('public.informasi.show');
+
+Route::get('/konsultasi/{id}/saran', [KonsultasiSaranController::class, 'listSaran'])
+    ->name('konsultasi.saran.list');
